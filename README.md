@@ -18,7 +18,7 @@
 <a href="https://abhnv.in"><img src="https://img.shields.io/badge/Live-abhnv.in-111111?style=for-the-badge&logo=safari&logoColor=white&labelColor=000000" alt="Live" /></a>
 <a href="mailto:hello@abhnv.in"><img src="https://img.shields.io/badge/Email-hello%40abhnv.in-D4A76A?style=for-the-badge&logo=protonmail&logoColor=white&labelColor=111111" alt="Email" /></a>
 <a href="https://www.linkedin.com/in/abhnv07/"><img src="https://img.shields.io/badge/LinkedIn-abhnv07-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=111111" alt="LinkedIn" /></a>
-<a href="https://x.com/Abhnv007"><img src="https://img.shields.io/badge/X-Abhnv007-000000?style=for-the-badge&logo=x&logoColor=white&labelColor=111111" alt="X" /></a>
+<a href="https://x.com/Abhnv8"><img src="https://img.shields.io/badge/X-Abhnv8-000000?style=for-the-badge&logo=x&logoColor=white&labelColor=111111" alt="X" /></a>
 <a href="https://www.instagram.com/abhinavv.007/"><img src="https://img.shields.io/badge/Instagram-abhinavv.007-E4405F?style=for-the-badge&logo=instagram&logoColor=white&labelColor=111111" alt="Instagram" /></a>
 
 <br />

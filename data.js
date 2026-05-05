@@ -34,7 +34,7 @@ window.PORTFOLIO = {
     { label: "LinkedIn", url: "https://www.linkedin.com/in/abhnv07/" },
     { label: "GitHub", url: "https://github.com/Abhinavv-007" },
     { label: "Instagram", url: "https://www.instagram.com/abhinavv.007/" },
-    { label: "X", url: "https://x.com/Abhnv007" }
+    { label: "X", url: "https://x.com/Abhnv8" }
   ],
   projects: [
     {

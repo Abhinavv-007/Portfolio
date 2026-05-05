@@ -659,7 +659,7 @@ function roundRect(ctx, x, y, w, h, r) {
 function shareOnX() {
     const verifyUrl = encodeURIComponent(buildVerifyUrl());
     const index = state.lastReceipt ? '#' + String(state.lastReceipt.index).padStart(4, '0') : '';
-    const text = encodeURIComponent(`Just cast a cryptographically verifiable ballot ${index}. No trust required — my vote is sealed in a chain hash anyone can audit. This is what elections should look like. @Abhnv007 🔐`);
+    const text = encodeURIComponent(`Just cast a cryptographically verifiable ballot ${index}. No trust required — my vote is sealed in a chain hash anyone can audit. This is what elections should look like. @Abhnv8 🔐`);
     window.open(`https://x.com/intent/tweet?text=${text}&url=${verifyUrl}`, '_blank', 'noopener');
 }
 
