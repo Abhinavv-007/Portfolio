@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=pass-51">
+  <link rel="stylesheet" href="styles.css?v=pass-53">
 </head>
 <body data-page="api">
   <div class="grain" aria-hidden="true"></div>
@@ -131,8 +131,9 @@
       <div class="api-quickstart-copy reveal">
         <div class="section-kicker">Quickstart</div>
         <h2 id="apiQuickTitle">Hit a route<br>get JSON back</h2>
-        <p>Every endpoint returns a stable envelope: <code class="api-inline">ok</code>, <code class="api-inline">data</code>, and a <code class="api-inline">meta</code> block with version and timestamps. Errors return <code class="api-inline">ok: false</code> with a human-readable hint.</p>
+        <p>Every endpoint returns a stable envelope: <code class="api-inline">ok</code>, <code class="api-inline">data</code>, and a <code class="api-inline">meta</code> block with version and timestamps. The surface now includes search, links, tags, assets, health, and Cloudflare deployment metadata.</p>
         <div class="api-pills" role="list" aria-label="Quick command examples">
+          <button type="button" class="api-pill" data-api-cmd="summary">summary</button>
           <button type="button" class="api-pill" data-api-cmd="profile">profile</button>
           <button type="button" class="api-pill" data-api-cmd="skills">skills</button>
           <button type="button" class="api-pill" data-api-cmd="projects">projects</button>
@@ -140,10 +141,16 @@
           <button type="button" class="api-pill" data-api-cmd="research">research</button>
           <button type="button" class="api-pill" data-api-cmd="socials">socials</button>
           <button type="button" class="api-pill" data-api-cmd="notes">notes</button>
+          <button type="button" class="api-pill" data-api-cmd="links">links</button>
+          <button type="button" class="api-pill" data-api-cmd="tags">tags</button>
+          <button type="button" class="api-pill" data-api-cmd="search">search</button>
+          <button type="button" class="api-pill" data-api-cmd="assets">assets</button>
           <button type="button" class="api-pill" data-api-cmd="marquee">marquee</button>
           <button type="button" class="api-pill" data-api-cmd="version">version</button>
           <button type="button" class="api-pill" data-api-cmd="endpoints">endpoints</button>
           <button type="button" class="api-pill" data-api-cmd="stats">stats</button>
+          <button type="button" class="api-pill" data-api-cmd="health">health</button>
+          <button type="button" class="api-pill" data-api-cmd="cloudflare">cloudflare</button>
           <button type="button" class="api-pill" data-api-cmd="help">help</button>
         </div>
       </div>
@@ -189,7 +196,9 @@
             <span class="api-snippet-label">curl</span>
             <button type="button" class="api-copy-btn" data-api-copy-target="snippet-curl">Copy</button>
           </header>
-          <pre class="api-pre"><code id="snippet-curl">curl -s https://abhnv.in/api/profile | jq</code></pre>
+          <pre class="api-pre"><code id="snippet-curl">curl -s https://abhnv.in/api/summary | jq
+curl -s "https://abhnv.in/api/search?q=cloudflare" | jq
+curl -s https://abhnv.in/api/health | jq</code></pre>
         </article>
 
         <article class="api-snippet">
@@ -197,10 +206,10 @@
             <span class="api-snippet-label">fetch (browser)</span>
             <button type="button" class="api-copy-btn" data-api-copy-target="snippet-fetch">Copy</button>
           </header>
-          <pre class="api-pre"><code id="snippet-fetch">const res = await fetch("https://abhnv.in/api/projects");
+          <pre class="api-pre"><code id="snippet-fetch">const res = await fetch("https://abhnv.in/api/links");
 const { ok, data, meta } = await res.json();
 if (!ok) throw new Error("API returned an error");
-console.log(`Got ${data.length} projects, version ${meta.version}`);</code></pre>
+console.log(`Got ${data.all.length} public links, version ${meta.version}`);</code></pre>
         </article>
 
         <article class="api-snippet">
@@ -209,7 +218,7 @@ console.log(`Got ${data.length} projects, version ${meta.version}`);</code></pre
             <button type="button" class="api-copy-btn" data-api-copy-target="snippet-cmd">Copy</button>
           </header>
           <pre class="api-pre"><code id="snippet-cmd">// Single command surface — pick by name
-const cmd = "skills"; // or profile, projects, certifications, research, socials, notes, help
+const cmd = "cloudflare"; // or summary, links, tags, search, assets, health
 const url = `https://abhnv.in/api/command?cmd=${cmd}`;
 const { ok, data } = await fetch(url).then(r =&gt; r.json());</code></pre>
         </article>
@@ -219,8 +228,9 @@ const { ok, data } = await fetch(url).then(r =&gt; r.json());</code></pre>
             <span class="api-snippet-label">node 18+ (no deps)</span>
             <button type="button" class="api-copy-btn" data-api-copy-target="snippet-node">Copy</button>
           </header>
-          <pre class="api-pre"><code id="snippet-node">// Server-side fetch, also runs in workers / edge runtimes
-const res = await fetch("https://abhnv.in/api/certifications?groupBy=issuer");
+          <pre class="api-pre"><code id="snippet-node">// Cloudflare Pages local smoke check
+// Run the site with: wrangler pages dev . --ip 127.0.0.1 --port 8788
+const res = await fetch("http://127.0.0.1:8788/api/cloudflare");
 const json = await res.json();
 console.log(JSON.stringify(json, null, 2));</code></pre>
         </article>
@@ -303,6 +313,6 @@ console.log(JSON.stringify(json, null, 2));</code></pre>
 
   <script src="data.js?v=pass-50"></script>
   <script src="app.js?v=pass-50"></script>
-  <script src="api-page.js?v=pass-51"></script>
+  <script src="api-page.js?v=pass-53"></script>
 </body>
 </html>

@@ -21,6 +21,7 @@
 
   const ENDPOINTS = [
     { method: "GET", path: "/api",                          tag: "Index",          desc: "API index, available commands, version, counts." },
+    { method: "GET", path: "/api/summary",                  tag: "Summary",        desc: "Compact profile, counts, featured links, and top tags." },
     { method: "GET", path: "/api/profile",                  tag: "Profile",        desc: "Public profile and short summary." },
     { method: "GET", path: "/api/skills",                   tag: "Skills",         desc: "Skills grouped by domain. Add ?flat=1 for a flat list." },
     { method: "GET", path: "/api/projects",                 tag: "Projects",       desc: "All shipped projects. ?tag=AI to filter." },
@@ -32,7 +33,13 @@
     { method: "GET", path: "/api/research/the-glass-ballot", tag: "Research",      desc: "Single research paper by slug." },
     { method: "GET", path: "/api/socials",                  tag: "Socials",        desc: "Social profile links." },
     { method: "GET", path: "/api/notes",                    tag: "Notes",          desc: "Notes from the bench." },
-    { method: "GET", path: "/api/command?cmd=help",         tag: "Command",        desc: "Command-style read endpoint. Try cmd=profile, skills, ..." }
+    { method: "GET", path: "/api/links",                    tag: "Links",          desc: "All public URLs: socials, project live sites, repos, case studies, research, certs." },
+    { method: "GET", path: "/api/tags",                     tag: "Tags",           desc: "Project, research, credential, and skill tags with counts." },
+    { method: "GET", path: "/api/search?q=ai",              tag: "Search",         desc: "Search public portfolio records by text, tag, title, issuer, or URL." },
+    { method: "GET", path: "/api/assets",                   tag: "Assets",         desc: "Images, logos, favicon, and social preview manifest." },
+    { method: "GET", path: "/api/health",                   tag: "Health",         desc: "API status, version, counts, and Cloudflare request metadata." },
+    { method: "GET", path: "/api/cloudflare",               tag: "Cloudflare",     desc: "Pages Functions routes, cache headers, wrangler commands, and curl smoke checks." },
+    { method: "GET", path: "/api/command?cmd=help",         tag: "Command",        desc: "Command-style read endpoint. Try cmd=summary, links, search, cloudflare." }
   ];
 
   function setStatus(text, tone) {
@@ -246,20 +253,7 @@
   }
 
   function animateNumber(el, target) {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || target <= 1) {
-      el.textContent = String(target);
-      return;
-    }
-    const duration = 900;
-    const start = performance.now();
-    const tick = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = String(Math.round(eased * target));
-      if (t < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+    el.textContent = String(target);
   }
 
   function init() {

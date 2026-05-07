@@ -11,7 +11,13 @@ import {
   projectsWithSlugs,
   researchWithSlugs,
   certificationsWithIds,
-  counts
+  counts,
+  summary,
+  publicLinks,
+  tagIndex,
+  searchRecords,
+  assetManifest,
+  cloudflareInfo
 } from "./_lib.js";
 
 export const onRequestOptions = options;
@@ -63,7 +69,6 @@ export function onRequestGet({ request }) {
       });
 
     case "socials":
-    case "links":
     case "social":
       return ok(PORTFOLIO.socials, {
         cmd,
@@ -92,8 +97,47 @@ export function onRequestGet({ request }) {
       return ok(ENDPOINTS, { cmd, count: ENDPOINTS.length });
 
     case "stats":
-    case "summary":
       return ok(counts(), { cmd });
+
+    case "summary":
+      return ok(summary(new URL(request.url).origin), { cmd });
+
+    case "links":
+    case "urls":
+      return ok(publicLinks(new URL(request.url).origin), {
+        cmd,
+        count: publicLinks(new URL(request.url).origin).all.length
+      });
+
+    case "tags":
+      return ok(tagIndex(), { cmd, count: tagIndex().all.length });
+
+    case "search": {
+      const q = url.searchParams.get("q") || url.searchParams.get("query") || "";
+      const type = url.searchParams.get("type") || "";
+      const results = searchRecords(q, type);
+      return ok(results, { cmd, q, type: type || null, count: results.length });
+    }
+
+    case "assets":
+      return ok(assetManifest(new URL(request.url).origin), {
+        cmd,
+        count: assetManifest(new URL(request.url).origin).all.length
+      });
+
+    case "health":
+    case "status":
+      return ok({
+        status: "ok",
+        version: API_VERSION,
+        build: API_BUILD,
+        counts: counts()
+      }, { cmd });
+
+    case "cloudflare":
+    case "cf":
+    case "deploy":
+      return ok(cloudflareInfo(request), { cmd });
 
     case "help":
     case "?":
@@ -103,7 +147,11 @@ export function onRequestGet({ request }) {
         commands: COMMANDS,
         endpoints: ENDPOINTS,
         examples: [
+          "/api/command?cmd=summary",
           "/api/command?cmd=profile",
+          "/api/command?cmd=links",
+          "/api/command?cmd=search&q=ai",
+          "/api/command?cmd=cloudflare",
           "/api/command?cmd=projects",
           "/api/command?cmd=certifications",
           "/api/command?cmd=research",
