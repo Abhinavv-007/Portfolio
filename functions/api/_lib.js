@@ -28,6 +28,7 @@ export const COMMANDS = [
   "marquee",
   "version",
   "endpoints",
+  "stats",
   "help"
 ];
 

@@ -10158,11 +10158,26 @@ body[data-page="api"] .page-headline-aside {
   text-transform: lowercase;
 }
 
+body[data-page="api"] .site-shell {
+  width: min(calc(100% - clamp(2rem, 5vw, 6rem)), 94rem);
+}
+
+body[data-page="api"] .api-stats-row,
+body[data-page="api"] .api-quickstart,
+body[data-page="api"] .api-endpoints,
+body[data-page="api"] .api-snippets,
+body[data-page="api"] .api-shape,
+body[data-page="api"] .api-why {
+  margin-left: var(--content-gutter);
+  margin-right: var(--content-gutter);
+}
+
 .api-stats-row {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0;
-  margin: 1.2rem 0 1.6rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.6rem;
   border-top: 1px solid var(--rule-strong);
   border-bottom: 3px double var(--ink);
   background:
@@ -10173,10 +10188,11 @@ body[data-page="api"] .page-headline-aside {
 .api-stat {
   display: grid;
   align-content: center;
+  justify-items: center;
   gap: 0.28rem;
   padding: 0.95rem 1rem;
   border-right: 1px solid var(--rule);
-  text-align: left;
+  text-align: center;
 }
 
 .api-stat:last-child { border-right: 0; }
@@ -10200,9 +10216,9 @@ body[data-page="api"] .page-headline-aside {
 
 .api-quickstart {
   display: grid;
-  grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.28fr);
+  grid-template-columns: minmax(18rem, 0.92fr) minmax(28rem, 1.08fr);
   gap: clamp(1rem, 2.4vw, 2rem);
-  align-items: stretch;
+  align-items: start;
   padding-top: clamp(1.4rem, 2.8vw, 2.6rem);
   padding-bottom: clamp(1.4rem, 2.8vw, 2.6rem);
   border-top: 1px solid var(--rule-strong);
@@ -10214,10 +10230,12 @@ body[data-page="api"] .page-headline-aside {
 
 .api-quickstart-copy {
   display: grid;
-  align-content: center;
+  align-content: start;
+  justify-items: center;
   gap: 0.85rem;
-  padding: clamp(1rem, 2.2vw, 1.8rem);
+  padding: clamp(1.15rem, 2.2vw, 1.9rem);
   border: 1px solid var(--rule);
+  text-align: center;
   background:
     repeating-linear-gradient(180deg, rgba(26, 25, 22, 0.032) 0 1px, transparent 1px 7px),
     rgba(234, 223, 206, 0.46);
@@ -10226,9 +10244,10 @@ body[data-page="api"] .page-headline-aside {
 .api-quickstart-copy h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.6rem, 4.2vw, 4.8rem);
-  line-height: 0.84;
+  font-size: clamp(2.35rem, 3.55vw, 4.2rem);
+  line-height: 0.88;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .api-quickstart-copy p {
@@ -10236,6 +10255,7 @@ body[data-page="api"] .page-headline-aside {
   color: var(--ink-soft);
   font-size: clamp(0.98rem, 1.1vw, 1.12rem);
   line-height: 1.42;
+  max-width: 36rem;
 }
 
 .api-inline {
@@ -10250,6 +10270,7 @@ body[data-page="api"] .page-headline-aside {
 .api-pills {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.45rem;
   margin-top: 0.3rem;
 }
@@ -10266,14 +10287,15 @@ body[data-page="api"] .page-headline-aside {
   color: var(--red);
   background: rgba(255, 251, 235, 0.46);
   cursor: pointer;
-  transition: transform 240ms var(--ease), background 240ms ease, color 240ms ease;
+  transition: transform 240ms var(--ease), background 240ms ease, color 240ms ease, border-color 240ms ease;
 }
 
 .api-pill:hover,
 .api-pill:focus-visible {
   transform: translateY(-0.12rem);
-  background: var(--ink);
-  color: var(--paper);
+  background: rgba(163, 49, 40, 0.1);
+  color: var(--red);
+  border-color: rgba(163, 49, 40, 0.62);
   outline: none;
 }
 
@@ -10361,9 +10383,9 @@ body[data-page="api"] .page-headline-aside {
 .api-card-run:hover,
 .api-card-run:focus-visible {
   transform: translateY(-0.1rem);
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+  background: rgba(163, 49, 40, 0.1);
+  color: var(--red);
+  border-color: rgba(163, 49, 40, 0.62);
   outline: none;
 }
 
@@ -10483,8 +10505,11 @@ body[data-page="api"] .page-headline-aside {
 .api-card:hover { background: rgba(255, 251, 235, 0.4); }
 
 .api-card.is-active {
-  background: var(--ink);
-  color: var(--paper);
+  background:
+    repeating-linear-gradient(180deg, rgba(163, 49, 40, 0.04) 0 1px, transparent 1px 7px),
+    rgba(163, 49, 40, 0.08);
+  box-shadow: inset 0 0 0 2px rgba(163, 49, 40, 0.5);
+  color: var(--ink);
 }
 
 .api-card.is-active .api-method,
@@ -10492,14 +10517,19 @@ body[data-page="api"] .page-headline-aside {
 .api-card.is-active p,
 .api-card.is-active .api-card-foot a,
 .api-card.is-active .api-card-path {
-  color: var(--paper);
-  border-color: var(--paper);
+  color: var(--ink);
+  border-color: rgba(163, 49, 40, 0.54);
+}
+
+.api-card.is-active .api-method,
+.api-card.is-active .api-card-tag {
+  color: var(--red);
 }
 
 .api-card.is-active .api-card-run {
-  background: var(--red);
-  color: var(--paper);
-  border-color: var(--red);
+  background: rgba(163, 49, 40, 0.12);
+  color: var(--red);
+  border-color: rgba(163, 49, 40, 0.62);
 }
 
 .api-card-head {
@@ -10519,8 +10549,9 @@ body[data-page="api"] .page-headline-aside {
   font-size: 0.66rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--paper);
-  background: var(--ink);
+  color: var(--red);
+  background: rgba(163, 49, 40, 0.1);
+  border-color: rgba(163, 49, 40, 0.56);
 }
 
 .api-card-tag {
@@ -10708,6 +10739,10 @@ body[data-page="api"] .page-headline-aside {
 
   .api-quickstart {
     grid-template-columns: 1fr;
+  }
+
+  body[data-page="api"] .site-shell {
+    width: min(calc(100% - 2rem), 94rem);
   }
 }
 
