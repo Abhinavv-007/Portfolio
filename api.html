@@ -96,7 +96,11 @@
       <h1 id="apiPageTitle" class="page-headline-title">The Wire <span class="page-headline-aside">/api</span></h1>
       <div class="page-headline-deck">
         <p>One JSON surface for everything on this site &mdash; profile, projects, credentials, research, skills, socials, and notes &mdash; built on Cloudflare Pages Functions and consumed by <strong>lnch.in</strong> and other Abhinav projects that need a single source of portfolio truth.</p>
-        <a class="text-link hover-cut" href="#api-quickstart"><span>Jump to quickstart</span></a>
+        <div class="page-headline-actions">
+          <a class="text-link hover-cut" href="#api-quickstart"><span>Jump to quickstart</span></a>
+          <a class="text-link hover-cut" href="#api-endpoints"><span>Browse endpoints</span></a>
+          <a class="text-link hover-cut" href="#api-snippets"><span>Copy a snippet</span></a>
+        </div>
       </div>
     </section>
 
@@ -130,28 +134,48 @@
     <section class="api-quickstart" id="api-quickstart" aria-labelledby="apiQuickTitle">
       <div class="api-quickstart-copy reveal">
         <div class="section-kicker">Quickstart</div>
-        <h2 id="apiQuickTitle">Hit a route<br>get JSON back</h2>
-        <p>Every endpoint returns a stable envelope: <code class="api-inline">ok</code>, <code class="api-inline">data</code>, and a <code class="api-inline">meta</code> block with version and timestamps. The surface now includes search, links, tags, assets, health, and Cloudflare deployment metadata.</p>
-        <div class="api-pills" role="list" aria-label="Quick command examples">
-          <button type="button" class="api-pill" data-api-cmd="summary">summary</button>
-          <button type="button" class="api-pill" data-api-cmd="profile">profile</button>
-          <button type="button" class="api-pill" data-api-cmd="skills">skills</button>
-          <button type="button" class="api-pill" data-api-cmd="projects">projects</button>
-          <button type="button" class="api-pill" data-api-cmd="certifications">certifications</button>
-          <button type="button" class="api-pill" data-api-cmd="research">research</button>
-          <button type="button" class="api-pill" data-api-cmd="socials">socials</button>
-          <button type="button" class="api-pill" data-api-cmd="notes">notes</button>
-          <button type="button" class="api-pill" data-api-cmd="links">links</button>
-          <button type="button" class="api-pill" data-api-cmd="tags">tags</button>
-          <button type="button" class="api-pill" data-api-cmd="search">search</button>
-          <button type="button" class="api-pill" data-api-cmd="assets">assets</button>
-          <button type="button" class="api-pill" data-api-cmd="marquee">marquee</button>
-          <button type="button" class="api-pill" data-api-cmd="version">version</button>
-          <button type="button" class="api-pill" data-api-cmd="endpoints">endpoints</button>
-          <button type="button" class="api-pill" data-api-cmd="stats">stats</button>
-          <button type="button" class="api-pill" data-api-cmd="health">health</button>
-          <button type="button" class="api-pill" data-api-cmd="cloudflare">cloudflare</button>
-          <button type="button" class="api-pill" data-api-cmd="help">help</button>
+        <h2 id="apiQuickTitle">Hit a route.<br>Get JSON back.</h2>
+        <p>Every endpoint returns a stable envelope &mdash; <code class="api-inline">ok</code>, <code class="api-inline">data</code>, <code class="api-inline">meta</code> with version and timestamps &mdash; over CORS-friendly Cloudflare Pages Functions. Tap a command below to fire it at the live console on the right.</p>
+        <div class="api-pill-groups">
+          <div class="api-pill-group">
+            <span class="api-pill-group-label">Profile</span>
+            <div class="api-pills" role="list" aria-label="Profile commands">
+              <button type="button" class="api-pill" data-api-cmd="summary">summary</button>
+              <button type="button" class="api-pill" data-api-cmd="profile">profile</button>
+              <button type="button" class="api-pill" data-api-cmd="skills">skills</button>
+              <button type="button" class="api-pill" data-api-cmd="socials">socials</button>
+              <button type="button" class="api-pill" data-api-cmd="notes">notes</button>
+            </div>
+          </div>
+          <div class="api-pill-group">
+            <span class="api-pill-group-label">Catalog</span>
+            <div class="api-pills" role="list" aria-label="Catalog commands">
+              <button type="button" class="api-pill" data-api-cmd="projects">projects</button>
+              <button type="button" class="api-pill" data-api-cmd="certifications">credentials</button>
+              <button type="button" class="api-pill" data-api-cmd="research">research</button>
+              <button type="button" class="api-pill" data-api-cmd="links">links</button>
+              <button type="button" class="api-pill" data-api-cmd="tags">tags</button>
+              <button type="button" class="api-pill" data-api-cmd="assets">assets</button>
+            </div>
+          </div>
+          <div class="api-pill-group">
+            <span class="api-pill-group-label">Discovery</span>
+            <div class="api-pills" role="list" aria-label="Discovery commands">
+              <button type="button" class="api-pill" data-api-cmd="search">search</button>
+              <button type="button" class="api-pill" data-api-cmd="endpoints">endpoints</button>
+              <button type="button" class="api-pill" data-api-cmd="version">version</button>
+              <button type="button" class="api-pill" data-api-cmd="stats">stats</button>
+              <button type="button" class="api-pill" data-api-cmd="help">help</button>
+            </div>
+          </div>
+          <div class="api-pill-group">
+            <span class="api-pill-group-label">Service</span>
+            <div class="api-pills" role="list" aria-label="Service commands">
+              <button type="button" class="api-pill" data-api-cmd="health">health</button>
+              <button type="button" class="api-pill" data-api-cmd="cloudflare">cloudflare</button>
+              <button type="button" class="api-pill" data-api-cmd="marquee">marquee</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -174,19 +198,19 @@
       </div>
     </section>
 
-    <section class="api-endpoints" aria-labelledby="apiEndpointsTitle">
+    <section class="api-endpoints" id="api-endpoints" aria-labelledby="apiEndpointsTitle">
       <div class="api-endpoints-head">
         <div class="section-kicker">Endpoint Index</div>
         <h2 id="apiEndpointsTitle">Every route on the wire</h2>
-        <p>Tap a card to load its live response in the console above. All endpoints accept <code class="api-inline">GET</code> and respond with cached, CORS-friendly JSON.</p>
+        <p>Tap a card to load its live response in the console above. Each section groups related routes &mdash; all <code class="api-inline">GET</code>, all CORS-open, all edge-cached.</p>
       </div>
-      <div class="api-deck" id="apiDeck" aria-live="polite"></div>
+      <div class="api-deck-groups" id="apiDeck" aria-live="polite"></div>
     </section>
 
-    <section class="api-snippets" aria-labelledby="apiSnippetsTitle">
+    <section class="api-snippets" id="api-snippets" aria-labelledby="apiSnippetsTitle">
       <div class="api-snippets-head">
         <div class="section-kicker">Use it from anywhere</div>
-        <h2 id="apiSnippetsTitle">curl &middot; fetch &middot; node</h2>
+        <h2 id="apiSnippetsTitle">curl &middot; fetch &middot; python &middot; node</h2>
         <p>Drop these straight into <strong>lnch.in</strong>, an automation, a status page, or a homepage card. CORS is open and the JSON envelope is stable.</p>
       </div>
 
@@ -197,6 +221,7 @@
             <button type="button" class="api-copy-btn" data-api-copy-target="snippet-curl">Copy</button>
           </header>
           <pre class="api-pre"><code id="snippet-curl">curl -s https://abhnv.in/api/summary | jq
+curl -s https://abhnv.in/api/projects/clex-ai | jq
 curl -s "https://abhnv.in/api/search?q=cloudflare" | jq
 curl -s https://abhnv.in/api/health | jq</code></pre>
         </article>
@@ -210,6 +235,19 @@ curl -s https://abhnv.in/api/health | jq</code></pre>
 const { ok, data, meta } = await res.json();
 if (!ok) throw new Error("API returned an error");
 console.log(`Got ${data.all.length} public links, version ${meta.version}`);</code></pre>
+        </article>
+
+        <article class="api-snippet">
+          <header>
+            <span class="api-snippet-label">python (requests)</span>
+            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-python">Copy</button>
+          </header>
+          <pre class="api-pre"><code id="snippet-python">import requests
+
+base = "https://abhnv.in/api"
+projects = requests.get(f"{base}/projects").json()["data"]
+for p in projects:
+    print(p["title"], "—", p.get("liveUrl") or p.get("repoUrl"))</code></pre>
         </article>
 
         <article class="api-snippet">
@@ -233,6 +271,18 @@ const { ok, data } = await fetch(url).then(r =&gt; r.json());</code></pre>
 const res = await fetch("http://127.0.0.1:8788/api/cloudflare");
 const json = await res.json();
 console.log(JSON.stringify(json, null, 2));</code></pre>
+        </article>
+
+        <article class="api-snippet">
+          <header>
+            <span class="api-snippet-label">github actions</span>
+            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-gha">Copy</button>
+          </header>
+          <pre class="api-pre"><code id="snippet-gha"># .github/workflows/sync-portfolio.yml
+- name: Pull portfolio
+  run: |
+    curl -fsSL https://abhnv.in/api/summary &gt; portfolio.json
+    jq '.data.featured' portfolio.json</code></pre>
         </article>
       </div>
     </section>
