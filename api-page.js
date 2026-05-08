@@ -20,27 +20,36 @@
   if (host) host.textContent = apiOrigin.replace(/^https?:\/\//, "");
 
   const ENDPOINTS = [
-    { method: "GET", path: "/api",                          tag: "Index",          desc: "API index, available commands, version, counts." },
-    { method: "GET", path: "/api/summary",                  tag: "Summary",        desc: "Compact profile, counts, featured links, and top tags." },
-    { method: "GET", path: "/api/profile",                  tag: "Profile",        desc: "Public profile and short summary." },
-    { method: "GET", path: "/api/skills",                   tag: "Skills",         desc: "Skills grouped by domain. Add ?flat=1 for a flat list." },
-    { method: "GET", path: "/api/projects",                 tag: "Projects",       desc: "All shipped projects. ?tag=AI to filter." },
-    { method: "GET", path: "/api/projects/clex-ai",         tag: "Project",        desc: "Single project by slug." },
-    { method: "GET", path: "/api/certifications",           tag: "Credentials",    desc: "All credentials. ?tag=AI or ?issuer=Google." },
-    { method: "GET", path: "/api/certifications?groupBy=issuer", tag: "Credentials", desc: "Credentials grouped by issuer." },
-    { method: "GET", path: "/api/certifications/1",         tag: "Credential",     desc: "One credential by id (1-based)." },
-    { method: "GET", path: "/api/research",                 tag: "Research",       desc: "Research papers." },
-    { method: "GET", path: "/api/research/the-glass-ballot", tag: "Research",      desc: "Single research paper by slug." },
-    { method: "GET", path: "/api/socials",                  tag: "Socials",        desc: "Social profile links." },
-    { method: "GET", path: "/api/notes",                    tag: "Notes",          desc: "Notes from the bench." },
-    { method: "GET", path: "/api/links",                    tag: "Links",          desc: "All public URLs: socials, project live sites, repos, case studies, research, certs." },
-    { method: "GET", path: "/api/tags",                     tag: "Tags",           desc: "Project, research, credential, and skill tags with counts." },
-    { method: "GET", path: "/api/search?q=ai",              tag: "Search",         desc: "Search public portfolio records by text, tag, title, issuer, or URL." },
-    { method: "GET", path: "/api/assets",                   tag: "Assets",         desc: "Images, logos, favicon, and social preview manifest." },
-    { method: "GET", path: "/api/health",                   tag: "Health",         desc: "API status, version, counts, and Cloudflare request metadata." },
-    { method: "GET", path: "/api/cloudflare",               tag: "Cloudflare",     desc: "Pages Functions routes, cache headers, wrangler commands, and curl smoke checks." },
-    { method: "GET", path: "/api/command?cmd=help",         tag: "Command",        desc: "Command-style read endpoint. Try cmd=summary, links, search, cloudflare." }
+    { method: "GET", path: "/api",                          tag: "Index",          group: "Index",       desc: "API index, available commands, version, counts." },
+    { method: "GET", path: "/api/summary",                  tag: "Summary",        group: "Profile",     desc: "Compact profile, counts, featured links, and top tags." },
+    { method: "GET", path: "/api/profile",                  tag: "Profile",        group: "Profile",     desc: "Public profile and short summary." },
+    { method: "GET", path: "/api/skills",                   tag: "Skills",         group: "Profile",     desc: "Skills grouped by domain. Add ?flat=1 for a flat list." },
+    { method: "GET", path: "/api/socials",                  tag: "Socials",        group: "Profile",     desc: "Social profile links." },
+    { method: "GET", path: "/api/notes",                    tag: "Notes",          group: "Profile",     desc: "Notes from the bench." },
+    { method: "GET", path: "/api/projects",                 tag: "Projects",       group: "Catalog",     desc: "All shipped projects. ?tag=AI to filter." },
+    { method: "GET", path: "/api/projects/clex-ai",         tag: "Project",        group: "Catalog",     desc: "Single project by slug — clex-ai, clex, driped, trgt, modih-mail." },
+    { method: "GET", path: "/api/certifications",           tag: "Credentials",    group: "Catalog",     desc: "All credentials. ?tag=AI or ?issuer=Google." },
+    { method: "GET", path: "/api/certifications?groupBy=issuer", tag: "Credentials", group: "Catalog",   desc: "Credentials grouped by issuer." },
+    { method: "GET", path: "/api/certifications/1",         tag: "Credential",     group: "Catalog",     desc: "One credential by id (1-based)." },
+    { method: "GET", path: "/api/research",                 tag: "Research",       group: "Catalog",     desc: "Research papers." },
+    { method: "GET", path: "/api/research/the-glass-ballot", tag: "Research",      group: "Catalog",     desc: "Single research paper by slug." },
+    { method: "GET", path: "/api/links",                    tag: "Links",          group: "Discovery",   desc: "All public URLs: socials, project live sites, repos, case studies, research, certs." },
+    { method: "GET", path: "/api/tags",                     tag: "Tags",           group: "Discovery",   desc: "Project, research, credential, and skill tags with counts." },
+    { method: "GET", path: "/api/search?q=ai",              tag: "Search",         group: "Discovery",   desc: "Search public portfolio records by text, tag, title, issuer, or URL." },
+    { method: "GET", path: "/api/assets",                   tag: "Assets",         group: "Discovery",   desc: "Images, logos, favicon, and social preview manifest." },
+    { method: "GET", path: "/api/health",                   tag: "Health",         group: "Service",     desc: "API status, version, counts, and Cloudflare request metadata." },
+    { method: "GET", path: "/api/cloudflare",               tag: "Cloudflare",     group: "Service",     desc: "Pages Functions routes, cache headers, wrangler commands, and curl smoke checks." },
+    { method: "GET", path: "/api/command?cmd=help",         tag: "Command",        group: "Service",     desc: "Command-style read endpoint. Try cmd=summary, links, search, cloudflare." }
   ];
+
+  const GROUP_ORDER = ["Index", "Profile", "Catalog", "Discovery", "Service"];
+  const GROUP_BLURB = {
+    Index:     "The root response — what's available, version, counts, examples.",
+    Profile:   "Personal surface: identity, skills, socials, scratch notes.",
+    Catalog:   "Everything shipped: projects (by slug), credentials (by id or issuer), research (by slug).",
+    Discovery: "Cross-cutting indexes — links, tags, full-text search, asset manifest.",
+    Service:   "Operational metadata — health, Cloudflare wiring, command surface."
+  };
 
   function setStatus(text, tone) {
     if (!status) return;
@@ -51,24 +60,55 @@
   function buildDeck() {
     if (!deck) return;
     deck.innerHTML = "";
-    ENDPOINTS.forEach((ep, i) => {
-      const card = document.createElement("article");
-      card.className = "api-card reveal visible";
-      card.style.setProperty("--delay", `${i * 28}ms`);
-      card.dataset.path = ep.path;
-      card.innerHTML = `
-        <header class="api-card-head">
-          <span class="api-method">${ep.method}</span>
-          <span class="api-card-tag">${ep.tag}</span>
-        </header>
-        <code class="api-card-path">${ep.path}</code>
-        <p>${ep.desc}</p>
-        <footer class="api-card-foot">
-          <button type="button" class="api-card-run" data-api-path="${ep.path}">Run ↗</button>
-          <a class="api-card-open" href="${ep.path === "/api" ? "/api?format=json" : ep.path}" target="_blank" rel="noopener" aria-label="Open ${ep.path} in a new tab">Raw</a>
-        </footer>
+
+    const grouped = new Map();
+    GROUP_ORDER.forEach((g) => grouped.set(g, []));
+    ENDPOINTS.forEach((ep) => {
+      const g = ep.group || "Other";
+      if (!grouped.has(g)) grouped.set(g, []);
+      grouped.get(g).push(ep);
+    });
+
+    let cardIndex = 0;
+    grouped.forEach((rows, group) => {
+      if (!rows.length) return;
+      const section = document.createElement("section");
+      section.className = "api-deck-group";
+      section.setAttribute("aria-label", `${group} endpoints`);
+
+      const head = document.createElement("header");
+      head.className = "api-deck-group-head";
+      head.innerHTML = `
+        <span class="api-deck-group-kicker">${group}</span>
+        <span class="api-deck-group-count">${rows.length} endpoint${rows.length === 1 ? "" : "s"}</span>
+        ${GROUP_BLURB[group] ? `<p class="api-deck-group-blurb">${GROUP_BLURB[group]}</p>` : ""}
       `;
-      deck.appendChild(card);
+      section.appendChild(head);
+
+      const cards = document.createElement("div");
+      cards.className = "api-deck";
+      rows.forEach((ep) => {
+        const card = document.createElement("article");
+        card.className = "api-card reveal visible";
+        card.style.setProperty("--delay", `${cardIndex * 22}ms`);
+        cardIndex += 1;
+        card.dataset.path = ep.path;
+        card.innerHTML = `
+          <header class="api-card-head">
+            <span class="api-method">${ep.method}</span>
+            <span class="api-card-tag">${ep.tag}</span>
+          </header>
+          <code class="api-card-path">${ep.path}</code>
+          <p>${ep.desc}</p>
+          <footer class="api-card-foot">
+            <button type="button" class="api-card-run" data-api-path="${ep.path}">Run ↗</button>
+            <a class="api-card-open" href="${ep.path === "/api" ? "/api?format=json" : ep.path}" target="_blank" rel="noopener" aria-label="Open ${ep.path} in a new tab">Raw</a>
+          </footer>
+        `;
+        cards.appendChild(card);
+      });
+      section.appendChild(cards);
+      deck.appendChild(section);
     });
   }
 
