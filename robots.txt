@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow archived / redirect pages from indexing
+Disallow: /about.html
+Disallow: /certifications.html
+
+Sitemap: https://abhnv.in/sitemap.xml
