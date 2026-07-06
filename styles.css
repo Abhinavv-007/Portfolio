@@ -10856,3 +10856,822 @@ body[data-page="api"] .api-why {
   .api-stats-row .api-stat:nth-child(2n) { border-right: 0; }
   .api-stats-row .api-stat:nth-child(n+3) { border-top: 1px solid var(--rule); }
 }
+
+/* =========================================================
+   Pass 50 — "Edition Change" cinematic system
+   One continuous piece of motion: leaving a page, a paper
+   sheet with a charred leading edge sweeps over the screen;
+   the next page arrives already covered by that sheet, the
+   section title is stamped onto it, then the sheet slides
+   off while its trailing edge burns away (char, ember glow,
+   sparks, smoke). Everything animates transform/opacity
+   only, so it stays smooth on phones.
+   ========================================================= */
+
+/* ---- 50.1 The intro sheet (page arrival) ---- */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  transition: none;
+  background:
+    repeating-linear-gradient(180deg, rgba(26, 25, 22, 0.05) 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, rgba(255, 248, 226, 0.5), rgba(214, 204, 189, 0.12) 40%, rgba(199, 184, 164, 0.25)),
+    var(--paper);
+}
+
+.intro.intro--armed {
+  background: transparent;
+}
+
+.intro > .intro-paper {
+  display: none !important;
+}
+
+.intro-carrier {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.intro--fresh .intro-carrier {
+  animation: sheetBurnOff 1250ms cubic-bezier(0.72, 0.02, 0.3, 1) 900ms both;
+}
+
+.intro--handoff .intro-carrier {
+  animation: sheetBurnOff 1050ms cubic-bezier(0.72, 0.02, 0.3, 1) 300ms both;
+}
+
+@keyframes sheetBurnOff {
+  from { transform: translateX(0) rotate(0deg); }
+  to   { transform: translateX(146vw) rotate(0.8deg); }
+}
+
+.intro-sheet {
+  position: absolute;
+  top: -3vh;
+  bottom: -3vh;
+  left: -36vw;
+  width: 138vw;
+  /* Scorch stripes (first layer) are displaced by the SAME turbulence as the
+     mask below, so the charring hugs the ragged torn contour exactly. */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Cg filter='url(%23t)'%3E%3Crect x='52' y='-100' width='5' height='1200' fill='%23140a05' opacity='.95'/%3E%3Crect x='57' y='-100' width='6' height='1200' fill='%232e180b' opacity='.78'/%3E%3Crect x='63' y='-100' width='7' height='1200' fill='%23582f12' opacity='.52'/%3E%3Crect x='70' y='-100' width='9' height='1200' fill='%23845420' opacity='.28'/%3E%3Crect x='79' y='-100' width='11' height='1200' fill='%23a1793a' opacity='.12'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat,
+    radial-gradient(circle at 18% 12%, rgba(163, 49, 40, 0.06), transparent 26rem),
+    radial-gradient(circle at 84% 82%, rgba(37, 63, 84, 0.06), transparent 24rem),
+    repeating-linear-gradient(180deg, rgba(26, 25, 22, 0.05) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(90deg, rgba(26, 25, 22, 0.03) 0 1px, transparent 1px 11rem),
+    linear-gradient(180deg, rgba(255, 248, 226, 0.5), rgba(214, 204, 189, 0.12) 40%, rgba(199, 184, 164, 0.25)),
+    var(--paper);
+  background-blend-mode: multiply, normal, normal, normal, normal, normal, normal;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='52' y='-100' width='1150' height='1200' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='52' y='-100' width='1150' height='1200' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Flames displaced by the same noise field, blurred, licking past the rim. */
+.burn-flames {
+  position: absolute;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G' result='d'/%3E%3CfeGaussianBlur in='d' stdDeviation='2.2'/%3E%3C/filter%3E%3Cg filter='url(%23f)'%3E%3Crect x='30' y='-100' width='14' height='1200' fill='%23e8551c' opacity='.4'/%3E%3Crect x='39' y='-100' width='10' height='1200' fill='%23ff9a3e' opacity='.85'/%3E%3Crect x='46' y='-100' width='9' height='1200' fill='%23ffdf9e' opacity='.95'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  will-change: opacity, transform;
+  animation: flamePulse 360ms steps(3, end) infinite;
+}
+
+.burn-flames--intro {
+  top: -3vh;
+  bottom: -3vh;
+  left: -36vw;
+  width: 138vw;
+}
+
+.burn-flames--cover {
+  top: -3vh;
+  bottom: -3vh;
+  left: -4vw;
+  width: 120vw;
+  transform: scaleX(-1);
+}
+
+@keyframes flamePulse {
+  0%, 100% { opacity: 0.95; }
+  35% { opacity: 0.7; transform: translateX(-2px); }
+  70% { opacity: 0.85; transform: translateX(1px); }
+}
+
+.burn-flames--cover {
+  animation-name: flamePulseFlip;
+}
+
+@keyframes flamePulseFlip {
+  0%, 100% { opacity: 0.95; transform: scaleX(-1); }
+  35% { opacity: 0.7; transform: scaleX(-1) translateX(-2px); }
+  70% { opacity: 0.85; transform: scaleX(-1) translateX(1px); }
+}
+
+.intro-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  opacity: 0.13;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.intro-sheet-face {
+  position: absolute;
+  top: 3vh;
+  bottom: 3vh;
+  left: 36vw;
+  width: 100vw;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  row-gap: clamp(0.85rem, 2.2vh, 1.35rem);
+  padding: 0 6vw;
+  text-align: center;
+  color: var(--ink);
+}
+
+.intro-sheet-face .intro-masthead {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.44em;
+  text-indent: 0.44em;
+  text-transform: uppercase;
+  color: rgba(26, 25, 22, 0.72);
+}
+
+.intro-sheet-face .intro-bar {
+  width: min(46rem, 74vw);
+  height: 2px;
+}
+
+.intro-sheet-face .intro-line {
+  width: min(30rem, 52vw);
+  height: 1px;
+  opacity: 0.7;
+}
+
+.intro-sheet-face .intro-title {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(2.9rem, 10vw, 7.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  max-width: 88vw;
+  text-shadow:
+    0 1px 0 rgba(255, 248, 226, 0.3),
+    0 0.05em 0.11em rgba(26, 25, 22, 0.12);
+}
+
+.intro-sheet-face .intro-folio {
+  display: flex;
+  gap: 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.intro-sheet-face .intro-folio span {
+  white-space: nowrap;
+}
+
+.intro-sheet-face .intro-stamp {
+  position: absolute;
+  top: clamp(8%, 12vh, 16%);
+  right: clamp(6%, 10vw, 14%);
+  padding: 0.65rem 0.95rem;
+  border: 2px solid #8c2620;
+  outline: 1px solid rgba(140, 38, 30, 0.75);
+  outline-offset: 3px;
+  color: #8c2620;
+  font-family: var(--mono);
+  font-size: clamp(0.62rem, 1.4vw, 0.8rem);
+  line-height: 1.5;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-transform: uppercase;
+  mix-blend-mode: multiply;
+  transform: rotate(-8deg);
+  opacity: 0.85;
+}
+
+/* Face entrance choreography */
+.intro--armed .intro-masthead,
+.intro--armed .intro-bar,
+.intro--armed .intro-line,
+.intro--armed .intro-folio {
+  animation: sheetItemIn 620ms var(--ease) both;
+}
+
+.intro--armed .intro-title {
+  animation: titlePress 700ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.intro--armed .intro-stamp {
+  animation: stampIn 360ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.intro--fresh .intro-masthead { animation-delay: 80ms; }
+.intro--fresh .intro-bar      { animation-delay: 120ms; }
+.intro--fresh .intro-title    { animation-delay: 150ms; }
+.intro--fresh .intro-line     { animation-delay: 210ms; }
+.intro--fresh .intro-folio    { animation-delay: 260ms; }
+.intro--fresh .intro-stamp    { animation-delay: 470ms; }
+
+.intro--handoff .intro-sheet-face > * {
+  animation-duration: 300ms;
+  animation-delay: 20ms;
+}
+.intro--handoff .intro-stamp {
+  animation-duration: 260ms;
+  animation-delay: 70ms;
+}
+
+@keyframes sheetItemIn {
+  from { opacity: 0; transform: translateY(0.7rem); }
+}
+
+@keyframes titlePress {
+  0%   { opacity: 0; transform: scale(1.06); filter: blur(5px); }
+  55%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes stampIn {
+  0%   { opacity: 0; transform: rotate(-8deg) scale(2.2); }
+  65%  { opacity: 0.9; transform: rotate(-8.6deg) scale(0.94); }
+  100% { opacity: 0.85; transform: rotate(-8deg) scale(1); }
+}
+
+/* ---- 50.2 The burning edge (shared by intro + exit cover) ---- */
+.intro-burn-edge,
+.page-cover-edge {
+  position: absolute;
+  top: -3vh;
+  bottom: -3vh;
+  width: 12rem;
+  pointer-events: none;
+}
+
+.intro-burn-edge { left: calc(-28.8vw - 6rem); }
+
+/* Charring is painted on the sheets themselves (first background layer),
+   so it hugs the torn clip edge exactly; this strip only carries light. */
+.burn-char {
+  display: none;
+}
+
+/* Broad ambient heat halo — the sharp flame contour comes from .burn-flames. */
+.burn-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 28%;
+  width: 4.5rem;
+  background: linear-gradient(180deg,
+    rgba(255, 202, 120, 0.8), rgba(255, 138, 53, 0.5) 18%, rgba(232, 85, 28, 0.7) 34%,
+    rgba(255, 184, 94, 0.45) 52%, rgba(217, 67, 15, 0.7) 68%, rgba(255, 166, 78, 0.55) 84%,
+    rgba(255, 206, 132, 0.75));
+  filter: blur(14px);
+  opacity: 0.42;
+  animation: glowFlicker 240ms steps(2, end) infinite;
+}
+
+@keyframes glowFlicker {
+  50% { opacity: 0.28; transform: scaleX(0.85); }
+}
+
+.burn-ember {
+  position: absolute;
+  left: 46%;
+  top: calc(4% + var(--i) * 9.5%);
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe3b0 0 30%, #ff8a3d 60%, rgba(255, 138, 61, 0) 100%);
+  box-shadow: 0 0 8px 2px rgba(255, 150, 70, 0.8);
+  opacity: 0;
+  animation: emberFly 1100ms linear infinite;
+  animation-delay: calc(var(--i) * -173ms);
+}
+
+.burn-ember:nth-child(even) {
+  animation-duration: 860ms;
+  animation-name: emberFlyAlt;
+}
+
+@keyframes emberFly {
+  0%   { opacity: 0; transform: translate(0, 0) scale(1); }
+  10%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-5rem, -7rem) scale(0.3); }
+}
+
+@keyframes emberFlyAlt {
+  0%   { opacity: 0; transform: translate(0, 0) scale(1); }
+  12%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-3.4rem, -8.5rem) scale(0.35); }
+}
+
+.burn-smoke {
+  position: absolute;
+  left: 30%;
+  top: calc(8% + var(--i) * 24%);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(64, 52, 42, 0.5), rgba(64, 52, 42, 0) 68%);
+  filter: blur(7px);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation: smokeRise 1500ms ease-out infinite;
+  animation-delay: calc(var(--i) * -420ms);
+}
+
+@keyframes smokeRise {
+  0%   { opacity: 0; transform: translate(0.5rem, 0) scale(0.55); }
+  30%  { opacity: 0.55; }
+  100% { opacity: 0; transform: translate(-3.5rem, -6.5rem) scale(1.5); }
+}
+
+/* ---- 50.3 The exit cover (page departure) ---- */
+.page-transition { display: none !important; }
+
+.page-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 6100;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-cover.is-covering {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.page-cover-carrier {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-122vw);
+  will-change: transform;
+}
+
+.page-cover.is-covering .page-cover-carrier {
+  animation: sheetCoverOn 620ms cubic-bezier(0.62, 0.05, 0.3, 1) both;
+}
+
+@keyframes sheetCoverOn {
+  from { transform: translateX(-122vw); }
+  to   { transform: translateX(0); }
+}
+
+/* Same torn-edge system as the intro sheet, mirrored so the ragged
+   burning rim leads the sweep. */
+.page-cover-sheet {
+  position: absolute;
+  top: -3vh;
+  bottom: -3vh;
+  left: -4vw;
+  width: 120vw;
+  transform: scaleX(-1);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Cg filter='url(%23t)'%3E%3Crect x='52' y='-100' width='5' height='1200' fill='%23140a05' opacity='.95'/%3E%3Crect x='57' y='-100' width='6' height='1200' fill='%232e180b' opacity='.78'/%3E%3Crect x='63' y='-100' width='7' height='1200' fill='%23582f12' opacity='.52'/%3E%3Crect x='70' y='-100' width='9' height='1200' fill='%23845420' opacity='.28'/%3E%3Crect x='79' y='-100' width='11' height='1200' fill='%23a1793a' opacity='.12'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat,
+    radial-gradient(circle at 18% 12%, rgba(163, 49, 40, 0.06), transparent 26rem),
+    radial-gradient(circle at 84% 82%, rgba(37, 63, 84, 0.06), transparent 24rem),
+    repeating-linear-gradient(180deg, rgba(26, 25, 22, 0.05) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(90deg, rgba(26, 25, 22, 0.03) 0 1px, transparent 1px 11rem),
+    linear-gradient(180deg, rgba(255, 248, 226, 0.5), rgba(214, 204, 189, 0.12) 40%, rgba(199, 184, 164, 0.25)),
+    var(--paper);
+  background-blend-mode: multiply, normal, normal, normal, normal, normal, normal;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='52' y='-100' width='1150' height='1200' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cfilter id='t' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0028 0.014' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='70' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Crect x='52' y='-100' width='1150' height='1200' fill='%23fff' filter='url(%23t)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.page-cover-edge { left: calc(109.8vw - 6rem); transform: scaleX(-1); }
+
+/* ---- 50.4 Split-letter headline press ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .split-title .hero-letter-word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .split-title .hero-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.42em) rotate(2deg) scaleY(1.2);
+    transform-origin: 50% 100%;
+  }
+
+  body.loaded .split-title .hero-letter {
+    animation: letterPress 560ms cubic-bezier(0.19, 1, 0.22, 1) both;
+    animation-delay: calc(var(--letter-delay, 0ms) + 180ms);
+  }
+}
+
+@keyframes letterPress {
+  0%   { opacity: 0; transform: translateY(0.42em) rotate(2deg) scaleY(1.2); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scaleY(1); }
+}
+
+/* ---- 50.5 Menu curtain: staggered link entrance ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .menu-curtain.active .menu-panel > a > span {
+    animation: menuLinkIn 600ms var(--ease) both;
+    animation-delay: calc(180ms + var(--menu-i, 0) * 55ms);
+  }
+
+  .menu-curtain.active .menu-socials {
+    animation: menuLinkIn 600ms var(--ease) both;
+    animation-delay: 480ms;
+  }
+}
+
+@keyframes menuLinkIn {
+  from { opacity: 0; transform: translateY(0.9em); }
+}
+
+/* ---- 50.6 Ink-sweep underline for inline links ---- */
+.site-shell .hover-cut > span::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.14em;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--red-hot));
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 360ms var(--ease);
+}
+
+.site-shell .hover-cut:hover > span::after,
+.site-shell .hover-cut:focus-visible > span::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+.site-shell .hover-cut:hover > span,
+.site-shell .hover-cut:focus-visible > span {
+  color: var(--red);
+}
+
+/* ---- 50.7 Press + lift feedback on controls ---- */
+.card-visit:active,
+.detail-actions a:active,
+.end-card-cta a:active,
+.drag-arrows button:active,
+.certs-filter:active,
+.contact-form button[type="submit"]:active,
+.brand-social:active {
+  transform: scale(0.96) !important;
+  transition-duration: 80ms !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-visit,
+  .detail-actions a,
+  .end-card-cta a {
+    transition: box-shadow 260ms ease, transform 260ms var(--ease), background 260ms ease, color 260ms ease;
+  }
+
+  .card-visit:hover,
+  .detail-actions a:hover,
+  .end-card-cta a:hover {
+    box-shadow: 0 10px 22px rgba(26, 25, 22, 0.22);
+  }
+}
+
+/* ---- 50.8 Card glare + sheen + poster zoom ---- */
+.project-card,
+.work-detail-card {
+  position: relative;
+}
+
+.card-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(26rem circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 248, 226, 0.3), transparent 62%);
+  mix-blend-mode: soft-light;
+}
+
+.project-card:hover .card-glare,
+.work-detail-card:hover .card-glare {
+  opacity: 1;
+}
+
+.project-card .project-image::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -30%;
+  width: 38%;
+  background: linear-gradient(105deg, transparent, rgba(255, 248, 226, 0.34), transparent);
+  transform: translateX(-140%) skewX(-16deg);
+  transition: none;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.project-card:hover .project-image::after {
+  transition: transform 800ms var(--ease);
+  transform: translateX(480%) skewX(-16deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .detail-poster {
+    overflow: hidden;
+  }
+
+  .detail-poster img {
+    transition: transform 900ms var(--ease), filter 500ms ease;
+  }
+
+  .work-detail-card:hover .detail-poster img {
+    transform: scale(1.035);
+    filter: contrast(1.04) saturate(1.05);
+  }
+}
+
+.project-rail img,
+.project-rail a {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ---- 50.9 Credential cards: dog-ear fold ---- */
+.cert-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.cert-card .cert-fold {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  background: linear-gradient(225deg, rgba(26, 25, 22, 0.08) 0 48%, #e6d9c0 50% 100%);
+  box-shadow: -2px 2px 6px rgba(26, 25, 22, 0.22);
+  transition: width 300ms var(--ease), height 300ms var(--ease);
+  pointer-events: none;
+}
+
+.cert-card:hover .cert-fold,
+.cert-card:focus-visible .cert-fold {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.cert-card .cert-verify {
+  transition: color 220ms ease, transform 300ms var(--ease);
+}
+
+.cert-card:hover .cert-verify {
+  color: var(--red);
+  transform: translateX(3px);
+}
+
+/* ---- 50.10 Cinematic reveals: focus pull on desktop ---- */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .reveal {
+    transform: translateY(1.6rem);
+    filter: blur(6px);
+    transition: opacity 760ms var(--ease), transform 760ms var(--ease), filter 700ms ease;
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .reveal.visible {
+    filter: blur(0);
+  }
+}
+
+/* ---- 50.11 Burning-fuse scroll progress ---- */
+.scroll-progress {
+  display: block !important;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(26, 25, 22, 0.85), var(--red) 62%, var(--red-hot) 86%, #ffb45e);
+  box-shadow: 0 0 12px rgba(209, 90, 53, 0.5);
+}
+
+/* ---- 50.12 Editorial finishing touches ---- */
+.marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+::selection {
+  background: var(--red);
+  color: var(--paper-light);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+/* ---- 50.13 Mobile: same cinema, tuned for touch ---- */
+@media (hover: none) {
+  .project-card:active,
+  .work-detail-card:active,
+  .cert-card:active {
+    transform: scale(0.985);
+    transition: transform 140ms ease;
+  }
+
+  .text-link:active,
+  .card-visit:active,
+  .detail-actions a:active,
+  .end-card-cta a:active {
+    opacity: 0.82;
+  }
+}
+
+@media (max-width: 720px) {
+  .burn-smoke { display: none; }
+  .burn-glow { filter: blur(8px); }
+
+  .intro-sheet-face .intro-title {
+    font-size: clamp(2.5rem, 13vw, 4.2rem);
+  }
+
+  .intro-sheet-face .intro-folio {
+    gap: 0.85rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.18em;
+  }
+
+  .intro-sheet-face .intro-folio span:nth-child(2) {
+    display: none;
+  }
+
+  .intro-sheet-face .intro-stamp {
+    top: 9%;
+    right: 7%;
+    padding: 0.5rem 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-cover { display: none !important; }
+}
+
+/* =========================================================
+   Pass 51 — Edge-to-edge frame + contact desk refinements
+   The paper frame now runs close to the physical screen edge
+   on every viewport, and the contact section reads like a
+   proper correspondence desk instead of shouting instructions.
+   ========================================================= */
+
+/* ---- 51.1 Frame hugs the screen ---- */
+:root {
+  --menu-control-right: max(0.6rem, calc((100vw - min(100vw, 130rem)) / 2 + 0.85rem));
+}
+
+.site-shell {
+  width: min(calc(100% - 1rem), 130rem);
+  max-width: calc(100vw - 1rem);
+  margin: 0.5rem auto;
+}
+
+@media (max-width: 900px) {
+  .site-shell {
+    width: calc(100% - 0.6rem);
+    max-width: calc(100vw - 0.6rem);
+    margin: 0.3rem auto;
+  }
+}
+
+/* ---- 51.2 Contact: dispatch note ---- */
+.contact-dispatch h2 {
+  font-size: clamp(2.3rem, 4.9vw, 5.4rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  max-width: 12em;
+  text-wrap: balance;
+}
+
+.contact-dispatch-copy {
+  min-height: 0;
+  gap: 1.1rem;
+}
+
+.contact-dispatch p {
+  max-width: 38rem;
+  font-family: var(--body);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ---- 51.3 Contact: brief cards ---- */
+.contact-brief-grid article {
+  position: relative;
+  transition: background 320ms ease, transform 360ms var(--ease);
+}
+
+.contact-brief-grid article::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--red-hot));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 420ms var(--ease);
+}
+
+.contact-brief-grid span {
+  transition: background 260ms ease, color 260ms ease, padding 260ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-brief-grid article:hover {
+    background: rgba(255, 251, 235, 0.55);
+    transform: translateY(-3px);
+  }
+
+  .contact-brief-grid article:hover::before {
+    transform: scaleX(1);
+  }
+
+  .contact-brief-grid article:hover span {
+    background: var(--red);
+    color: var(--paper-light);
+    padding: 0.1rem 0.45rem 0.2rem;
+  }
+}
+
+/* ---- 51.4 Contact: form desk ---- */
+.contact-field span {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.contact-field input,
+.contact-field textarea {
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--rule);
+  background: rgba(255, 251, 235, 0.4);
+  font-family: var(--body);
+  font-size: 1rem;
+}
+
+.contact-send-button {
+  border: 1px solid var(--rule-strong);
+  background: var(--ink);
+  color: var(--paper-light);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  padding: 0.95rem 1.5rem;
+  box-shadow: 0.28rem 0.28rem 0 rgba(26, 25, 22, 0.28);
+  transition: background 260ms ease, box-shadow 260ms ease, color 260ms ease;
+}
+
+.contact-send-button:hover,
+.contact-send-button:focus-visible {
+  background: var(--red);
+  box-shadow: 0.38rem 0.38rem 0 rgba(26, 25, 22, 0.32);
+}
+
+.contact-send-button .contact-send-arrow {
+  display: inline-block;
+  transition: transform 300ms var(--ease);
+}
+
+.contact-send-button:hover .contact-send-arrow {
+  transform: translateX(4px);
+}

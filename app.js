@@ -591,10 +591,11 @@
       });
     }
 
-    // Tag each menu link with an editorial numeral (01, 02 ...)
+    // Tag each menu link with an editorial numeral (01, 02 ...) and a stagger index
     $$(".menu-panel > a").forEach((link, idx) => {
       const n = String(idx + 1).padStart(2, "0");
       link.setAttribute("data-num", n);
+      link.style.setProperty("--menu-i", String(idx));
     });
 
     const closeButton = $(".menu-close", curtain);
@@ -672,29 +673,32 @@
   }
 
   function setupHeroSplit() {
-    const heading = $(".hero-word h1");
-    if (!heading || heading.dataset.split === "true") return;
-    const text = heading.textContent || "";
-    heading.textContent = "";
-    heading.dataset.split = "true";
-    const words = text.split(/(\s+)/);
-    let charIndex = 0;
-    words.forEach((word) => {
-      if (/^\s+$/.test(word)) {
-        heading.appendChild(document.createTextNode(word));
-        return;
-      }
-      const wordSpan = document.createElement("span");
-      wordSpan.className = "hero-letter-word";
-      Array.from(word).forEach((ch) => {
-        const span = document.createElement("span");
-        span.className = "hero-letter";
-        span.style.setProperty("--letter-delay", `${charIndex * 38}ms`);
-        span.textContent = ch;
-        wordSpan.appendChild(span);
-        charIndex += 1;
+    const headings = $$(".hero-word h1, .profile-head h1, .page-headline-title");
+    headings.forEach((heading) => {
+      if (heading.dataset.split === "true" || heading.querySelector("*")) return;
+      const text = heading.textContent || "";
+      heading.textContent = "";
+      heading.dataset.split = "true";
+      heading.classList.add("split-title");
+      const words = text.split(/(\s+)/);
+      let charIndex = 0;
+      words.forEach((word) => {
+        if (/^\s+$/.test(word)) {
+          heading.appendChild(document.createTextNode(word));
+          return;
+        }
+        const wordSpan = document.createElement("span");
+        wordSpan.className = "hero-letter-word";
+        Array.from(word).forEach((ch) => {
+          const span = document.createElement("span");
+          span.className = "hero-letter";
+          span.style.setProperty("--letter-delay", `${charIndex * 34}ms`);
+          span.textContent = ch;
+          wordSpan.appendChild(span);
+          charIndex += 1;
+        });
+        heading.appendChild(wordSpan);
       });
-      heading.appendChild(wordSpan);
     });
   }
 
@@ -1001,6 +1005,23 @@
     setInterval(update, 30000);
   }
 
+  const BURN_EDGE_HTML = `
+    <div class="burn-char" aria-hidden="true"></div>
+    <div class="burn-glow" aria-hidden="true"></div>
+    ${Array.from({ length: 10 }, (_, i) => `<span class="burn-ember" style="--i:${i}"></span>`).join("")}
+    ${Array.from({ length: 4 }, (_, i) => `<span class="burn-smoke" style="--i:${i}"></span>`).join("")}
+  `;
+
+  const readHandoff = () => {
+    try {
+      const flag = sessionStorage.getItem("bj-handoff") === "1";
+      sessionStorage.removeItem("bj-handoff");
+      return flag;
+    } catch (_) {
+      return false;
+    }
+  };
+
   function setupIntro() {
     const intro = $(".intro");
     if (!intro) return;
@@ -1009,14 +1030,41 @@
       intro.remove();
       return;
     }
-    window.setTimeout(() => {
-      intro.classList.add("done");
-      document.body.classList.add("loaded");
-    }, 1720);
+
+    const titleHTML = $(".intro-title", intro)?.innerHTML || "The Build Journal";
+    const handoff = readHandoff();
+
+    intro.innerHTML = `
+      <div class="intro-carrier">
+        <div class="intro-sheet">
+          <div class="intro-sheet-face">
+            <div class="intro-masthead">The Build Journal</div>
+            <div class="intro-bar"></div>
+            <div class="intro-title">${titleHTML}</div>
+            <div class="intro-line"></div>
+            <div class="intro-folio">
+              <span>Vol. 1</span>
+              <span>Fresh off the press</span>
+              <span>abhnv.in</span>
+            </div>
+            <div class="intro-stamp">Cleared<br>for print</div>
+          </div>
+        </div>
+        <div class="burn-flames burn-flames--intro" aria-hidden="true"></div>
+        <div class="intro-burn-edge">${BURN_EDGE_HTML}</div>
+      </div>
+    `;
+    intro.classList.add("intro--armed", handoff ? "intro--handoff" : "intro--fresh");
+
+    // Timings mirror the Pass 50 CSS keyframes: burn starts at `reveal`,
+    // the carrier is fully off-screen by `done`.
+    const reveal = handoff ? 300 : 900;
+    const done = handoff ? 1420 : 2260;
+    window.setTimeout(() => document.body.classList.add("loaded"), reveal);
     window.setTimeout(() => {
       document.body.classList.add("intro-complete");
       intro.remove();
-    }, 2650);
+    }, done);
   }
 
   function setupNavTransitions() {
@@ -1394,6 +1442,7 @@
           card.rel = "noopener";
         }
         card.innerHTML = `
+          <span class="cert-fold" aria-hidden="true"></span>
           <span class="cert-issuer">${esc(cert.issuer || "")}${cert.year ? ` &middot; ${esc(cert.year)}` : ""}</span>
           <h3 class="cert-title">${esc(cert.title || "Untitled credential")}</h3>
           <div class="cert-foot">
@@ -1442,14 +1491,22 @@
 
   function setupCardTilt() {
     if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
-    const cards = $$(".home-work .project-rail--stack .project-card");
+    const cards = $$(".home-work .project-card, .work-detail-card");
     cards.forEach((card) => {
+      if (!$(".card-glare", card)) {
+        const glare = document.createElement("span");
+        glare.className = "card-glare";
+        glare.setAttribute("aria-hidden", "true");
+        card.appendChild(glare);
+      }
       card.addEventListener("pointermove", (e) => {
         const rect = card.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
         card.style.setProperty("--tilt-x", `${x * 8}deg`);
         card.style.setProperty("--tilt-y", `${y * -6}deg`);
+        card.style.setProperty("--glare-x", `${(x + 0.5) * 100}%`);
+        card.style.setProperty("--glare-y", `${(y + 0.5) * 100}%`);
       });
       card.addEventListener("pointerleave", () => {
         card.style.setProperty("--tilt-x", "0deg");
@@ -1499,23 +1556,49 @@
   }
 
   function setupPageTransitions() {
-    // Add page transition overlay element
-    const overlay = document.createElement("div");
-    overlay.className = "page-transition";
-    document.body.appendChild(overlay);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cover = document.createElement("div");
+    cover.className = "page-cover";
+    cover.setAttribute("aria-hidden", "true");
+    cover.innerHTML = `
+      <div class="page-cover-carrier">
+        <div class="page-cover-sheet"></div>
+        <div class="burn-flames burn-flames--cover" aria-hidden="true"></div>
+        <div class="page-cover-edge">${BURN_EDGE_HTML}</div>
+      </div>
+    `;
+    document.body.appendChild(cover);
 
-    // Intercept internal navigation links for smooth page transition
+    let leaving = false;
     const internalLinks = $$('a[href]:not([href^="http"]):not([href^="mailto:"]):not([href^="#"]):not([target="_blank"])');
     internalLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
+        // Leave new-tab and modified clicks to the browser.
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         const href = link.getAttribute("href");
         if (!href || href === "#") return;
         e.preventDefault();
-        overlay.classList.add("is-entering");
+        if (leaving) return;
+        leaving = true;
+        try { sessionStorage.setItem("bj-handoff", "1"); } catch (_) { /* noop */ }
+        if (reducedMotion) {
+          window.location.href = href;
+          return;
+        }
+        cover.classList.add("is-covering");
         window.setTimeout(() => {
           window.location.href = href;
-        }, 250);
+        }, 600);
       });
+    });
+
+    // Back/forward cache restores the page mid-transition — reset the stage.
+    window.addEventListener("pageshow", (event) => {
+      if (!event.persisted) return;
+      leaving = false;
+      cover.classList.remove("is-covering");
+      document.body.classList.add("loaded", "intro-complete");
+      $(".intro")?.remove();
     });
   }
 
