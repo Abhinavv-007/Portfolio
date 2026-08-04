@@ -50,9 +50,9 @@ export const PORTFOLIO = {
     }
   ],
   socials: [
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/abhnv07/" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/abhnv8/" },
     { label: "GitHub", url: "https://github.com/Abhinavv-007" },
-    { label: "Instagram", url: "https://www.instagram.com/abhinavv.007/" },
+    { label: "Instagram", url: "https://www.instagram.com/abhnv08/" },
     { label: "X", url: "https://x.com/Abhnv8" }
   ],
   projects: [

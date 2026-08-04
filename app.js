@@ -232,7 +232,7 @@
       ...(study.blueprint.modules || []).slice(0, 4),
       ...(study.stack || []).slice(0, 3)
     ].slice(0, 7);
-    const linkedInUrl = data.socials.find((item) => item.label === "LinkedIn")?.url || "https://www.linkedin.com/in/abhnv07/";
+    const linkedInUrl = data.socials.find((item) => item.label === "LinkedIn")?.url || "https://www.linkedin.com/in/abhnv8/";
     const githubUrl = data.socials.find((item) => item.label === "GitHub")?.url || "https://github.com/Abhinavv-007";
 
     target.innerHTML = `
