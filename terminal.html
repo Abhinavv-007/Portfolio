@@ -3,35 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A newspaper-style command desk for moving through Abhinav Raj's portfolio. Type a command, hit enter, jump to the file you need.">
-  <link rel="canonical" href="https://abhnv.in/terminal.html">
-  <title>Command Desk — The Build Journal | Abhinav Raj</title>
-  <!-- Social preview -->
+  <title>Command Desk — Abhinav Raj</title>
+  <meta name="description" content="A keyboard-first way through abhnv.in. Type whoami, security, method, bugcrowd, builds or open clex and press Enter.">
+  <meta name="author" content="Abhinav Raj">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1a1916">
+  <link rel="canonical" href="https://abhnv.in/terminal">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Build Journal">
-  <meta property="og:title" content="The Command Desk - The Build Journal">
-  <meta property="og:description" content="A newspaper-style command desk for moving through Abhinav Raj's portfolio. Type a command, hit enter, jump to the file you need.">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Command Desk — Abhinav Raj">
+  <meta property="og:description" content="A keyboard-first way through the site. Type whoami, security, method or open clex.">
   <meta property="og:url" content="https://abhnv.in/terminal">
-  <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-05-04.jpg">
-  <meta property="og:image:secure_url" content="https://abhnv.in/assets/social-preview-2026-05-04.jpg">
-  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The Build Journal portfolio preview on a laptop.">
+  <meta property="og:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Command Desk - The Build Journal">
-  <meta name="twitter:description" content="A newspaper-style command desk for moving through Abhinav Raj's portfolio. Type a command, hit enter, jump to the file you need.">
-  <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-05-04.jpg">
-  <meta name="twitter:image:alt" content="The Build Journal portfolio preview on a laptop.">
-  <!-- /Social preview -->
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <meta name="twitter:site" content="@Abhnv8">
+  <meta name="twitter:title" content="Command Desk — Abhinav Raj">
+  <meta name="twitter:description" content="A keyboard-first way through the site. Type whoami, security, method or open clex.">
+  <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
+  <meta name="twitter:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=pass-56">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=57">
 </head>
 <body data-page="terminal">
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
 
   <div class="intro" aria-hidden="true">
@@ -42,90 +44,70 @@
     </div>
   </div>
 
-  <div class="menu-curtain" id="menuCurtain" aria-hidden="true">
+  <div class="menu-curtain" id="menuCurtain" aria-hidden="true" inert>
     <div class="menu-burn" aria-hidden="true">
       <div class="menu-burn-paper"></div>
       <div class="menu-burn-grain"></div>
       <div class="menu-burn-ember"></div>
-      <div class="menu-burn-edge menu-burn-edge--top"></div>
-      <div class="menu-burn-edge menu-burn-edge--bottom"></div>
     </div>
-    <button class="menu-close" type="button" data-menu-close aria-label="Close navigation">
-      <span></span>
-      <span></span>
-    </button>
-    <nav class="menu-panel" aria-label="Full screen navigation">
-      <a class="hover-cut" href="index.html" data-menu-close><span>Profile</span></a>
-      <a class="hover-cut" href="work.html" data-menu-close><span>Builds</span></a>
-      <a class="hover-cut" href="credentials.html" data-menu-close><span>Credentials</span></a>
-      <a class="hover-cut" href="api.html" data-menu-close><span>API</span></a>
-      <a class="hover-cut" href="contact.html" data-menu-close><span>Contact</span></a>
-      <div class="menu-socials" data-social-icons></div>
+    <button class="menu-close" type="button" data-menu-close aria-label="Close navigation"><span></span><span></span></button>
+    <nav class="menu-panel" aria-label="Site">
+      <a class="hover-cut" href="/" data-menu-close><span>Profile</span></a>
+      <a class="hover-cut" href="/security" data-menu-close><span>Security</span></a>
+      <a class="hover-cut" href="/work" data-menu-close><span>Builds</span></a>
+      <a class="hover-cut" href="/credentials" data-menu-close><span>Credentials</span></a>
+      <a class="hover-cut" href="/api" data-menu-close><span>API</span></a>
+      <a class="hover-cut" href="/contact" data-menu-close><span>Contact</span></a>
+      <div class="menu-socials" data-social-icons data-with-bugcrowd></div>
     </nav>
   </div>
 
-  <button class="menu-button" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <button class="menu-button" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
 
-  <main class="site-shell">
-    <header class="topline" aria-label="Current time and socials">
+  <main class="site-shell" id="main">
+    <header class="topline" aria-label="Date and command desk">
       <div id="clock">IST</div>
     </header>
 
-    <nav class="masthead" aria-label="Primary navigation">
-      <a class="brand-logo" href="index.html" aria-label="Home">
-        <img src="assets/logo-transparent.png" alt="">
-      </a>
-      <a class="journal-name" href="index.html">The Build Journal</a>
-      <a class="masthead-contact hover-cut" href="contact.html"><span>Start a<br>conversation</span></a>
+    <nav class="masthead" aria-label="Masthead">
+      <a class="brand-logo" href="/" aria-label="Abhinav Raj, home"><img src="/assets/logo-transparent.png" alt=""></a>
+      <a class="journal-name" href="/">The Build Journal</a>
+      <a class="masthead-contact hover-cut" href="/contact"><span>Write to<br>Abhinav</span></a>
     </nav>
 
     <div class="folio-strip" aria-hidden="true">
-      <span class="folio-section">Command Desk</span>
-      <span class="volume-mark">Vol. 1 &middot; Live Index</span>
-      <span class="folio-page">Hit Enter</span>
+      <span class="folio-section">Command desk</span>
+      <span class="volume-mark">Also on every page: press /</span>
+      <span class="folio-page">Enter runs</span>
     </div>
 
     <section class="page-headline page-headline--terminal" aria-labelledby="terminalPageTitle">
       <div class="page-headline-meta">
-        <span class="kicker">Live index &middot; no menu hunting</span>
+        <span class="kicker">Keyboard-first &middot; No menu needed</span>
         <span class="page-headline-rule" aria-hidden="true"></span>
       </div>
-      <h1 id="terminalPageTitle" class="page-headline-title">The Command Desk</h1>
+      <h1 id="terminalPageTitle" class="page-headline-title">Command desk</h1>
       <div class="page-headline-deck">
-        <p>A command-line shortcut through the portfolio. Try <em>help</em>, <em>work</em>, <em>credentials</em>, or <em>email</em>.</p>
-        <a class="text-link hover-cut" href="contact.html"><span>Open contact</span></a>
+        <p>A quicker way through the site if you would rather type. <em>whoami</em> says who I am, <em>security</em> and <em>method</em> explain the research, <em>open clex</em> jumps to a case study. On every other page, the slash key opens the same desk.</p>
       </div>
     </section>
 
     <section class="terminal-section terminal-section--page" id="terminal" aria-labelledby="terminalTitle">
       <div class="terminal-copy reveal">
-        <div class="section-kicker">Command Desk</div>
-        <h2 id="terminalTitle">A live index<br>for the impatient</h2>
-        <p>Type a short command and the desk routes you to the right file. Basically a portfolio with better manners.</p>
-        <div class="terminal-command-list" aria-label="Suggested terminal commands">
-          <button type="button">help</button>
-          <button type="button">about</button>
-          <button type="button">work</button>
-          <button type="button">credentials</button>
-          <button type="button">skills</button>
-          <button type="button">socials</button>
-          <button type="button">email</button>
-          <button type="button">contact</button>
-        </div>
+        <div class="section-kicker">Commands</div>
+        <h2 id="terminalTitle">Type it,<br>press Enter</h2>
+        <p>Pages open by name. Everything about the research is one word away. Up and down arrows walk through what you typed.</p>
+        <div class="terminal-command-list" data-command-chips aria-label="Suggested commands"></div>
       </div>
       <div class="terminal-console reveal">
         <div class="terminal-topline">
-          <span>abhinav@digital-journal</span>
-          <span>live index</span>
+          <span>abhinav@desk</span>
+          <span>read-only &middot; nothing here talks to a server</span>
         </div>
         <div class="terminal-output" id="terminalOutput" aria-live="polite"></div>
         <form class="terminal-form" id="terminalForm" autocomplete="off">
-          <label for="terminalInput">abhinav@journal:~$</label>
-          <input id="terminalInput" name="command" type="text" spellcheck="false" autocomplete="off" placeholder="try help, work, email">
+          <label for="terminalInput">abhinav@desk:~$</label>
+          <input id="terminalInput" name="command" type="text" spellcheck="false" autocomplete="off" placeholder="help, whoami, security, open clex" autofocus>
           <button type="submit">Run</button>
         </form>
       </div>
@@ -133,11 +115,22 @@
 
     <footer class="footer">
       <div class="marquee" data-marquee></div>
-      <div class="footer-socials" data-social-icons aria-label="Social links"></div>
+      <div class="footer-socials" data-social-icons data-with-bugcrowd aria-label="Profiles elsewhere"></div>
+      <div class="footer-colophon">
+        <span>Abhinav Raj &middot; Security Researcher &amp; Product Builder &middot; India</span>
+        <nav aria-label="Footer">
+          <a href="/security">Security</a>
+          <a href="/work">Builds</a>
+          <a href="/credentials">Credentials</a>
+          <a href="/api">API</a>
+          <a href="/terminal">Command desk</a>
+          <a href="/.well-known/security.txt">security.txt</a>
+        </nav>
+      </div>
     </footer>
   </main>
 
-  <script src="data.js?v=pass-56"></script>
-  <script src="app.js?v=pass-56"></script>
+  <script src="/data.js?v=57"></script>
+  <script src="/app.js?v=57"></script>
 </body>
 </html>

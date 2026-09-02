@@ -1,142 +1,82 @@
 window.CASE_STUDY_EXTRAS = {
   "clex": {
-    "vision": "CLEX started from a practical trust problem: people often need to send, compress, merge, or protect files without turning every step into a cloud upload. Modern browsers already support much of the required work through WebRTC, WebCodecs, WASM, IndexedDB, and Web Crypto, so the product explores how much of the workflow can stay local by default.",
+    "vision": "Clex started from a practical problem: people need to send, compress, merge or protect files without every step becoming a cloud upload. Browsers already have the pieces, so the product tests how much of that work can stay on the device by default.",
     "differentiators": [
-      "WeTransfer / Smash / Filemail: useful upload-and-link products, but centered on server storage rather than local-first transfer.",
-      "Snapdrop / PairDrop: strong lightweight WebRTC tools, but without the broader workspace, vault, chain, mobile parity, or fallback paths CLEX is testing.",
-      "AirDrop / Quick Share: excellent inside their ecosystems, but limited for cross-platform sharing."
+      "WeTransfer, Smash, Filemail: upload-and-link products built around server storage. Clex is built around not storing.",
+      "Snapdrop, PairDrop: good lightweight WebRTC tools. Clex adds preparation tools, a Vault, the Chain, mobile apps and fallback routes.",
+      "AirDrop, Quick Share: excellent inside one ecosystem and limited across them."
     ],
-    "longTerm": "The long-term direction is a neutral file-movement layer: prepare files locally, choose the most appropriate route, and keep a verifiable handoff record when proof matters.",
+    "longTerm": "A neutral file-movement layer: prepare locally, choose the right route, keep a verifiable record when proof matters.",
     "lessons": [
-      {
-        "category": "Product",
-        "body": "The route picker is a trust surface. Showing how a file moves can be more useful than making the transfer feel mysterious."
-      },
-      {
-        "category": "Engineering",
-        "body": "Back-pressure matters on long-running data channels. Real-device testing exposed limits that were not obvious in smaller local demos."
-      },
-      {
-        "category": "Design",
-        "body": "The strongest visual system separates marketing confidence from app focus. Landing pages can be expressive; task surfaces need restraint."
-      },
-      {
-        "category": "Product",
-        "body": "A privacy product benefits from proof layers. Architecture and verifiable behavior carry more weight than broad privacy claims."
-      }
+      { "category": "Product", "body": "The route picker is a trust surface. Showing how a file moves is more useful than making the transfer feel mysterious." },
+      { "category": "Engineering", "body": "Back-pressure matters on long data-channel sends. Real devices exposed limits that local demos never did." },
+      { "category": "Design", "body": "Marketing pages can be expressive. Task surfaces need restraint." },
+      { "category": "Security", "body": "A privacy claim is worth exactly as much as the architecture behind it. Hashes instead of files, keys on the device." }
     ],
-    "pullQuote": "A privacy-first browser workspace for web, Android, and iOS, combining peer-to-peer transfer, on-device tools, encrypted Vault flows, and a public Chain for transfer proof."
+    "pullQuote": "A file workspace for web, Android and iOS: peer-to-peer transfer, on-device tools, an encrypted Vault, and a public Chain that proves a transfer without holding the file."
   },
   "clex-ai": {
-    "vision": "CLEX AI addresses a common developer problem: model choice changes faster than application code should. The product keeps the familiar OpenAI-shaped request flow while routing to multiple providers behind one endpoint.",
+    "vision": "Model choice changes faster than application code should. Clex AI keeps the OpenAI-shaped request developers already write and routes it to whichever provider makes sense today.",
     "differentiators": [
-      "OpenRouter: the closest comparison. CLEX AI focuses on zero-retention routing, a practical free starting path through NVIDIA NIM, and a tighter playground for testing provider behavior.",
-      "Direct provider SDKs: direct integration is still useful, but a gateway reduces rewrite work when teams want to compare models or providers.",
-      "Hugging Face Inference Endpoints: a different category. HF hosts models; CLEX AI focuses on routing and request compatibility."
+      "OpenRouter: the closest comparison. Clex AI focuses on zero retention, a free starting path through NVIDIA NIM, and a tighter playground.",
+      "Direct provider SDKs: fine until you want to compare providers, at which point every call site changes.",
+      "Hosted inference endpoints: a different job. They host models; Clex AI routes requests."
     ],
-    "longTerm": "The next stage is a model-operations surface: latency, cost, reliability, prompt versions, and A/B testing visible enough to help developers choose the right model for each workload.",
+    "longTerm": "A model-operations surface: latency, cost, reliability, prompt versions and A/B tests visible enough to pick the right model per workload.",
     "lessons": [
-      {
-        "category": "Product",
-        "body": "Compatibility reduces adoption friction. Building around a familiar API shape lets developers test the gateway without rewriting the rest of their app."
-      },
-      {
-        "category": "Engineering",
-        "body": "Streaming proxies need to stay simple. Passing SSE through directly protects first-token latency and avoids unnecessary parsing risk."
-      },
-      {
-        "category": "Design",
-        "body": "Pricing transparency is part of the product experience. A visible calculator is more useful than vague enterprise-style copy."
-      },
-      {
-        "category": "Privacy",
-        "body": "A zero-retention posture has to be reflected in the system design. The gateway should avoid storing prompts and outputs by default."
-      }
+      { "category": "Product", "body": "Compatibility removes adoption friction. A familiar request shape lets people try the gateway without rewriting anything." },
+      { "category": "Engineering", "body": "Streaming proxies should stay simple. Passing chunks through untouched protects first-token latency and removes parsing risk." },
+      { "category": "Design", "body": "A visible pricing calculator beats vague enterprise copy." },
+      { "category": "Security", "body": "Keep human sessions and machine keys in separate systems. Most gateway compromises start where the two meet." }
     ],
-    "pullQuote": "An OpenAI-compatible AI gateway that routes requests across providers with streaming support, abort handling, usage visibility, and a zero-retention posture."
+    "pullQuote": "An OpenAI-compatible gateway that routes across providers with streaming, abort handling, per-key usage and no prompt retention."
   },
   "driped": {
-    "vision": "DRIPED is built around a simple observation: subscription receipts already live in the inbox. Reading those receipts can give users useful recurring-spend visibility without requiring bank access as the first step.",
+    "vision": "Subscription receipts already live in the inbox. Reading them gives useful recurring-spend visibility without bank access, which most tools demand as step one.",
     "differentiators": [
-      "Truebill / Rocket Money: strong products in supported markets, but bank-linking and regional coverage do not fit every user.",
-      "Bobby / Subby: useful for manual tracking, but manual entry breaks down when users forget what renews.",
-      "Card-data products: helpful for some payments, but they can miss UPI, app-store, wallet, or prepaid charges."
+      "Rocket Money and similar: strong in supported markets, but bank linking and regional coverage do not fit everyone.",
+      "Manual trackers: useful until you forget what renews, which is the problem.",
+      "Card-data products: miss UPI, app-store billing, wallets and prepaid charges."
     ],
-    "longTerm": "The roadmap moves from detection to action: category insight, forecasts, renewal reminders, merchant links, and correction loops that make future extraction better.",
+    "longTerm": "From detection to action: category insight, forecasts, reminders, merchant links, and a correction loop that improves the next extraction.",
     "lessons": [
-      {
-        "category": "Product",
-        "body": "The privacy boundary is about what content leaves the device, not only where a model runs. A lighter app with selective cloud fallback can be the more usable product."
-      },
-      {
-        "category": "Engineering",
-        "body": "Two-tier extraction works well for messy receipt data. Deterministic parsing handles the known cases, while an LLM can handle unusual templates when confidence is low."
-      },
-      {
-        "category": "Design",
-        "body": "Cross-platform parity depends on shared language as much as shared code: the same screen names, same gestures, and same correction model."
-      },
-      {
-        "category": "Market",
-        "body": "Non-US payment behavior deserves first-class design. UPI, app-store billing, wallets, and multi-currency receipts change the product requirements."
-      }
+      { "category": "Product", "body": "The privacy boundary is what content leaves the device, not where the model runs. A lighter app with selective cloud fallback was the better product." },
+      { "category": "Engineering", "body": "Two-tier extraction suits messy data. Deterministic parsing handles the known cases; a model handles unusual templates when confidence is low." },
+      { "category": "Design", "body": "Cross-platform parity is shared language as much as shared code: the same screen names, gestures and correction model." },
+      { "category": "Market", "body": "Non-US payment behaviour deserves first-class design. UPI, app-store billing, wallets and multi-currency receipts change the requirements." }
     ],
-    "pullQuote": "A subscription manager that reads receipt evidence first, uses AI fallback only when needed, and gives users bank-free visibility into recurring spend."
+    "pullQuote": "A subscription tracker that reads receipt evidence first, uses a model only when needed, and never asks for bank access."
   },
   "trgt": {
-    "vision": "TRGT explores a richer F1 fan workflow: prediction, race context, live state, and post-session feedback in one focused product. The goal is to make race weekends more interactive without turning the experience into a spreadsheet.",
+    "vision": "A richer race weekend: prediction, context, live state and post-session feedback in one product, without turning the experience into a spreadsheet.",
     "differentiators": [
-      "Official F1 app: excellent for broadcast and official content, but not designed around fan prediction loops.",
-      "F1 Fantasy: strong game layer, but more spreadsheet-like than narrative-driven.",
-      "r/formula1 and social feeds: valuable conversation, but fragmented and hard to turn into a repeatable game."
+      "The official F1 app: built for broadcast and official content, not for prediction loops.",
+      "F1 Fantasy: a strong game layer, more spreadsheet than story.",
+      "Forums and social feeds: good conversation, hard to turn into a repeatable game."
     ],
-    "longTerm": "Future work includes driver strategy notes, tire-compound deltas, sprint-specific modes, historical accuracy badges, friend leagues, and deeper race-weekend explainability.",
+    "longTerm": "Driver strategy notes, tyre-compound deltas, sprint modes, historical accuracy badges, friend leagues and better race-weekend explanations.",
     "lessons": [
-      {
-        "category": "Product",
-        "body": "The lockout timer defines the game boundary. It has to be enforced server-side and communicated clearly."
-      },
-      {
-        "category": "Engineering",
-        "body": "Snapshot mode should be a normal reliability path, not only an error fallback. Race-weekend data can be volatile."
-      },
-      {
-        "category": "Design",
-        "body": "A strong sports identity needs restraint. A limited accent color and newspaper structure kept the interface from becoming noisy."
-      },
-      {
-        "category": "Audience",
-        "body": "The best target user is the engaged fan who wants context before and after a session, not only the final result."
-      }
+      { "category": "Product", "body": "The lockout timer is the game boundary. It has to be enforced on the server and shown clearly." },
+      { "category": "Engineering", "body": "Snapshot mode is a normal reliability path, not an error fallback. Race-weekend data is volatile by nature." },
+      { "category": "Design", "body": "A strong sports identity needs restraint. One accent colour and a newspaper grid kept it legible." },
+      { "category": "Audience", "body": "The best user is the engaged fan who wants context before and after a session, not only the result." }
     ],
-    "pullQuote": "A Formula 1 fan platform combining prediction lockouts, race intelligence, AI-generated context, badges, and leaderboard mechanics on a Cloudflare-edge stack."
+    "pullQuote": "A Formula 1 platform with server-enforced prediction lockouts, live session context, AI notes, badges and leaderboards on Cloudflare."
   },
   "modih-mail": {
-    "vision": "MODIH Mail takes a familiar utility, disposable email, and gives it a cleaner product surface: fast inbox creation, OTP extraction, expiry controls, and API access on a Cloudflare-native backend.",
+    "vision": "Disposable email with a proper product surface: instant inboxes, OTP extraction, expiry controls and an API, on a Cloudflare-native backend.",
     "differentiators": [
-      "TempMail / Mailinator / 10MinuteMail: useful and familiar, but often ad-heavy and limited for developer use.",
-      "SimpleLogin / AnonAddy: strong alias products, but different from disposable inbox workflows.",
-      "ProtonMail / Hey: primary mail products, not temporary inbox utilities."
+      "TempMail, Mailinator, 10MinuteMail: familiar, often ad-heavy, limited for developer use.",
+      "SimpleLogin, AnonAddy: strong alias products for a different workflow.",
+      "Proton Mail, Hey: primary mail, not temporary inboxes."
     ],
-    "longTerm": "The product can grow through reply-from support, aliases, custom domains, team accounts, QA workflows, and better API analytics for developers.",
+    "longTerm": "Reply support, aliases, custom domains, team accounts, QA workflows and better API analytics.",
     "lessons": [
-      {
-        "category": "Product",
-        "body": "OTP extraction is central to the disposable-email use case. It should be visible and fast, not hidden inside a generic message view."
-      },
-      {
-        "category": "Engineering",
-        "body": "Cloudflare's mail stack fits this category well: Email Routing, Workers, D1, KV, Pages, and Functions can share one deployment model."
-      },
-      {
-        "category": "Design",
-        "body": "A lightweight frontend can be a product advantage when first paint and perceived speed matter."
-      },
-      {
-        "category": "Positioning",
-        "body": "Commodity utilities can still feel considered. The product should make the temporary workflow feel safe, clear, and controlled."
-      }
+      { "category": "Product", "body": "OTP extraction is the core use case. It should be visible and fast, not buried in a message view." },
+      { "category": "Engineering", "body": "Cloudflare's mail stack fits the job: Email Routing, Workers, D1, KV and Pages share one deployment model." },
+      { "category": "Design", "body": "A light frontend is a product advantage when first paint is what people notice." },
+      { "category": "Security", "body": "Every message is untrusted HTML from a stranger. Sanitising before render is the product, not a hardening task." }
     ],
-    "pullQuote": "A Cloudflare-native disposable email product with OTP extraction, owner-token controls, API access, automatic cleanup, and a cleaner interface for temporary inboxes."
+    "pullQuote": "A Cloudflare-native disposable email service with OTP extraction, owner tokens, an API, automatic cleanup and an interface that feels controlled."
   }
 };

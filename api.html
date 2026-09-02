@@ -3,195 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Build Journal API — a public, read-only REST API exposing Abhinav Raj's portfolio data, used by lnch.in and other Abhinav projects.">
-  <meta name="keywords" content="abhnv.in API, portfolio API, build journal API, public REST API, Abhinav Raj API">
-  <link rel="canonical" href="https://abhnv.in/api.html">
-  <title>API — The Build Journal | Public Portfolio REST API</title>
-  <!-- Social preview -->
+  <title>API — abhnv.in</title>
+  <meta name="description" content="A read-only JSON API for everything published on abhnv.in: profile, security research areas and methodology, the five products, research papers, credentials, skills and links. CORS open, no keys, edge-cached.">
+  <meta name="author" content="Abhinav Raj">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1a1916">
+  <link rel="canonical" href="https://abhnv.in/api">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Build Journal">
-  <meta property="og:title" content="API - The Build Journal">
-  <meta property="og:description" content="The Build Journal API: a public, read-only API exposing Abhinav Raj's portfolio data, used by lnch.in and other Abhinav projects.">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="API — abhnv.in">
+  <meta property="og:description" content="Read-only JSON for everything on the site. CORS open, no keys, edge-cached.">
   <meta property="og:url" content="https://abhnv.in/api">
-  <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-05-04.jpg">
-  <meta property="og:image:secure_url" content="https://abhnv.in/assets/social-preview-2026-05-04.jpg">
-  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The Build Journal portfolio preview on a laptop.">
+  <meta property="og:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="API - The Build Journal">
-  <meta name="twitter:description" content="The Build Journal API: a public, read-only API exposing Abhinav Raj's portfolio data, used by lnch.in and other Abhinav projects.">
-  <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-05-04.jpg">
-  <meta name="twitter:image:alt" content="The Build Journal portfolio preview on a laptop.">
-  <!-- /Social preview -->
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <meta name="twitter:site" content="@Abhnv8">
+  <meta name="twitter:title" content="API — abhnv.in">
+  <meta name="twitter:description" content="Read-only JSON for everything on the site. CORS open, no keys, edge-cached.">
+  <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
+  <meta name="twitter:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=pass-56">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=57">
 </head>
 <body data-page="api">
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
 
   <div class="intro" aria-hidden="true">
     <div class="intro-paper">
       <div class="intro-bar"></div>
-      <div class="intro-title">Public API<br>Developer Access</div>
+      <div class="intro-title">API</div>
       <div class="intro-line"></div>
     </div>
   </div>
 
-  <div class="menu-curtain" id="menuCurtain" aria-hidden="true">
+  <div class="menu-curtain" id="menuCurtain" aria-hidden="true" inert>
     <div class="menu-burn" aria-hidden="true">
       <div class="menu-burn-paper"></div>
       <div class="menu-burn-grain"></div>
       <div class="menu-burn-ember"></div>
-      <div class="menu-burn-edge menu-burn-edge--top"></div>
-      <div class="menu-burn-edge menu-burn-edge--bottom"></div>
     </div>
-    <button class="menu-close" type="button" data-menu-close aria-label="Close navigation">
-      <span></span>
-      <span></span>
-    </button>
-    <nav class="menu-panel" aria-label="Full screen navigation">
-      <a class="hover-cut" href="index.html" data-menu-close><span>Profile</span></a>
-      <a class="hover-cut" href="work.html" data-menu-close><span>Builds</span></a>
-      <a class="hover-cut" href="credentials.html" data-menu-close><span>Credentials</span></a>
-      <a class="hover-cut" href="api.html" data-menu-close><span>API</span></a>
-      <a class="hover-cut" href="contact.html" data-menu-close><span>Contact</span></a>
-      <div class="menu-socials" data-social-icons></div>
+    <button class="menu-close" type="button" data-menu-close aria-label="Close navigation"><span></span><span></span></button>
+    <nav class="menu-panel" aria-label="Site">
+      <a class="hover-cut" href="/" data-menu-close><span>Profile</span></a>
+      <a class="hover-cut" href="/security" data-menu-close><span>Security</span></a>
+      <a class="hover-cut" href="/work" data-menu-close><span>Builds</span></a>
+      <a class="hover-cut" href="/credentials" data-menu-close><span>Credentials</span></a>
+      <a class="hover-cut" href="/api" data-menu-close><span>API</span></a>
+      <a class="hover-cut" href="/contact" data-menu-close><span>Contact</span></a>
+      <div class="menu-socials" data-social-icons data-with-bugcrowd></div>
     </nav>
   </div>
 
-  <button class="menu-button" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <button class="menu-button" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
 
-  <main class="site-shell">
-    <header class="topline" aria-label="Current time and socials">
+  <main class="site-shell" id="main">
+    <header class="topline" aria-label="Date and command desk">
       <div id="clock">IST</div>
     </header>
 
-    <nav class="masthead" aria-label="Primary navigation">
-      <a class="brand-logo" href="index.html" aria-label="Home">
-        <img src="assets/logo-transparent.png" alt="">
-      </a>
-      <a class="journal-name" href="index.html">The Build Journal</a>
-      <a class="masthead-contact hover-cut" href="contact.html"><span>Start a<br>conversation</span></a>
+    <nav class="masthead" aria-label="Masthead">
+      <a class="brand-logo" href="/" aria-label="Abhinav Raj, home"><img src="/assets/logo-transparent.png" alt=""></a>
+      <a class="journal-name" href="/">The Build Journal</a>
+      <a class="masthead-contact hover-cut" href="/contact"><span>Write to<br>Abhinav</span></a>
     </nav>
 
     <div class="folio-strip" aria-hidden="true">
-      <span class="folio-section">Wire Desk</span>
-      <span class="volume-mark">Vol. 1 &middot; Public API</span>
+      <span class="folio-section">Wire desk</span>
+      <span class="volume-mark">Read-only &middot; CORS open &middot; No keys</span>
       <span class="folio-page">/api</span>
     </div>
 
     <section class="page-headline page-headline--api" aria-labelledby="apiPageTitle">
       <div class="page-headline-meta">
-        <span class="kicker">Public Read-Only API &middot; Powers lnch.in &middot; CORS-friendly</span>
+        <span class="kicker">Public JSON &middot; Cloudflare Pages Functions &middot; Version 2</span>
         <span class="page-headline-rule" aria-hidden="true"></span>
       </div>
-      <h1 id="apiPageTitle" class="page-headline-title">The Wire <span class="page-headline-aside">/api</span></h1>
+      <h1 id="apiPageTitle" class="page-headline-title">The wire <span class="page-headline-aside">/api</span></h1>
       <div class="page-headline-deck">
-        <p>One JSON surface for everything on this site &mdash; profile, projects, credentials, research, skills, socials, and notes &mdash; built on Cloudflare Pages Functions and consumed by <strong>lnch.in</strong> and other Abhinav projects that need a single source of portfolio truth.</p>
+        <p>Everything published on this site, as JSON: profile, security research areas and methodology, the five products, the research papers, credentials, skills and links. The pages and the API read the same data file, so they cannot disagree.</p>
         <div class="page-headline-actions">
-          <a class="text-link hover-cut" href="#api-quickstart"><span>Jump to quickstart</span></a>
-          <a class="text-link hover-cut" href="#api-endpoints"><span>Browse endpoints</span></a>
+          <a class="text-link hover-cut" href="#api-quickstart"><span>Try a request</span></a>
+          <a class="text-link hover-cut" href="#api-endpoints"><span>Endpoint index</span></a>
           <a class="text-link hover-cut" href="#api-snippets"><span>Copy a snippet</span></a>
         </div>
       </div>
     </section>
 
-    <section class="api-stats-row" aria-label="API surface at a glance">
-      <article class="api-stat">
-        <span class="api-stat-num" data-api-counter="endpoints">0</span>
-        <span class="api-stat-label">Endpoints</span>
-      </article>
-      <article class="api-stat">
-        <span class="api-stat-num" data-api-counter="commands">0</span>
-        <span class="api-stat-label">Commands</span>
-      </article>
-      <article class="api-stat">
-        <span class="api-stat-num" data-api-counter="projects">0</span>
-        <span class="api-stat-label">Projects</span>
-      </article>
-      <article class="api-stat">
-        <span class="api-stat-num" data-api-counter="certifications">0</span>
-        <span class="api-stat-label">Credentials</span>
-      </article>
-      <article class="api-stat">
-        <span class="api-stat-num" data-api-counter="research">0</span>
-        <span class="api-stat-label">Research</span>
-      </article>
-      <article class="api-stat">
-        <span class="api-stat-num" data-api-counter="version">v1</span>
-        <span class="api-stat-label">Version</span>
-      </article>
+    <section class="api-stats-row" aria-label="At a glance">
+      <article class="api-stat"><span class="api-stat-num" data-api-counter="endpoints">20</span><span class="api-stat-label">Endpoints</span></article>
+      <article class="api-stat"><span class="api-stat-num" data-api-counter="commands">19</span><span class="api-stat-label">Commands</span></article>
+      <article class="api-stat"><span class="api-stat-num" data-api-counter="projects">5</span><span class="api-stat-label">Products</span></article>
+      <article class="api-stat"><span class="api-stat-num" data-api-counter="research">3</span><span class="api-stat-label">Papers</span></article>
+      <article class="api-stat"><span class="api-stat-num" data-api-counter="certifications">27</span><span class="api-stat-label">Credentials</span></article>
+      <article class="api-stat"><span class="api-stat-num" data-api-counter="version">v2</span><span class="api-stat-label">Version</span></article>
     </section>
 
     <section class="api-quickstart" id="api-quickstart" aria-labelledby="apiQuickTitle">
       <div class="api-quickstart-copy reveal">
         <div class="section-kicker">Quickstart</div>
-        <h2 id="apiQuickTitle">Hit a route.<br>Get JSON back.</h2>
-        <p>Every endpoint returns a stable envelope &mdash; <code class="api-inline">ok</code>, <code class="api-inline">data</code>, <code class="api-inline">meta</code> with version and timestamps &mdash; over CORS-friendly Cloudflare Pages Functions. Tap a command below to fire it at the live console on the right.</p>
+        <h2 id="apiQuickTitle">Request a route.<br>Read the JSON.</h2>
+        <p>Every response uses the same envelope: <code class="api-inline">ok</code>, <code class="api-inline">data</code> and <code class="api-inline">meta</code> with the version and a timestamp. Pick a command to run it against the live API in the console.</p>
         <div class="api-pill-groups">
           <div class="api-pill-group">
-            <span class="api-pill-group-label">Profile</span>
-            <div class="api-pills" role="list" aria-label="Profile commands">
+            <span class="api-pill-group-label">Me</span>
+            <div class="api-pills" aria-label="Profile commands">
               <button type="button" class="api-pill" data-api-cmd="summary">summary</button>
               <button type="button" class="api-pill" data-api-cmd="profile">profile</button>
-              <button type="button" class="api-pill" data-api-cmd="skills">skills</button>
-              <button type="button" class="api-pill" data-api-cmd="socials">socials</button>
+              <button type="button" class="api-pill" data-api-cmd="security">security</button>
+              <button type="button" class="api-pill" data-api-cmd="timeline">timeline</button>
               <button type="button" class="api-pill" data-api-cmd="notes">notes</button>
+              <button type="button" class="api-pill" data-api-cmd="skills">skills</button>
             </div>
           </div>
           <div class="api-pill-group">
-            <span class="api-pill-group-label">Catalog</span>
-            <div class="api-pills" role="list" aria-label="Catalog commands">
+            <span class="api-pill-group-label">Work</span>
+            <div class="api-pills" aria-label="Catalogue commands">
               <button type="button" class="api-pill" data-api-cmd="projects">projects</button>
-              <button type="button" class="api-pill" data-api-cmd="certifications">credentials</button>
               <button type="button" class="api-pill" data-api-cmd="research">research</button>
+              <button type="button" class="api-pill" data-api-cmd="certifications">certifications</button>
               <button type="button" class="api-pill" data-api-cmd="links">links</button>
               <button type="button" class="api-pill" data-api-cmd="tags">tags</button>
               <button type="button" class="api-pill" data-api-cmd="assets">assets</button>
             </div>
           </div>
           <div class="api-pill-group">
-            <span class="api-pill-group-label">Discovery</span>
-            <div class="api-pills" role="list" aria-label="Discovery commands">
+            <span class="api-pill-group-label">Meta</span>
+            <div class="api-pills" aria-label="Service commands">
               <button type="button" class="api-pill" data-api-cmd="search">search</button>
               <button type="button" class="api-pill" data-api-cmd="endpoints">endpoints</button>
-              <button type="button" class="api-pill" data-api-cmd="version">version</button>
               <button type="button" class="api-pill" data-api-cmd="stats">stats</button>
-              <button type="button" class="api-pill" data-api-cmd="help">help</button>
-            </div>
-          </div>
-          <div class="api-pill-group">
-            <span class="api-pill-group-label">Service</span>
-            <div class="api-pills" role="list" aria-label="Service commands">
               <button type="button" class="api-pill" data-api-cmd="health">health</button>
-              <button type="button" class="api-pill" data-api-cmd="cloudflare">cloudflare</button>
-              <button type="button" class="api-pill" data-api-cmd="marquee">marquee</button>
+              <button type="button" class="api-pill" data-api-cmd="help">help</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="api-console reveal" aria-label="Live API response preview">
+      <div class="api-console reveal" aria-label="Live response">
         <div class="api-console-topline">
           <span class="api-console-label" id="apiConsoleLabel">GET /api</span>
           <div class="api-console-tools">
-            <button type="button" class="api-console-tool" data-api-open aria-label="Open in new tab">Open ↗</button>
-            <button type="button" class="api-console-tool" data-api-copy aria-label="Copy response JSON">Copy</button>
-            <button type="button" class="api-console-tool" data-api-rerun aria-label="Re-run request">Run</button>
+            <button type="button" class="api-console-tool" data-api-open>Open raw</button>
+            <button type="button" class="api-console-tool" data-api-copy>Copy JSON</button>
+            <button type="button" class="api-console-tool" data-api-rerun>Run again</button>
           </div>
         </div>
         <div class="api-console-body">
-          <pre class="api-pre" id="apiOutput" aria-live="polite"><code>Loading /api ...</code></pre>
+          <pre class="api-pre" id="apiOutput" aria-live="polite"><code>Requesting /api …</code></pre>
         </div>
         <div class="api-console-foot">
           <span class="api-console-status" id="apiStatus">idle</span>
@@ -202,110 +168,82 @@
 
     <section class="api-endpoints" id="api-endpoints" aria-labelledby="apiEndpointsTitle">
       <div class="api-endpoints-head">
-        <div class="section-kicker">Endpoint Index</div>
-        <h2 id="apiEndpointsTitle">Every route on the wire</h2>
-        <p>Tap a card to load its live response in the console above. Each section groups related routes &mdash; all <code class="api-inline">GET</code>, all CORS-open, all edge-cached.</p>
+        <div class="section-kicker">Endpoint index</div>
+        <h2 id="apiEndpointsTitle">Every route</h2>
+        <p>All <code class="api-inline">GET</code> except the contact form, all CORS-open, all cached at the edge for five minutes. Run any of them in the console above.</p>
       </div>
-      <div class="api-deck-groups" id="apiDeck" aria-live="polite"></div>
+      <div class="api-deck-groups" id="apiDeck"></div>
     </section>
 
     <section class="api-snippets" id="api-snippets" aria-labelledby="apiSnippetsTitle">
       <div class="api-snippets-head">
-        <div class="section-kicker">Use it from anywhere</div>
-        <h2 id="apiSnippetsTitle">curl &middot; fetch &middot; python &middot; node</h2>
-        <p>Drop these straight into <strong>lnch.in</strong>, an automation, a status page, or a homepage card. CORS is open and the JSON envelope is stable.</p>
+        <div class="section-kicker">Use it</div>
+        <h2 id="apiSnippetsTitle">curl &middot; fetch &middot; python &middot; command</h2>
+        <p>No keys, no sign-up. The envelope is stable across versions and the data is the same the pages render.</p>
       </div>
-
       <div class="api-snippet-grid">
         <article class="api-snippet">
           <header>
             <span class="api-snippet-label">curl</span>
-            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-curl">Copy</button>
+            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-curl" aria-label="Copy the curl snippet">Copy</button>
           </header>
           <pre class="api-pre"><code id="snippet-curl">curl -s https://abhnv.in/api/summary | jq
+curl -s https://abhnv.in/api/security | jq '.data.method'
 curl -s https://abhnv.in/api/projects/clex-ai | jq
-curl -s "https://abhnv.in/api/search?q=cloudflare" | jq
-curl -s https://abhnv.in/api/health | jq</code></pre>
+curl -s "https://abhnv.in/api/search?q=authorization" | jq</code></pre>
         </article>
-
         <article class="api-snippet">
           <header>
             <span class="api-snippet-label">fetch (browser)</span>
-            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-fetch">Copy</button>
+            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-fetch" aria-label="Copy the fetch snippet">Copy</button>
           </header>
-          <pre class="api-pre"><code id="snippet-fetch">const res = await fetch("https://abhnv.in/api/links");
+          <pre class="api-pre"><code id="snippet-fetch">const res = await fetch("https://abhnv.in/api/projects");
 const { ok, data, meta } = await res.json();
-if (!ok) throw new Error("API returned an error");
-console.log(`Got ${data.all.length} public links, version ${meta.version}`);</code></pre>
+if (!ok) throw new Error("API error");
+console.log(data.map((p) =&gt; `${p.title} — ${p.liveUrl}`), meta.version);</code></pre>
         </article>
-
         <article class="api-snippet">
           <header>
             <span class="api-snippet-label">python (requests)</span>
-            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-python">Copy</button>
+            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-python" aria-label="Copy the python snippet">Copy</button>
           </header>
           <pre class="api-pre"><code id="snippet-python">import requests
 
 base = "https://abhnv.in/api"
-projects = requests.get(f"{base}/projects").json()["data"]
-for p in projects:
-    print(p["title"], "—", p.get("liveUrl") or p.get("repoUrl"))</code></pre>
+areas = requests.get(f"{base}/security").json()["data"]["areas"]
+for a in areas:
+    print(a["title"], "—", a["short"])</code></pre>
         </article>
-
         <article class="api-snippet">
           <header>
-            <span class="api-snippet-label">command (lnch.in style)</span>
-            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-cmd">Copy</button>
+            <span class="api-snippet-label">command surface</span>
+            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-cmd" aria-label="Copy the command snippet">Copy</button>
           </header>
-          <pre class="api-pre"><code id="snippet-cmd">// Single command surface — pick by name
-const cmd = "cloudflare"; // or summary, links, tags, search, assets, health
+          <pre class="api-pre"><code id="snippet-cmd">// One endpoint, pick the command by name
+const cmd = "security"; // summary, projects, research, links, search, help
 const url = `https://abhnv.in/api/command?cmd=${cmd}`;
-const { ok, data } = await fetch(url).then(r =&gt; r.json());</code></pre>
-        </article>
-
-        <article class="api-snippet">
-          <header>
-            <span class="api-snippet-label">node 18+ (no deps)</span>
-            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-node">Copy</button>
-          </header>
-          <pre class="api-pre"><code id="snippet-node">// Cloudflare Pages local smoke check
-// Run the site with: wrangler pages dev . --ip 127.0.0.1 --port 8788
-const res = await fetch("http://127.0.0.1:8788/api/cloudflare");
-const json = await res.json();
-console.log(JSON.stringify(json, null, 2));</code></pre>
-        </article>
-
-        <article class="api-snippet">
-          <header>
-            <span class="api-snippet-label">github actions</span>
-            <button type="button" class="api-copy-btn" data-api-copy-target="snippet-gha">Copy</button>
-          </header>
-          <pre class="api-pre"><code id="snippet-gha"># .github/workflows/sync-portfolio.yml
-- name: Pull portfolio
-  run: |
-    curl -fsSL https://abhnv.in/api/summary &gt; portfolio.json
-    jq '.data.featured' portfolio.json</code></pre>
+const { ok, data } = await fetch(url).then((r) =&gt; r.json());</code></pre>
         </article>
       </div>
     </section>
 
     <section class="api-shape" aria-labelledby="apiShapeTitle">
       <div class="api-shape-head">
-        <div class="section-kicker">Response Shape</div>
-        <h2 id="apiShapeTitle">A predictable envelope</h2>
+        <div class="section-kicker">Response shape</div>
+        <h2 id="apiShapeTitle">One envelope</h2>
       </div>
       <div class="api-shape-grid">
         <article class="api-shape-card">
           <h3>Success</h3>
           <pre class="api-pre"><code>{
   "ok": true,
-  "data": &lt;payload&gt;,
+  "data": …,
   "meta": {
-    "version": "1.0.0",
-    "build": "2026-05-07",
-    "generatedAt": "2026-05-07T10:21:08.000Z",
+    "version": "2.0.0",
+    "build": "2026-09-02",
+    "generatedAt": "2026-09-02T10:21:08.000Z",
     "source": "abhnv.in/api",
-    "docs": "https://abhnv.in/api.html",
+    "docs": "https://abhnv.in/api",
     "cmd": "profile"
   }
 }</code></pre>
@@ -315,12 +253,12 @@ console.log(JSON.stringify(json, null, 2));</code></pre>
           <pre class="api-pre"><code>{
   "ok": false,
   "error": "Unknown command \"foo\".",
-  "hint": "Available: profile, skills, projects, ...",
+  "hint": "Available: profile, skills, projects, …",
   "meta": {
-    "version": "1.0.0",
-    "generatedAt": "2026-05-07T10:21:08.000Z",
+    "version": "2.0.0",
+    "generatedAt": "2026-09-02T10:21:08.000Z",
     "cmd": "foo",
-    "commands": ["profile", "skills", "..."]
+    "commands": ["profile", "skills", "…"]
   }
 }</code></pre>
         </article>
@@ -329,42 +267,53 @@ console.log(JSON.stringify(json, null, 2));</code></pre>
 
     <section class="api-why" aria-labelledby="apiWhyTitle">
       <div class="api-why-head">
-        <div class="section-kicker">Why this exists</div>
-        <h2 id="apiWhyTitle">One source of truth<br>for every Abhinav project</h2>
+        <div class="section-kicker">Why it exists</div>
+        <h2 id="apiWhyTitle">One data file, two readers</h2>
       </div>
       <div class="api-why-grid">
         <article>
-          <span>01</span>
-          <h3>lnch.in friendly</h3>
-          <p>Project launchers, link pages, and personal dashboards can render the same projects, links, and credentials without copy-pasting JSON.</p>
+          <span aria-hidden="true">01</span>
+          <h3>Single source</h3>
+          <p>The pages and the API import the same file. A change to a product, a credential or a research area is live in both at once.</p>
         </article>
         <article>
-          <span>02</span>
-          <h3>One data file</h3>
-          <p>The site, the API, and external consumers all read from the same portfolio data shape. Update once, ship everywhere.</p>
+          <span aria-hidden="true">02</span>
+          <h3>Read-only</h3>
+          <p>Every route is <code class="api-inline">GET</code>. The only write is the contact form, and it accepts nothing but a message.</p>
         </article>
         <article>
-          <span>03</span>
+          <span aria-hidden="true">03</span>
           <h3>Edge-cached</h3>
-          <p>Pages Functions cache JSON at the edge with <code class="api-inline">stale-while-revalidate</code>, so external embeds stay fast and resilient.</p>
+          <p>Responses are cached for five minutes with <code class="api-inline">stale-while-revalidate</code>, so embeds stay fast and a burst of traffic never reaches a function.</p>
         </article>
         <article>
-          <span>04</span>
-          <h3>Open by default</h3>
-          <p>CORS open. Read-only. Zero auth needed for public data. Future writes (forms, webhooks) will live behind their own auth.</p>
+          <span aria-hidden="true">04</span>
+          <h3>What is not here</h3>
+          <p>No deployment metadata, no request geography, no reports, no private programs. The API publishes what the site publishes and nothing more.</p>
         </article>
       </div>
-      <p class="api-why-foot">By <strong>Abhinav Raj</strong> &middot; Built on Cloudflare Pages Functions &middot; <a class="text-link hover-cut" href="contact.html"><span>Need a custom field?</span></a></p>
+      <p class="api-why-foot">Built by <strong>Abhinav Raj</strong> on Cloudflare Pages Functions &middot; <a class="text-link hover-cut" href="/contact"><span>Need a field that is missing?</span></a></p>
     </section>
 
     <footer class="footer">
       <div class="marquee" data-marquee></div>
-      <div class="footer-socials" data-social-icons aria-label="Social links"></div>
+      <div class="footer-socials" data-social-icons data-with-bugcrowd aria-label="Profiles elsewhere"></div>
+      <div class="footer-colophon">
+        <span>Abhinav Raj &middot; Security Researcher &amp; Product Builder &middot; India</span>
+        <nav aria-label="Footer">
+          <a href="/security">Security</a>
+          <a href="/work">Builds</a>
+          <a href="/credentials">Credentials</a>
+          <a href="/api">API</a>
+          <a href="/terminal">Command desk</a>
+          <a href="/.well-known/security.txt">security.txt</a>
+        </nav>
+      </div>
     </footer>
   </main>
 
-  <script src="data.js?v=pass-56"></script>
-  <script src="app.js?v=pass-56"></script>
-  <script src="api-page.js?v=pass-56"></script>
+  <script src="/data.js?v=57"></script>
+  <script src="/app.js?v=57"></script>
+  <script src="/api-page.js?v=57"></script>
 </body>
 </html>

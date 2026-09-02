@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Research — Abhinav Raj</title>
+  <meta name="description" content="How Abhinav Raj tests web applications and APIs: authorization, IDOR/BOLA, authentication, OAuth/OIDC, APIs, business logic, SSRF, XSS and source review. Controlled accounts, synthetic data, minimum-impact proof, state restoration, clear reproduction and actionable fixes. Bugcrowd global Top 50, June and July 2026.">
+  <meta name="author" content="Abhinav Raj">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1a1916">
+  <link rel="canonical" href="https://abhnv.in/security">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Build Journal">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="Security Research — Abhinav Raj">
+  <meta property="og:description" content="What I look for, how I test it safely, and what a report from me looks like. Bugcrowd global Top 50 in June and July 2026.">
+  <meta property="og:url" content="https://abhnv.in/security">
+  <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Abhnv8">
+  <meta name="twitter:title" content="Security Research — Abhinav Raj">
+  <meta name="twitter:description" content="What I look for, how I test it safely, and what a report from me looks like.">
+  <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
+  <meta name="twitter:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://abhnv.in/security",
+    "url": "https://abhnv.in/security",
+    "name": "Security Research — Abhinav Raj",
+    "description": "Research areas, testing methodology and report format of security researcher Abhinav Raj.",
+    "isPartOf": { "@id": "https://abhnv.in/#website" },
+    "about": { "@id": "https://abhnv.in/#person" },
+    "inLanguage": "en"
+  }
+  </script>
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=57">
+</head>
+<body data-page="security">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="intro" aria-hidden="true">
+    <div class="intro-paper">
+      <div class="intro-bar"></div>
+      <div class="intro-title">Security</div>
+      <div class="intro-line"></div>
+    </div>
+  </div>
+
+  <div class="menu-curtain" id="menuCurtain" aria-hidden="true" inert>
+    <div class="menu-burn" aria-hidden="true">
+      <div class="menu-burn-paper"></div>
+      <div class="menu-burn-grain"></div>
+      <div class="menu-burn-ember"></div>
+    </div>
+    <button class="menu-close" type="button" data-menu-close aria-label="Close navigation"><span></span><span></span></button>
+    <nav class="menu-panel" aria-label="Site">
+      <a class="hover-cut" href="/" data-menu-close><span>Profile</span></a>
+      <a class="hover-cut" href="/security" data-menu-close><span>Security</span></a>
+      <a class="hover-cut" href="/work" data-menu-close><span>Builds</span></a>
+      <a class="hover-cut" href="/credentials" data-menu-close><span>Credentials</span></a>
+      <a class="hover-cut" href="/api" data-menu-close><span>API</span></a>
+      <a class="hover-cut" href="/contact" data-menu-close><span>Contact</span></a>
+      <div class="menu-socials" data-social-icons data-with-bugcrowd></div>
+    </nav>
+  </div>
+
+  <button class="menu-button" type="button" id="menuButton" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+
+  <main class="site-shell" id="main">
+    <header class="topline" aria-label="Date and command desk">
+      <div id="clock">IST</div>
+    </header>
+
+    <nav class="masthead" aria-label="Masthead">
+      <a class="brand-logo" href="/" aria-label="Abhinav Raj, home"><img src="/assets/logo-transparent.png" alt=""></a>
+      <a class="journal-name" href="/">The Build Journal</a>
+      <a class="masthead-contact hover-cut" href="/contact"><span>Write to<br>Abhinav</span></a>
+    </nav>
+
+    <div class="folio-strip" aria-hidden="true">
+      <span class="folio-section">Security desk</span>
+      <span class="volume-mark">Research since March 2026</span>
+      <span class="folio-page">Methodology</span>
+    </div>
+
+    <section class="page-headline page-headline--security" aria-labelledby="securityTitle">
+      <div class="page-headline-meta">
+        <span class="kicker">Bugcrowd &middot; Web applications and APIs &middot; Since March 2026</span>
+        <span class="page-headline-rule" aria-hidden="true"></span>
+      </div>
+      <h1 id="securityTitle" class="page-headline-title">Security research</h1>
+      <div class="page-headline-deck">
+        <p>I test web applications and APIs on Bugcrowd programs. Most of my findings are about trust: a server that acts on an identifier without checking who owns it, a flow that can be reordered, a login that links identities too loosely.</p>
+        <p>Every test runs between accounts I created, with data I invented, and stops at the smallest request that proves the problem. Whatever I change, I put back.</p>
+        <div class="page-headline-actions">
+          <a class="text-link hover-cut" href="#areas"><span>What I look for</span></a>
+          <a class="text-link hover-cut" href="#lab"><span>Try the lab</span></a>
+          <a class="text-link hover-cut" href="#method"><span>How I test</span></a>
+          <a class="text-link hover-cut" href="#disclosure"><span>Report something to me</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bugcrowd-band reveal" aria-labelledby="bugcrowdTitle">
+      <a class="bugcrowd-seal" href="https://bugcrowd.com/h/abhnv8" target="_blank" rel="noopener" aria-label="Abhinav Raj on Bugcrowd, handle abhnv8 (opens in a new tab)">
+        <span class="bugcrowd-seal-ring" aria-hidden="true"></span>
+        <svg class="bugcrowd-seal-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M32 9c-5.2 0-9.4 3.6-10.4 8.4h20.8C41.4 12.6 37.2 9 32 9Z"/>
+          <path d="M16.8 21.3a2.6 2.6 0 0 0-3.4 3.9l4.6 3.2c-.7 2-1 4.1-1 6.3H10a2.6 2.6 0 1 0 0 5.2h7.3c.3 2.4.9 4.6 1.9 6.5l-5.4 3.7a2.6 2.6 0 1 0 3 4.3l5.2-3.6c2.3 2.6 5.4 4.3 9.4 4.8V26h-6.2l-8.4-4.7Z"/>
+          <path d="M47.2 21.3 38.8 26h-6.2v29.6c4-.5 7.1-2.2 9.4-4.8l5.2 3.6a2.6 2.6 0 1 0 3-4.3l-5.4-3.7c1-1.9 1.6-4.1 1.9-6.5H54a2.6 2.6 0 1 0 0-5.2h-7c0-2.2-.3-4.3-1-6.3l4.6-3.2a2.6 2.6 0 0 0-3.4-3.9Z"/>
+        </svg>
+        <span class="bugcrowd-seal-word">Bugcrowd</span>
+        <span class="bugcrowd-seal-handle">@abhnv8</span>
+      </a>
+      <div class="bugcrowd-copy">
+        <h2 id="bugcrowdTitle">Ranked among Bugcrowd's global Top&nbsp;50 researchers in June and July 2026.</h2>
+        <p>I have been researching on Bugcrowd programs since March 2026. The profile is the only public record I keep of the work; everything else stays with the programs that received it.</p>
+        <ul class="bugcrowd-ranks" aria-label="Rankings">
+          <li><strong>Top 50</strong><span>Global &middot; June 2026</span></li>
+          <li><strong>Top 50</strong><span>Global &middot; July 2026</span></li>
+          <li><strong>Mar 2026</strong><span>First program</span></li>
+        </ul>
+        <a class="text-link hover-cut" href="https://bugcrowd.com/h/abhnv8" target="_blank" rel="noopener"><span>Open the Bugcrowd profile</span></a>
+      </div>
+    </section>
+
+    <section class="sec-areas" id="areas" aria-labelledby="areasTitle">
+      <div class="sec-head">
+        <div class="section-kicker">Research areas</div>
+        <h2 id="areasTitle">What I look for</h2>
+        <p>Nine classes of problem, in roughly the order I check for them. Pick one to see what I look for, why it matters, and how I test it without touching anyone's real data.</p>
+      </div>
+      <div class="area-explorer">
+        <div class="area-tabs" role="tablist" aria-label="Research areas" aria-orientation="vertical" data-area-tabs></div>
+        <div class="area-panel" role="tabpanel" id="areaPanel" data-area-panel tabindex="0"></div>
+      </div>
+    </section>
+
+    <section class="sec-lab" id="lab" aria-labelledby="labTitle">
+      <div class="sec-head">
+        <div class="section-kicker">Interactive</div>
+        <h2 id="labTitle">Why one check matters</h2>
+        <p>A tiny invoice API with two invented accounts. Choose who is asking, which invoice they ask for, and whether the server bothers to compare the two. Nothing here leaves your browser.</p>
+      </div>
+      <div class="authlab" data-authlab>
+        <div class="authlab-controls">
+          <div class="lab-group">
+            <span class="lab-label">Who is asking</span>
+            <div class="lab-row" data-lab-who></div>
+          </div>
+          <div class="lab-group">
+            <span class="lab-label">Which record</span>
+            <div class="lab-row" data-lab-what></div>
+          </div>
+          <div class="lab-group">
+            <span class="lab-label">Server behaviour</span>
+            <button type="button" class="lab-switch" role="switch" aria-checked="true" data-lab-check>
+              <span class="lab-switch-track" aria-hidden="true"><span class="lab-switch-knob"></span></span>
+              <span class="lab-switch-label">Ownership check: on</span>
+            </button>
+          </div>
+          <button type="button" class="lab-run" data-lab-run>Send the request</button>
+          <p class="lab-count" data-lab-count aria-live="polite">All accounts and records here are invented.</p>
+        </div>
+        <div class="authlab-wire">
+          <div class="lab-pane">
+            <div class="lab-pane-head"><span>Request</span></div>
+            <pre class="lab-pre" data-lab-request></pre>
+          </div>
+          <div class="lab-pane lab-pane--response">
+            <div class="lab-pane-head"><span>Response</span><strong class="lab-code" data-lab-code>—</strong></div>
+            <pre class="lab-pre" data-lab-response aria-live="polite"></pre>
+            <p class="lab-verdict" data-lab-verdict aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="authlab-fix">
+          <span class="lab-label">The fix, in one line</span>
+          <pre class="lab-pre lab-pre--fix"><code>invoice = Invoice.find_by(id: params[:id], owner_id: current_user.id) || forbid!</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec-method" id="method" aria-labelledby="methodTitle">
+      <div class="sec-head">
+        <div class="section-kicker">Methodology</div>
+        <h2 id="methodTitle">How I test</h2>
+        <p>Eight rules I follow on every program. They exist so that a report from me is safe to receive, easy to reproduce, and quick to fix.</p>
+      </div>
+      <ol class="method-list" data-method aria-label="Testing methodology"></ol>
+    </section>
+
+    <section class="sec-report" id="report" aria-labelledby="reportTitle">
+      <div class="sec-head">
+        <div class="section-kicker">Report format</div>
+        <h2 id="reportTitle">What a report from me looks like</h2>
+        <p>The shape of a real report with the target removed. The example is an invented invoice endpoint, the same one as the lab above.</p>
+      </div>
+      <div class="report-sheet">
+        <div class="report-mast" aria-hidden="true">
+          <span>Report</span>
+          <span>Bugcrowd submission &middot; illustrative</span>
+          <span>Status: fixed</span>
+        </div>
+        <dl class="report-body" data-report aria-label="Example report"></dl>
+      </div>
+    </section>
+
+    <section class="sec-patterns" id="patterns" aria-labelledby="patternsTitle">
+      <div class="sec-head">
+        <div class="section-kicker">Report patterns</div>
+        <h2 id="patternsTitle">How each class gets written up</h2>
+        <p>Seven patterns, each in the three lines that matter: what was found, how it was proven with the least possible impact, and how it gets fixed. No program, host or payload is named anywhere on this site.</p>
+      </div>
+      <div class="pattern-grid" data-patterns></div>
+    </section>
+
+    <section class="sec-builds" id="builds" aria-labelledby="buildsTitle">
+      <div class="sec-head">
+        <div class="section-kicker">Back into the products</div>
+        <h2 id="buildsTitle">What the research changed in what I build</h2>
+        <p>Each product now carries a decision I would look for as a researcher. The case studies have a section for it.</p>
+      </div>
+      <div class="secbuild-grid" data-security-builds></div>
+    </section>
+
+    <section class="sec-disclosure" id="disclosure" aria-labelledby="disclosureTitle">
+      <div class="sec-disclosure-inner">
+        <div>
+          <div class="section-kicker">Disclosure</div>
+          <h2 id="disclosureTitle">Found something in one of mine?</h2>
+          <p>Clex, Clex AI, Driped, trgt, Modih Mail and this site are all mine, and I would rather hear about a problem from you than from anyone else. Email <a href="mailto:hello@abhnv.in">hello@abhnv.in</a> with steps to reproduce, and give me a few days to respond before anything is published.</p>
+          <p>What I ask in return is what I do myself: test against your own accounts, keep the proof minimal, do not access, change or keep anyone else's data, and do not run anything that degrades the service.</p>
+        </div>
+        <div class="sec-disclosure-links">
+          <a class="text-link hover-cut" href="/.well-known/security.txt"><span>security.txt</span></a>
+          <a class="text-link hover-cut" href="/contact"><span>Contact form</span></a>
+          <a class="text-link hover-cut" href="/work"><span>The products</span></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="marquee" data-marquee></div>
+      <div class="footer-socials" data-social-icons data-with-bugcrowd aria-label="Profiles elsewhere"></div>
+      <div class="footer-colophon">
+        <span>Abhinav Raj &middot; Security Researcher &amp; Product Builder &middot; India</span>
+        <nav aria-label="Footer">
+          <a href="/security">Security</a>
+          <a href="/work">Builds</a>
+          <a href="/credentials">Credentials</a>
+          <a href="/api">API</a>
+          <a href="/terminal">Command desk</a>
+          <a href="/.well-known/security.txt">security.txt</a>
+        </nav>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/data.js?v=57"></script>
+  <script src="/app.js?v=57"></script>
+</body>
+</html>

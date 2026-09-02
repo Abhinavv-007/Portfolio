@@ -1,0 +1,15 @@
+# Security contact for abhnv.in and the products it links to:
+# Clex (clex.in), Clex AI (ai.clex.in), Driped (driped.in), trgt (trgt.in), Modih Mail (modih.in).
+# Format: RFC 9116.
+
+Contact: mailto:hello@abhnv.in
+Contact: https://abhnv.in/contact
+Expires: 2027-09-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://abhnv.in/.well-known/security.txt
+Policy: https://abhnv.in/security#disclosure
+Acknowledgments: https://abhnv.in/security#disclosure
+
+# Please test only against accounts you own, keep proof minimal, do not
+# access or retain other people's data, and allow a few days for a reply
+# before publishing. Reports are answered by Abhinav Raj directly.

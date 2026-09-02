@@ -1,12 +1,10 @@
-import { ok, options, methodNotAllowed, PORTFOLIO } from "./_lib.js";
+import { ok, options, methodNotAllowed, publicProfile } from "./_lib.js";
 
 export const onRequestOptions = options;
 
 export function onRequestGet() {
-  return ok(PORTFOLIO.profile, {
-    cmd: "profile",
-    fields: Object.keys(PORTFOLIO.profile)
-  });
+  const profile = publicProfile();
+  return ok(profile, { cmd: "profile", fields: Object.keys(profile) });
 }
 
 export const onRequestPost = methodNotAllowed;

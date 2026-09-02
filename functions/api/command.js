@@ -8,6 +8,7 @@ import {
   ENDPOINTS,
   API_VERSION,
   API_BUILD,
+  publicProfile,
   projectsWithSlugs,
   researchWithSlugs,
   certificationsWithIds,
@@ -17,100 +18,76 @@ import {
   tagIndex,
   searchRecords,
   assetManifest,
-  cloudflareInfo
+  securityPublic
 } from "./_lib.js";
 
 export const onRequestOptions = options;
 
 export function onRequestGet({ request }) {
   const url = new URL(request.url);
+  const origin = url.origin;
   const cmd = (url.searchParams.get("cmd") || url.searchParams.get("command") || "").trim().toLowerCase();
 
   if (!cmd) {
-    return fail(400, "Missing `cmd` query parameter.",
-      `Try one of: ${COMMANDS.join(", ")}. Example: /api/command?cmd=profile.`,
+    return fail(400, "Missing cmd query parameter.",
+      `Try one of: ${COMMANDS.join(", ")}. Example: /api/command?cmd=security`,
       { commands: COMMANDS });
   }
 
   switch (cmd) {
     case "profile":
     case "me":
-    case "about":
-      return ok(PORTFOLIO.profile, { cmd });
+    case "whoami":
+      return ok(publicProfile(), { cmd });
 
     case "skills":
     case "stack":
-      return ok(PORTFOLIO.skills, {
-        cmd,
-        groups: PORTFOLIO.skills.length
-      });
+      return ok(PORTFOLIO.skills, { cmd, groups: PORTFOLIO.skills.length });
 
     case "projects":
     case "builds":
+    case "products":
     case "work":
-      return ok(projectsWithSlugs(), {
-        cmd,
-        count: PORTFOLIO.projects.length
-      });
+      return ok(projectsWithSlugs(), { cmd, count: PORTFOLIO.projects.length });
+
+    case "research":
+    case "papers":
+      return ok(researchWithSlugs(), { cmd, count: PORTFOLIO.researchPapers.length });
+
+    case "security":
+    case "bugcrowd":
+    case "method":
+      return ok(securityPublic(), { cmd });
 
     case "certifications":
     case "certs":
     case "credentials":
-      return ok(certificationsWithIds(), {
-        cmd,
-        count: PORTFOLIO.certifications.length
-      });
-
-    case "research":
-    case "papers":
-      return ok(researchWithSlugs(), {
-        cmd,
-        count: PORTFOLIO.researchPapers.length
-      });
+      return ok(certificationsWithIds(), { cmd, count: PORTFOLIO.certifications.length });
 
     case "socials":
     case "social":
-      return ok(PORTFOLIO.socials, {
-        cmd,
-        count: PORTFOLIO.socials.length
-      });
+      return ok(PORTFOLIO.socials, { cmd, count: PORTFOLIO.socials.length });
 
     case "notes":
-    case "scratch":
-      return ok(PORTFOLIO.notes, {
-        cmd,
-        count: PORTFOLIO.notes.length
-      });
+    case "focus":
+      return ok(PORTFOLIO.notes, { cmd, count: PORTFOLIO.notes.length });
 
-    case "marquee":
-      return ok(PORTFOLIO.marquee, { cmd });
-
-    case "version":
-      return ok({
-        version: API_VERSION,
-        build: API_BUILD,
-        commands: COMMANDS
-      }, { cmd });
-
-    case "endpoints":
-    case "routes":
-      return ok(ENDPOINTS, { cmd, count: ENDPOINTS.length });
-
-    case "stats":
-      return ok(counts(), { cmd });
+    case "timeline":
+      return ok(PORTFOLIO.timeline, { cmd, count: PORTFOLIO.timeline.length });
 
     case "summary":
-      return ok(summary(new URL(request.url).origin), { cmd });
+      return ok(summary(origin), { cmd });
 
     case "links":
-    case "urls":
-      return ok(publicLinks(new URL(request.url).origin), {
-        cmd,
-        count: publicLinks(new URL(request.url).origin).all.length
-      });
+    case "urls": {
+      const links = publicLinks(origin);
+      return ok(links, { cmd, count: links.all.length });
+    }
 
-    case "tags":
-      return ok(tagIndex(), { cmd, count: tagIndex().all.length });
+    case "tags": {
+      const tags = tagIndex();
+      return ok(tags, { cmd, count: tags.all.length });
+    }
 
     case "search": {
       const q = url.searchParams.get("q") || url.searchParams.get("query") || "";
@@ -119,25 +96,24 @@ export function onRequestGet({ request }) {
       return ok(results, { cmd, q, type: type || null, count: results.length });
     }
 
-    case "assets":
-      return ok(assetManifest(new URL(request.url).origin), {
-        cmd,
-        count: assetManifest(new URL(request.url).origin).all.length
-      });
+    case "assets": {
+      const assets = assetManifest(origin);
+      return ok(assets, { cmd, count: assets.all.length });
+    }
+
+    case "version":
+      return ok({ version: API_VERSION, build: API_BUILD, commands: COMMANDS }, { cmd });
+
+    case "endpoints":
+    case "routes":
+      return ok(ENDPOINTS, { cmd, count: ENDPOINTS.length });
+
+    case "stats":
+      return ok(counts(), { cmd });
 
     case "health":
     case "status":
-      return ok({
-        status: "ok",
-        version: API_VERSION,
-        build: API_BUILD,
-        counts: counts()
-      }, { cmd });
-
-    case "cloudflare":
-    case "cf":
-    case "deploy":
-      return ok(cloudflareInfo(request), { cmd });
+      return ok({ status: "ok", version: API_VERSION, build: API_BUILD, counts: counts() }, { cmd });
 
     case "help":
     case "?":
@@ -148,21 +124,16 @@ export function onRequestGet({ request }) {
         endpoints: ENDPOINTS,
         examples: [
           "/api/command?cmd=summary",
-          "/api/command?cmd=profile",
-          "/api/command?cmd=links",
-          "/api/command?cmd=search&q=ai",
-          "/api/command?cmd=cloudflare",
+          "/api/command?cmd=security",
           "/api/command?cmd=projects",
+          "/api/command?cmd=search&q=oauth",
           "/api/command?cmd=certifications",
-          "/api/command?cmd=research",
-          "/api/command?cmd=skills"
+          "/api/command?cmd=links"
         ]
       }, { cmd });
 
     default:
-      return fail(404, `Unknown command "${cmd}".`,
-        `Available: ${COMMANDS.join(", ")}.`,
-        { cmd, commands: COMMANDS });
+      return fail(404, `Unknown command "${cmd}".`, `Available: ${COMMANDS.join(", ")}.`, { cmd, commands: COMMANDS });
   }
 }
 

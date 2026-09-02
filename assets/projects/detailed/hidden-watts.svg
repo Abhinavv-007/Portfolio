@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-label="The Hidden Watts of Attention poster">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 0.12"/></feComponentTransfer>
+    </filter>
+    <linearGradient id="glow" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f2c15c" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#a4382d" stop-opacity="0.15"/>
+    </linearGradient>
+    <style>
+      .paper{fill:#e7dcc8}
+      .ink{fill:#1c1b18}
+      .red{fill:#a4382d}
+      .mono{font-family:"Courier New",Courier,monospace;letter-spacing:2px}
+      .serif{font-family:Georgia,"Times New Roman",serif}
+      .rule{stroke:#1c1b18;stroke-width:2.5}
+      .hair{stroke:#1c1b18;stroke-width:1;opacity:.45}
+    </style>
+  </defs>
+  <rect width="1254" height="1254" class="paper"/>
+  <rect x="34" y="34" width="1186" height="1186" fill="none" stroke="#1c1b18" stroke-width="4"/>
+  <rect x="48" y="48" width="1158" height="1158" fill="none" stroke="#1c1b18" stroke-width="1" opacity=".5"/>
+
+  <text x="78" y="102" class="mono ink" font-size="24">VOL. I · RESEARCH</text>
+  <text x="627" y="102" class="mono ink" font-size="24" text-anchor="middle">THE BUILD JOURNAL</text>
+  <text x="1176" y="102" class="mono red" font-size="24" text-anchor="end">ENERGY · ATTENTION</text>
+  <line x1="78" y1="126" x2="1176" y2="126" class="rule"/>
+
+  <text x="627" y="262" class="serif ink" font-size="126" font-weight="700" text-anchor="middle" letter-spacing="-3">THE HIDDEN</text>
+  <text x="627" y="382" class="serif ink" font-size="126" font-weight="700" text-anchor="middle" letter-spacing="-3">WATTS OF</text>
+  <text x="627" y="502" class="serif ink" font-size="126" font-weight="700" text-anchor="middle" letter-spacing="-3">ATTENTION</text>
+  <line x1="78" y1="540" x2="1176" y2="540" class="hair"/>
+  <text x="627" y="586" class="serif red" font-size="38" font-style="italic" text-anchor="middle">Quantifying the energy cost of behavioural surveillance</text>
+  <line x1="78" y1="616" x2="1176" y2="616" class="rule"/>
+
+  <!-- bulb / filament illustration -->
+  <g transform="translate(627 820)">
+    <ellipse cx="0" cy="0" rx="150" ry="150" fill="url(#glow)" opacity=".55"/>
+    <path d="M-72 -60 a72 72 0 1 1 144 0 c0 42 -30 56 -36 96 h-72 c-6 -40 -36 -54 -36 -96z" fill="#f3e9d3" stroke="#1c1b18" stroke-width="4"/>
+    <path d="M-34 60 h68 M-30 86 h60 M-24 112 h48" stroke="#1c1b18" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-16 -20 l8 36 l-14 8 l24 16 l-10 -32 l14 -10z" fill="#a4382d"/>
+    <text x="0" y="-186" class="mono ink" font-size="22" text-anchor="middle">INFERENCE · RANKING · TARGETING</text>
+  </g>
+
+  <g class="mono ink" font-size="22">
+    <text x="78" y="720">01  EVERY SCROLL RUNS A MODEL</text>
+    <text x="78" y="760">02  EVERY MODEL DRAWS POWER</text>
+    <text x="78" y="800">03  NOBODY IS COUNTING</text>
+  </g>
+  <g class="mono ink" font-size="22" text-anchor="end">
+    <text x="1176" y="720">TRAINING GETS THE HEADLINES</text>
+    <text x="1176" y="760">INFERENCE PAYS THE BILL</text>
+    <text x="1176" y="800">AN ESTIMATE, SHOWN IN FULL</text>
+  </g>
+
+  <line x1="78" y1="1050" x2="1176" y2="1050" class="rule"/>
+  <text x="78" y="1094" class="serif ink" font-size="30">Research paper · Abhinav Raj</text>
+  <text x="1176" y="1094" class="mono red" font-size="24" text-anchor="end">abhnv.in/research/paper2</text>
+  <text x="78" y="1150" class="serif ink" font-size="26" opacity=".8">How much electricity does the machinery of attention consume, and who pays for it?</text>
+  <rect width="1254" height="1254" filter="url(#grain)" opacity=".6"/>
+</svg>

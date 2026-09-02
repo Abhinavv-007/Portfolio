@@ -1,0 +1,11 @@
+# Cloudflare Pages redirects. Clean URLs are handled by Pages itself
+# (/work.html -> /work); these cover the old routes. The www host redirect
+# is a zone-level Redirect Rule in the Cloudflare dashboard, not a file rule.
+/about                  /                          301
+/about.html             /                          301
+/certifications         /credentials               301
+/certifications.html    /credentials               301
+/security.txt           /.well-known/security.txt  301
+/research/paper2        /research/paper2/          301
+/research/paper3        /research/paper3/          301
+/research/paper         /research/paper/           301

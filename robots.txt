@@ -1,8 +1,15 @@
 User-agent: *
 Allow: /
 
-# Disallow archived / redirect pages from indexing
+# Old routes now redirect to their replacements.
+Disallow: /about
 Disallow: /about.html
+Disallow: /certifications
 Disallow: /certifications.html
+
+# Design experiments that are not part of the portfolio.
+Disallow: /Aether/
+Disallow: /Air-Blocks/
+Disallow: /Dash/
 
 Sitemap: https://abhnv.in/sitemap.xml

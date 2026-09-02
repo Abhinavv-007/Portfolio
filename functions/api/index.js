@@ -2,7 +2,7 @@ import {
   ok,
   options,
   methodNotAllowed,
-  PORTFOLIO,
+  publicProfile,
   ENDPOINTS,
   COMMANDS,
   counts,
@@ -12,29 +12,28 @@ import {
 
 export const onRequestOptions = options;
 
-// /api supports content negotiation:
-//   - Browsers (Accept: text/html ...) see the developer page (/api.html).
-//   - JSON clients (fetch/curl/Accept application/json or */*) get JSON.
-//   - Force JSON in any client with ?format=json.
-async function maybeServeDeveloperPage(request, env) {
+// /api negotiates content:
+//   - Browsers asking for text/html get the documentation page (/api.html).
+//   - fetch, curl and anything asking for JSON get the index below.
+//   - ?format=json forces JSON in any client.
+async function maybeServeDocs(request, env) {
   const url = new URL(request.url);
   const format = (url.searchParams.get("format") || "").toLowerCase();
   if (format === "json" || format === "raw") return null;
 
   const accept = (request.headers.get("accept") || "").toLowerCase();
-  const wantsHtml =
-    accept.includes("text/html") &&
-    !accept.includes("application/json");
-  if (!wantsHtml) return null;
-  if (!env?.ASSETS?.fetch) return null;
+  const wantsHtml = accept.includes("text/html") && !accept.includes("application/json");
+  if (!wantsHtml || !env?.ASSETS?.fetch) return null;
 
-  const assetUrl = new URL("/api.html", request.url);
-  const assetReq = new Request(assetUrl.toString(), {
-    method: "GET",
-    headers: request.headers
-  });
-  const res = await env.ASSETS.fetch(assetReq);
-  if (!res.ok) return null;
+  // Pages applies clean URLs to assets, so ask for /api (served from api.html)
+  // and fall back to the file name for environments that do not rewrite.
+  let res = null;
+  for (const path of ["/api", "/api.html"]) {
+    const assetUrl = new URL(path, request.url);
+    const attempt = await env.ASSETS.fetch(new Request(assetUrl.toString(), { method: "GET", headers: { accept: "text/html" }, redirect: "manual" }));
+    if (attempt.status === 200) { res = attempt; break; }
+  }
+  if (!res) return null;
 
   const headers = new Headers(res.headers);
   headers.set("cache-control", "public, max-age=300, s-maxage=600, stale-while-revalidate=1200");
@@ -44,56 +43,30 @@ async function maybeServeDeveloperPage(request, env) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const html = await maybeServeDeveloperPage(request, env);
-  if (html) return html;
+  const docs = await maybeServeDocs(request, env);
+  if (docs) return docs;
 
-  const url = new URL(request.url);
-  const base = `${url.origin}/api`;
+  const origin = new URL(request.url).origin;
+  const base = `${origin}/api`;
 
   return ok({
-    name: "The Build Journal API",
-    description:
-      "Public, read-only API surface for Abhinav Raj's portfolio. " +
-      "Every public field on the site (profile, projects, credentials, research, " +
-      "skills, socials, notes) is reachable here.",
+    name: "abhnv.in API",
+    description: "Read-only JSON for everything published on abhnv.in: profile, security research areas and methodology, products, research papers, credentials, skills and links.",
     version: API_VERSION,
     build: API_BUILD,
-    profile: {
-      name: PORTFOLIO.profile.name,
-      role: PORTFOLIO.profile.role,
-      site: PORTFOLIO.profile.site,
-      email: PORTFOLIO.profile.email
-    },
-    endpoints: ENDPOINTS.map((e) => ({
-      ...e,
-      url: e.path.includes(":")
-        ? `${base.replace(/\/api$/, "")}${e.path.split("?")[0]}`
-        : `${base.replace(/\/api$/, "")}${e.path}`
-    })),
+    profile: publicProfile(),
+    endpoints: ENDPOINTS.map((e) => ({ ...e, url: `${origin}${e.path.split("?")[0]}` })),
     commands: COMMANDS,
     examples: [
-      `${base}/profile`,
-      `${base}/projects`,
-      `${base}/projects/clex-ai`,
-      `${base}/certifications`,
-      `${base}/research`,
       `${base}/summary`,
-      `${base}/links`,
-      `${base}/tags`,
-      `${base}/search?q=ai`,
-      `${base}/health`,
-      `${base}/cloudflare`,
-      `${base}/command?cmd=summary`,
+      `${base}/security`,
+      `${base}/projects/clex-ai`,
+      `${base}/research`,
+      `${base}/certifications?tag=Security`,
+      `${base}/search?q=authorization`,
       `${base}/command?cmd=help`
-    ],
-    poweredBy: "Cloudflare Pages Functions",
-    consumers: [
-      "lnch.in",
-      "Other Abhinav projects that need a single source of portfolio truth"
     ]
-  }, {
-    counts: counts()
-  });
+  }, { counts: counts() });
 }
 
 export const onRequestPost = methodNotAllowed;

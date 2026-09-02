@@ -1,0 +1,55 @@
+# Cloudflare Pages response headers.
+# The main site gets a strict policy. The research papers (/research/*) are
+# pre-built React bundles that load from public CDNs, so they keep the same
+# hardening headers with a wider Content-Security-Policy.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-site
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; media-src 'self'; object-src 'none'; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests
+
+/api/*
+  Cross-Origin-Resource-Policy: cross-origin
+  Cache-Control: public, max-age=300, s-maxage=600, stale-while-revalidate=1200
+
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+  Cross-Origin-Resource-Policy: cross-origin
+
+/.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/research/*
+  ! Content-Security-Policy
+  ! Cross-Origin-Opener-Policy
+  ! Cross-Origin-Resource-Policy
+  Content-Security-Policy: default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' https: data: blob:; connect-src 'self' https:; media-src 'self' https: blob:; worker-src 'self' blob:; object-src 'none'; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+
+/Aether/*
+  ! Permissions-Policy
+  ! Content-Security-Policy
+  ! Cross-Origin-Opener-Policy
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=()
+  X-Robots-Tag: noindex
+
+/Air-Blocks/*
+  ! Permissions-Policy
+  ! Content-Security-Policy
+  ! Cross-Origin-Opener-Policy
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=()
+  X-Robots-Tag: noindex
+
+/Dash/*
+  ! Content-Security-Policy
+  ! Cross-Origin-Opener-Policy
+  X-Robots-Tag: noindex
