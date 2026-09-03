@@ -114,6 +114,15 @@
 
   let lastResponseText = "";
 
+  // The wire room (interactive.js) draws the dial and the tape from these.
+  function emit(detail) {
+    document.dispatchEvent(new CustomEvent("api:response", { detail }));
+  }
+  document.addEventListener("api:run", (event) => {
+    const path = event.detail && event.detail.path;
+    if (path) runEndpoint(path);
+  });
+
   async function runEndpoint(path) {
     const target = `${apiOrigin}${path.startsWith("/") ? "" : "/"}${path}`;
     if (label) label.textContent = `GET ${path}`;
@@ -129,6 +138,7 @@
       lastResponseText = formatted;
       if (out) out.querySelector("code").innerHTML = syntaxColor(formatted);
       setStatus(`${res.status} ${res.ok ? "OK" : "ERROR"} · ${ms} ms`, res.ok ? "ok" : "error");
+      emit({ path, ms, status: res.status, ok: res.ok });
       $$(".api-card").forEach((c) => c.classList.toggle("is-active", c.dataset.path === path));
       if (history.replaceState) {
         const u = new URL(window.location.href);
@@ -138,6 +148,7 @@
     } catch (err) {
       if (out) out.querySelector("code").textContent = "// The request did not complete. If you are running the static files without Pages Functions, the /api routes are not available.";
       setStatus("network error", "error");
+      emit({ path, ms: Math.max(1, Math.round(performance.now() - t0)), status: 0, ok: false });
     }
   }
 

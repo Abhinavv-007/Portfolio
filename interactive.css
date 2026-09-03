@@ -1,0 +1,1277 @@
+/*
+  The interactive layer for abhnv.in.
+
+  styles.css sets the paper, the type and the page furniture. This file only
+  styles the things a reader can operate: the press seals, the loupe, the
+  per-desk instruments and the six hidden press marks.
+
+  Everything here is built from the same ink, paper and letterpress shadows
+  as the rest of the journal, so an added instrument reads as part of the
+  paper rather than as something dropped on top of it.
+*/
+
+/* ==================================================================== */
+/* 0. Corrections to the base sheet                                     */
+/* ==================================================================== */
+
+/* The signature stamp carries width/height attributes in the markup, and
+   nothing in styles.css sets a CSS height — so the presentational 1419px
+   wins, object-fit letterboxes the artwork inside it, and the stamp appears
+   to float in the middle of a column of empty paper. */
+.stamp-image { height: auto; }
+
+/* The certificate ribbon was set on a 28deg slant, which reads as a crooked
+   box rather than a badge. It becomes a straight plate that presses in when
+   the card is looked at. */
+.cert-card.record-card::before {
+  top: 0;
+  right: 0;
+  transform: none;
+  padding: 0.26rem 0.7rem;
+  border-bottom-left-radius: 2px;
+  background: var(--green);
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  opacity: 0.9;
+  transition: background 240ms ease, opacity 240ms ease, letter-spacing 320ms var(--ease);
+}
+.cert-card.record-card:hover::before,
+.cert-card.record-card:focus-visible::before {
+  background: var(--red);
+  opacity: 1;
+  letter-spacing: 0.22em;
+}
+
+/* ==================================================================== */
+/* 1. Seals — the round letterpress badge                               */
+/* ==================================================================== */
+
+.seal {
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.05rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  flex: 0 0 auto;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: rgba(255, 251, 235, 0.5);
+  color: var(--ink);
+  text-align: center;
+  box-shadow: 0 0.14rem 0 rgba(26, 25, 22, 0.16);
+}
+.seal-ring {
+  position: absolute;
+  inset: 0.22rem;
+  border: 1px dashed rgba(26, 25, 22, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.seal-word {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 0.82rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.seal-sub {
+  max-width: 3rem;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 0.4rem;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.seal--live { border-color: var(--green); color: var(--green); }
+.seal--live .seal-ring { border-color: rgba(70, 81, 60, 0.5); }
+.seal--count { border-color: var(--blue); color: var(--blue); }
+.seal--paper { border-color: var(--red); color: var(--red); }
+.seal--paper .seal-ring { border-color: rgba(163, 49, 40, 0.45); }
+.seal--count .seal-ring { border-color: rgba(37, 63, 84, 0.45); }
+
+/* The desk mark in the folio strip: which part of the paper you are in. */
+/* A flex item at the end of the strip rather than an overlay, so it can
+   never sit on top of the folio text or hang off the edge of the page. */
+.desk-seal {
+  flex: 0 0 auto;
+  order: 9;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: -0.42rem 0;
+  opacity: 0.72;
+  pointer-events: none;
+}
+.desk-seal svg { width: 100%; height: 100%; overflow: visible; }
+.desk-seal-rim { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.desk-seal-hair { fill: none; stroke: rgba(26, 25, 22, 0.4); stroke-width: 0.7; stroke-dasharray: 2 2; }
+.desk-seal-word {
+  fill: var(--ink);
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 22px;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+@media (max-width: 900px) { .desk-seal { display: none; } }
+
+/* ==================================================================== */
+/* 2. Press marks — the six hidden in this issue                        */
+/* ==================================================================== */
+
+.pm-seal-art { width: 100%; height: 100%; overflow: visible; }
+.pm-seal-rim { fill: rgba(163, 49, 40, 0.08); stroke: var(--red); stroke-width: 1.6; }
+.pm-seal-hair { fill: none; stroke: rgba(163, 49, 40, 0.55); stroke-width: 0.7; stroke-dasharray: 2.2 2.2; }
+.pm-seal-glyph {
+  fill: var(--red);
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 17px;
+  text-anchor: middle;
+}
+
+/* An unclaimed mark: small, inked, and just alive enough to be noticed. */
+.pm-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  margin: 0 0.2rem;
+  vertical-align: middle;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  animation: pmBreathe 2.6s ease-in-out infinite;
+}
+.pm-mark:hover { transform: scale(1.14); }
+.pm-mark:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 50%; }
+.pm-mark.is-claimed { animation: pmPress 620ms var(--ease) forwards; }
+@keyframes pmBreathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+@keyframes pmPress {
+  0% { transform: scale(1); opacity: 1; }
+  35% { transform: scale(0.72) rotate(-14deg); opacity: 1; }
+  100% { transform: scale(2.3) rotate(8deg); opacity: 0; }
+}
+.pm-mark-slot { display: inline-block; }
+/* .pm-mark sets its own display, which would otherwise defeat [hidden]. */
+.pm-mark[hidden],
+.pm-mark-slot[hidden] { display: none; }
+.pm-mark-slot--lab { margin-left: 0.35rem; }
+
+/* The proof strip, sitting above the colophon in every footer. */
+.pm-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
+  margin: 0 0 1.1rem;
+  padding: 0.8rem 0 1rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.pm-strip-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.pm-slots { display: flex; gap: 0.4rem; }
+.pm-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px dashed rgba(26, 25, 22, 0.38);
+  border-radius: 50%;
+  transition: transform 320ms var(--ease);
+}
+.pm-slot.is-found {
+  border-style: solid;
+  border-color: rgba(163, 49, 40, 0.5);
+  background: rgba(255, 251, 235, 0.5);
+  box-shadow: 0 0.1rem 0 rgba(26, 25, 22, 0.14);
+}
+.pm-slot .pm-seal-art { width: 1.5rem; height: 1.5rem; }
+.pm-slot-num { font-family: var(--mono); font-size: 0.58rem; color: rgba(26, 25, 22, 0.32); }
+.pm-slot-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.pm-strip-count {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.pm-strip.is-complete .pm-strip-count { color: var(--red); }
+.pm-proof-open {
+  border: 1px solid var(--ink);
+  padding: 0.32rem 0.7rem;
+  background: rgba(163, 49, 40, 0.1);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0.12rem 0 rgba(26, 25, 22, 0.2);
+}
+.pm-proof-open:hover { background: rgba(163, 49, 40, 0.2); }
+@media (max-width: 620px) {
+  .pm-strip { gap: 0.5rem 0.7rem; }
+  .pm-strip-count { width: 100%; }
+}
+
+/* The card that slides in when a mark is stamped. */
+.pm-toast {
+  position: fixed;
+  right: clamp(0.8rem, 3vw, 2rem);
+  bottom: clamp(0.8rem, 3vw, 2rem);
+  z-index: 90;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--ink);
+  background: linear-gradient(150deg, var(--paper-light), var(--paper));
+  box-shadow: 0.28rem 0.28rem 0 rgba(26, 25, 22, 0.26), 0 1.4rem 2.6rem rgba(26, 25, 22, 0.22);
+  opacity: 0;
+  transform: translateY(1.2rem);
+  pointer-events: none;
+  transition: opacity 340ms var(--ease), transform 420ms var(--ease);
+}
+.pm-toast.is-in { opacity: 1; transform: translateY(0); }
+.pm-toast-seal { display: block; width: 2.8rem; height: 2.8rem; }
+.pm-toast-copy { display: grid; gap: 0.1rem; min-width: 0; }
+.pm-toast-copy strong {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.pm-toast-name { font-family: var(--display); font-size: 1.15rem; line-height: 1.1; }
+.pm-toast-note { font-size: 0.78rem; line-height: 1.3; color: var(--ink-soft); }
+.pm-toast-count { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: var(--muted); }
+
+/* The proof sheet, printed once all six are in. */
+.pm-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  background: rgba(26, 25, 22, 0.58);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  overflow-y: auto;
+}
+.pm-sheet.is-in { opacity: 1; }
+.pm-sheet.is-out { opacity: 0; }
+.pm-sheet-paper {
+  position: relative;
+  width: min(46rem, 100%);
+  padding: clamp(1.4rem, 3.4vw, 2.6rem);
+  border: 1.5px solid var(--ink);
+  background: linear-gradient(150deg, var(--paper-light), var(--paper) 60%, var(--paper-warm));
+  box-shadow: 0.4rem 0.4rem 0 rgba(26, 25, 22, 0.3), 0 2rem 4rem rgba(26, 25, 22, 0.35);
+  transform: translateY(1.4rem);
+  transition: transform 380ms var(--ease);
+}
+.pm-sheet.is-in .pm-sheet-paper { transform: translateY(0); }
+.pm-sheet-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  border: 0;
+  padding: 0.2rem 0.4rem;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
+}
+.pm-sheet-mast {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pm-sheet-paper h2 {
+  margin: 1rem 0 0.5rem;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.pm-sheet-lede { margin: 0 0 1.1rem; color: var(--ink-soft); font-size: 1rem; line-height: 1.5; }
+.pm-sheet-list {
+  list-style: none;
+  margin: 0 0 1.2rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.55rem;
+}
+.pm-sheet-list li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--rule);
+  background: rgba(255, 251, 235, 0.45);
+}
+.pm-sheet-seal { display: block; width: 2rem; height: 2rem; }
+.pm-sheet-list strong { display: block; font-family: var(--display); font-size: 1.02rem; line-height: 1.1; }
+.pm-sheet-list em { display: block; font-style: normal; font-size: 0.74rem; line-height: 1.25; color: var(--muted); }
+.pm-sheet-note {
+  margin: 0 0 1.2rem;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--red);
+  background: rgba(163, 49, 40, 0.06);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.pm-sheet-foot { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+body.pm-sheet-open { overflow: hidden; }
+
+/* The masthead carries the full set once it is earned. */
+body.has-full-set .journal-name::after {
+  content: "★";
+  margin-left: 0.4rem;
+  color: var(--red);
+  font-size: 0.5em;
+  vertical-align: super;
+}
+
+/* ==================================================================== */
+/* 3. The loupe                                                         */
+/* ==================================================================== */
+
+.has-loupe {
+  position: relative;
+  --loupe-r: clamp(4.2rem, 9vw, 6.4rem);
+  --loupe-x: 50%;
+  --loupe-y: 50%;
+}
+.loupe-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  /* Hidden rather than merely transparent, so the copy and the press mark
+     inside it stay out of the tab order until the loupe is actually up. */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 0s linear 220ms;
+  -webkit-mask-image: radial-gradient(circle var(--loupe-r) at var(--loupe-x) var(--loupe-y), #000 58%, rgba(0, 0, 0, 0.35) 82%, transparent 100%);
+  mask-image: radial-gradient(circle var(--loupe-r) at var(--loupe-x) var(--loupe-y), #000 58%, rgba(0, 0, 0, 0.35) 82%, transparent 100%);
+}
+.is-loupe-open .loupe-layer {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 220ms ease, visibility 0s;
+}
+.is-pinned .loupe-layer {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 220ms ease, visibility 0s;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.loupe-glass {
+  position: absolute;
+  left: var(--loupe-x);
+  top: var(--loupe-y);
+  z-index: 4;
+  width: calc(var(--loupe-r) * 2);
+  height: calc(var(--loupe-r) * 2);
+  border: 2px solid rgba(26, 25, 22, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.82);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 251, 235, 0.35),
+    inset 0 1.2rem 2rem rgba(255, 251, 235, 0.22),
+    0 0.5rem 1.4rem rgba(26, 25, 22, 0.3);
+  transition: opacity 200ms ease, transform 260ms var(--ease);
+}
+.is-loupe-open .loupe-glass { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.is-pinned .loupe-glass { opacity: 0; }
+.loupe-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0.55rem;
+  z-index: 5;
+  transform: translateX(-50%);
+  padding: 0.22rem 0.6rem;
+  border: 1px solid var(--rule);
+  background: rgba(255, 251, 235, 0.86);
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+.is-loupe-open .loupe-hint,
+.is-pinned .loupe-hint { opacity: 0; }
+.loupe-key {
+  justify-self: start;
+  margin-top: 0.6rem;
+  border: 1px solid var(--ink);
+  padding: 0.34rem 0.75rem;
+  background: rgba(255, 251, 235, 0.5);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0.12rem 0 rgba(26, 25, 22, 0.2);
+  transition: background 200ms ease, transform 160ms var(--ease);
+}
+.loupe-key:hover { background: rgba(163, 49, 40, 0.12); }
+.loupe-key:active { transform: translateY(0.1rem); box-shadow: 0 0 0 rgba(26, 25, 22, 0.2); }
+.loupe-key[aria-pressed="true"] { background: rgba(163, 49, 40, 0.18); border-color: var(--red); color: var(--red); }
+
+/* What the loupe finds on the front-page clipping. */
+.loupe-layer--clipping {
+  background: var(--paper-light);
+  display: grid;
+  align-content: center;
+  padding: clamp(1rem, 4vw, 2.4rem);
+}
+.loupe-halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, rgba(26, 25, 22, 0.55) 34%, transparent 36%);
+  background-size: 6px 6px;
+  opacity: 0.5;
+}
+.loupe-fineprint {
+  position: relative;
+  z-index: 1;
+  max-width: 26rem;
+  margin: 0 auto;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--ink);
+  text-align: center;
+}
+.loupe-fineprint em { font-family: var(--display); font-style: italic; }
+
+/* ==================================================================== */
+/* 4. The Linotype — the profile desk                                   */
+/* ==================================================================== */
+
+.profile-timeline.linotype {
+  display: grid;
+  gap: 0;
+  margin: 1.4rem 0 0;
+  border: 1px solid var(--rule-strong);
+  background: rgba(255, 251, 235, 0.28);
+  box-shadow: 0 0.2rem 0 rgba(26, 25, 22, 0.14);
+}
+.lino-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+.lino-kicker {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.lino-hint {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lino-rail {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--rule);
+  scrollbar-width: none;
+}
+.lino-rail::-webkit-scrollbar { display: none; }
+.lino-rail [role="tab"] {
+  position: relative;
+  /* Share the rail out rather than overflowing it, so no era is ever
+     half-visible at the edge. */
+  flex: 1 1 0;
+  display: grid;
+  gap: 0.3rem;
+  justify-items: start;
+  min-width: 5.6rem;
+  padding: 0.7rem 0.75rem 0.6rem;
+  border: 0;
+  border-right: 1px solid var(--rule);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: left;
+  transition: background 200ms ease, color 200ms ease;
+}
+.lino-rail [role="tab"]:last-child { border-right: 0; }
+.lino-rail [role="tab"]:hover { background: rgba(255, 251, 235, 0.55); color: var(--ink); }
+.lino-rail [role="tab"].is-active { background: rgba(163, 49, 40, 0.08); color: var(--ink); }
+.lino-when {
+  font-family: var(--display);
+  font-size: clamp(0.86rem, 1.25vw, 1.08rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.lino-tick {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background:
+    repeating-linear-gradient(to right, rgba(26, 25, 22, 0.34) 0 1px, transparent 1px 6px);
+}
+.lino-rail [role="tab"].is-active .lino-tick {
+  background: repeating-linear-gradient(to right, var(--red) 0 2px, transparent 2px 6px);
+}
+.lino-machine { display: grid; }
+
+/* The slug: a line of cast metal, which reads in mirror. */
+.lino-slug {
+  overflow: hidden;
+  padding: 0.42rem 0.85rem;
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, rgba(26, 25, 22, 0.1), rgba(26, 25, 22, 0.03) 40%, rgba(26, 25, 22, 0.12));
+  box-shadow: inset 0 1px 0 rgba(255, 251, 235, 0.5), inset 0 -1px 0 rgba(26, 25, 22, 0.12);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: rgba(26, 25, 22, 0.5);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.lino-slug span { display: inline-block; transform: scaleX(-1); }
+.lino-panel { padding: 0.9rem 0.85rem 1rem; outline-offset: 3px; }
+.lino-panel h3 {
+  margin: 0 0 0.4rem;
+  min-height: 1.1em;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  line-height: 1.05;
+}
+.lino-panel p {
+  margin: 0;
+  min-height: 3.6em;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+.lino-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-0.55em) rotate(-8deg);
+}
+.is-cast .lino-char {
+  animation: linoCast 320ms var(--ease) forwards;
+  animation-delay: calc(var(--i) * 22ms);
+}
+/* The safety net: if the animation timeline never advanced (a background
+   tab, a stalled compositor), the line is still there to be read. */
+.is-set .lino-char { opacity: 1; transform: none; animation: none; }
+@keyframes linoCast {
+  0% { opacity: 0; transform: translateY(-0.55em) rotate(-8deg); }
+  60% { opacity: 1; transform: translateY(0.06em) rotate(1deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0); }
+}
+.linotype.is-casting .lino-slug { box-shadow: inset 0 0 0 2px rgba(163, 49, 40, 0.35); }
+
+/* ==================================================================== */
+/* 5. Case files — the builds desk                                      */
+/* ==================================================================== */
+
+.case-filters {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 0.2rem;
+}
+.case-filters-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.case-filters-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.case-stamp {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border: 1.5px solid rgba(26, 25, 22, 0.55);
+  background: rgba(255, 251, 235, 0.4);
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 180ms var(--ease), background 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+.case-stamp small { font-size: 0.85em; opacity: 0.6; }
+.case-stamp:hover { background: rgba(255, 251, 235, 0.8); color: var(--ink); transform: translateY(-1px); }
+.case-stamp.is-on {
+  border-color: var(--red);
+  background: rgba(163, 49, 40, 0.12);
+  color: var(--red);
+  box-shadow: 0 0.12rem 0 rgba(163, 49, 40, 0.3);
+}
+.case-filters-count {
+  margin: 0;
+  min-height: 1.2em;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.work-detail-card.case-file { position: relative; }
+.case-file.is-filed-out { display: none; }
+.is-refiling .case-file:not(.is-filed-out) {
+  animation: fileDrop 460ms var(--ease) backwards;
+  animation-delay: var(--file-delay, 0ms);
+}
+@keyframes fileDrop {
+  0% { opacity: 0; transform: translateY(-0.9rem); }
+  100% { opacity: 1; transform: none; }
+}
+
+.case-tab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem 0.55rem;
+  border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, rgba(199, 184, 164, 0.5), rgba(199, 184, 164, 0.14));
+}
+.case-tab-num {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.case-tab-marks { display: flex; align-items: center; gap: 0.5rem; }
+.case-tab-marks .seal { width: 2.9rem; height: 2.9rem; }
+.case-tab-marks .seal-word { font-size: 0.7rem; }
+.case-tab-marks .seal-sub { font-size: 0.36rem; max-width: 2.4rem; }
+
+/* The security lens: the note is on the sheet, but set far too small. */
+.case-lens {
+  display: grid;
+  margin: 0;
+  padding: 0.75rem clamp(0.85rem, 2vw, 1.4rem) 0.95rem;
+  border-top: 1px solid var(--rule);
+  background: rgba(199, 184, 164, 0.16);
+}
+.case-lens-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.case-lens-heading { display: grid; gap: 0.1rem; }
+.case-lens .case-lens-head .loupe-key { margin-top: 0; }
+.case-lens .case-lens-head .case-lens-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.case-lens .case-lens-head .case-lens-sub { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.08em; color: var(--muted); }
+.case-lens-print {
+  position: relative;
+  overflow: hidden;
+  /* Tall enough that the whole lens fits inside the strip rather than
+     being cut off by it, and with room at the foot for the hint. */
+  --loupe-r: 2.7rem;
+  min-height: 5.8rem;
+  padding: 0.7rem 0.85rem 1.5rem;
+  border: 1px solid var(--rule);
+  background: rgba(255, 251, 235, 0.5);
+  cursor: crosshair;
+}
+.case-lens .case-lens-print .case-lens-blur {
+  margin: 0;
+  max-width: none;
+  font-size: 0.52rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: rgba(26, 25, 22, 0.55);
+  filter: blur(0.55px);
+  user-select: none;
+}
+.loupe-layer--lens {
+  display: grid;
+  align-content: center;
+  padding: 0.7rem 0.85rem;
+  background: var(--paper-light);
+}
+.case-lens .loupe-layer .case-lens-sharp {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.case-lens .loupe-layer .case-lens-extra {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--red);
+}
+.case-lens-print.is-pinned { cursor: default; }
+.case-lens .loupe-hint { bottom: 0.35rem; }
+
+/* ==================================================================== */
+/* 6. The wire room — /api                                              */
+/* ==================================================================== */
+
+.wire-room {
+  display: grid;
+  grid-template-columns: minmax(15rem, 20rem) minmax(0, 1fr);
+  gap: clamp(0.8rem, 1.8vw, 1.4rem);
+  padding: clamp(1.1rem, 2.4vw, 1.8rem) 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.wire-dial,
+.wire-tape {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 0.85rem 0.95rem 1rem;
+  border: 1px solid var(--rule-strong);
+  background: rgba(255, 251, 235, 0.28);
+  box-shadow: 0 0.2rem 0 rgba(26, 25, 22, 0.14);
+}
+.wire-dial-head,
+.wire-tape-head { display: grid; gap: 0.1rem; }
+.wire-dial-kicker {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.wire-dial-sub { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.08em; color: var(--muted); }
+
+.wire-dial-face { position: relative; }
+.wire-dial-face svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wire-arc { fill: none; stroke: rgba(26, 25, 22, 0.28); stroke-width: 1.4; }
+.wire-ticks line { stroke: rgba(26, 25, 22, 0.5); stroke-width: 1.1; }
+.wire-ticks text {
+  fill: var(--muted);
+  font-family: var(--mono);
+  font-size: 7px;
+  text-anchor: middle;
+}
+.wire-needle {
+  transform-origin: 100px 112px;
+  transition: transform 760ms cubic-bezier(0.34, 1.42, 0.5, 1);
+}
+.wire-needle line { stroke: var(--red); stroke-width: 2.2; stroke-linecap: round; }
+.wire-needle-tail { stroke-width: 3.4 !important; opacity: 0.55; }
+.wire-boss-pin { fill: var(--paper-light); }
+.is-slow .wire-needle line { stroke: var(--red-hot); }
+.is-error .wire-needle line { stroke: rgba(26, 25, 22, 0.4); }
+.wire-boss { fill: var(--ink); }
+.wire-boss-hit {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  width: 2.1rem;
+  height: 2.1rem;
+  transform: translate(-50%, 22%);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+.wire-boss-hit:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.wire-plate[hidden] { display: none; }
+.wire-plate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--rule);
+}
+.wire-plate em {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.is-plate-open .wire-plate { animation: platePop 460ms var(--ease) backwards; }
+@keyframes platePop {
+  0% { opacity: 0; transform: translateY(-0.5rem); }
+  100% { opacity: 1; transform: none; }
+}
+.wire-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+.wire-readout strong {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  line-height: 1;
+}
+.wire-readout span { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
+
+.wire-tape-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  min-height: 4.6rem;
+  padding: 0.6rem 0.5rem;
+  background:
+    radial-gradient(circle at 6px 4px, transparent 2.4px, rgba(255, 251, 235, 0.5) 2.5px) 0 0 / 12px 100%,
+    rgba(255, 251, 235, 0.2);
+  border-top: 1px dashed var(--rule);
+  border-bottom: 1px dashed var(--rule);
+  align-content: flex-start;
+}
+.wire-tape-empty { margin: 0; font-family: var(--mono); font-size: 0.62rem; color: var(--muted); }
+.wire-stub {
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--rule-strong);
+  background: rgba(255, 251, 235, 0.72);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 0.1rem 0 rgba(26, 25, 22, 0.16);
+  transition: transform 180ms var(--ease), background 200ms ease;
+}
+.wire-stub:hover { transform: translateY(-2px); background: rgba(255, 251, 235, 0.95); }
+.wire-stub.is-error { border-color: var(--red); background: rgba(163, 49, 40, 0.1); }
+.wire-stub-path { font-family: var(--mono); font-size: 0.64rem; color: var(--ink); }
+.wire-stub-meta { display: flex; gap: 0.4rem; font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.06em; }
+.wire-stub-meta b { color: var(--green); font-weight: 400; }
+.wire-stub.is-error .wire-stub-meta b { color: var(--red); }
+.wire-stub-meta i { font-style: normal; color: var(--muted); }
+.wire-stub-no { font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.12em; color: rgba(26, 25, 22, 0.34); }
+.wire-stub.is-fresh { animation: stubIn 520ms var(--ease); }
+@keyframes stubIn {
+  0% { opacity: 0; transform: translateX(-0.8rem); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* The console prints its response instead of simply having it. */
+.api-console { position: relative; }
+.api-console.is-printing .api-pre { animation: printFeed 640ms steps(14) both; }
+.api-console.is-printing::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red-hot), transparent);
+  animation: printHead 640ms linear;
+  pointer-events: none;
+}
+@keyframes printFeed {
+  0% { clip-path: inset(0 0 100% 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+@keyframes printHead {
+  0% { top: 0; opacity: 0.9; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .wire-room { grid-template-columns: 1fr; }
+}
+
+/* ==================================================================== */
+/* 7. The post desk — /contact                                          */
+/* ==================================================================== */
+
+.contact-send-button.has-wax { position: relative; padding-left: 3.2rem; }
+.wax {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  width: 1.9rem;
+  height: 1.9rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.wax-blob {
+  position: absolute;
+  inset: 0;
+  border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+  background: radial-gradient(circle at 34% 30%, var(--red-hot), var(--red) 62%, #7d2019);
+  box-shadow: inset 0 -0.14rem 0.24rem rgba(0, 0, 0, 0.32), 0 0.12rem 0.24rem rgba(26, 25, 22, 0.32);
+  transition: transform 220ms var(--ease);
+}
+.wax-die {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 0.72rem;
+  color: rgba(255, 240, 220, 0.85);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 220ms var(--ease);
+}
+.contact-send-button.is-pressing .wax-blob { transform: scale(0.86) rotate(-6deg); }
+.contact-send-button.is-sealing .wax-blob { animation: waxPress 820ms var(--ease); }
+.contact-send-button.is-sealing .wax-die { animation: waxDie 820ms var(--ease); }
+@keyframes waxPress {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.24, 0.72) rotate(-8deg); }
+  55% { transform: scale(0.94, 1.08) rotate(4deg); }
+  100% { transform: scale(1); }
+}
+@keyframes waxDie {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(0.8); }
+  60% { transform: scale(1.1); }
+}
+
+.contact-topic.is-stamp { position: relative; }
+.contact-topic span .topic-seal {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0 0.5rem 0 0;
+  border: 0;
+  border-right: 1px solid rgba(26, 25, 22, 0.28);
+  background: none;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.contact-topic input:checked + span .topic-seal {
+  border-right-color: rgba(234, 223, 206, 0.4);
+  color: var(--red-hot);
+}
+.contact-topic.is-pressed .topic-seal { animation: stampPress 480ms var(--ease); }
+@keyframes stampPress {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.84); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.letter { position: relative; }
+/* Reserve the corner the postage occupies so the topic never runs under it. */
+.letter .letter-head { padding-right: 4rem; }
+.letter-postage {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 3.3rem;
+  pointer-events: none;
+}
+.postage-stamp {
+  display: grid;
+  gap: 0.05rem;
+  padding: 0.35rem 0.2rem;
+  background: rgba(255, 251, 235, 0.9);
+  text-align: center;
+  filter: drop-shadow(0 0.1rem 0.2rem rgba(26, 25, 22, 0.2));
+  /* Perforated edge, cut from the paper by the mask. */
+  -webkit-mask-image: radial-gradient(circle 2.4px at center, transparent 2.3px, #000 2.4px);
+  mask-image: radial-gradient(circle 2.4px at center, transparent 2.3px, #000 2.4px);
+  -webkit-mask-size: 7px 7px;
+  mask-size: 7px 7px;
+  -webkit-mask-position: -3.5px -3.5px;
+  mask-position: -3.5px -3.5px;
+  border: 1px solid rgba(26, 25, 22, 0.3);
+}
+.postage-value { font-family: var(--display); font-weight: 900; font-size: 0.86rem; line-height: 1; }
+.postage-name { font-family: var(--mono); font-size: 0.36rem; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.postage-place { font-family: var(--mono); font-size: 0.34rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.postage-cancel {
+  position: absolute;
+  inset: -0.7rem -0.9rem auto auto;
+  width: 4.6rem;
+  height: 4.6rem;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: opacity 360ms ease, transform 520ms var(--ease);
+}
+.letter.is-cancelled .postage-cancel { opacity: 0.78; transform: scale(1); }
+.postage-cancel svg { width: 100%; height: 100%; overflow: visible; }
+.postage-cancel circle { fill: none; stroke: var(--red); stroke-width: 2.4; }
+.postage-cancel text {
+  fill: var(--red);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-anchor: middle;
+}
+.postage-cancel-sub { font-size: 9px !important; }
+
+/* The cradle takes over the stamp's own placement so the mark it hides can
+   be centred on the stamp rather than on the whole column. */
+.wax-cradle { position: relative; display: block; }
+.contact-column--email .wax-cradle {
+  width: min(10rem, 55%);
+  margin-top: 1.2rem;
+  justify-self: start;
+}
+.contact-column--email .wax-cradle .contact-stamp {
+  width: 100%;
+  margin-top: 0;
+  justify-self: auto;
+  transform: none;
+}
+/* The breathing animation would otherwise override the hidden state. */
+.wax-cradle:not(.is-lifted) .pm-mark { animation: none; opacity: 0; }
+.wax-cradle .pm-mark-slot {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 300ms ease 260ms;
+}
+.wax-cradle.is-lifted .pm-mark-slot { opacity: 1; }
+.wax-cradle.is-lifted .pm-mark { animation: pmBreathe 2.6s ease-in-out infinite; }
+.stamp-image.is-liftable { cursor: pointer; transition: transform 520ms var(--ease), opacity 420ms ease; }
+.stamp-image.is-liftable:hover { transform: translateY(-3px) scale(1.02); }
+.stamp-image.is-liftable:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+.wax-cradle.is-lifted .stamp-image {
+  transform: translate(1.6rem, -1.4rem) scale(0.96);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+/* ==================================================================== */
+/* 8. The records office — /credentials                                 */
+/* ==================================================================== */
+
+.cert-card.record-card { position: relative; overflow: hidden; }
+/* The seal is not printed on the card; it is pressed onto it when someone
+   actually looks, which is what verifying a document is. */
+.record-emboss {
+  position: absolute;
+  right: 0.35rem;
+  bottom: 0.3rem;
+  width: 3rem;
+  height: 3rem;
+  opacity: 0;
+  transform: scale(1.35);
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 340ms var(--ease);
+}
+.record-emboss svg { width: 100%; height: 100%; overflow: visible; }
+.record-emboss circle { fill: none; stroke: var(--green); stroke-width: 1.4; }
+.record-emboss circle:last-of-type { stroke-dasharray: 2.5 2.5; stroke-width: 0.8; }
+.record-emboss text {
+  fill: var(--green);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-anchor: middle;
+}
+.record-emboss-num {
+  font-family: var(--display) !important;
+  font-weight: 900;
+  font-size: 15px !important;
+  letter-spacing: 0 !important;
+}
+.cert-card.record-card:hover .record-emboss,
+.cert-card.record-card:focus-visible .record-emboss {
+  opacity: 0.82;
+  transform: scale(1);
+}
+
+/* The watermark is in the sheet; it only shows with light behind it. */
+.record-watermark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+.record-watermark-art {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 4.4rem;
+  line-height: 1;
+  color: rgba(37, 63, 84, 0.2);
+}
+
+.light-table-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  width: fit-content;
+  gap: 0.5rem;
+  margin: 0 0 0.9rem;
+  padding: 0.42rem 0.85rem;
+  border: 1.5px solid var(--ink);
+  background: rgba(255, 251, 235, 0.45);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0.14rem 0 rgba(26, 25, 22, 0.2);
+  transition: background 220ms ease, transform 160ms var(--ease);
+}
+.light-table-switch:hover { background: rgba(255, 251, 235, 0.85); }
+.light-table-switch:active { transform: translateY(0.1rem); box-shadow: none; }
+.lt-lamp {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: rgba(26, 25, 22, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(26, 25, 22, 0.4);
+  transition: background 260ms ease, box-shadow 260ms ease;
+}
+.light-table-switch.is-on {
+  border-color: var(--red);
+  background: rgba(255, 244, 214, 0.9);
+  color: var(--red);
+}
+.light-table-switch.is-on .lt-lamp {
+  background: #ffd36b;
+  box-shadow: 0 0 0.5rem 0.1rem rgba(255, 197, 87, 0.9), inset 0 0 0 1px rgba(163, 49, 40, 0.5);
+}
+
+.record-mark-rail {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin: -0.3rem 0 0.9rem;
+}
+body.light-table-on .record-mark-rail { display: flex; }
+.record-mark-note {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+body.light-table-on .certs-grid { background: transparent; }
+body.light-table-on .cert-card.record-card {
+  background: linear-gradient(160deg, rgba(255, 250, 232, 0.96), rgba(255, 243, 214, 0.88));
+  border-color: rgba(163, 49, 40, 0.28);
+  box-shadow: 0 0 1.6rem rgba(255, 205, 120, 0.55), 0 0.2rem 0 rgba(26, 25, 22, 0.1);
+}
+body.light-table-on .cert-card.is-watermarked .record-watermark { opacity: 1; }
+body.light-table-on .record-emboss { opacity: 0.32; transform: scale(1); }
+body.light-table-on .cert-card.record-card:hover .record-emboss { opacity: 0.9; }
+
+/* ==================================================================== */
+/* 9. Motion, pointer and print                                         */
+/* ==================================================================== */
+
+@media (hover: none), (pointer: coarse) {
+  .loupe-hint { font-size: 0.5rem; }
+  .case-lens-print { cursor: default; }
+  .wire-tape-strip { overflow-x: auto; flex-wrap: nowrap; }
+  .wire-stub { flex: 0 0 auto; }
+}
+
+@media (max-width: 620px) {
+  .case-tab { padding: 0.45rem 0.7rem; }
+  .case-tab-marks .seal { width: 2.5rem; height: 2.5rem; }
+  .case-tab-marks .seal-word { font-size: 0.6rem; }
+  .pm-toast { left: clamp(0.8rem, 3vw, 2rem); }
+  .letter-postage { width: 2.7rem; }
+  .letter .letter-head { padding-right: 3.2rem; }
+  .lino-rail [role="tab"] { flex: 1 0 auto; min-width: 6.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-mark { animation: none; }
+  .pm-mark.is-claimed { animation: none; opacity: 0; }
+  .lino-char { opacity: 1; transform: none; animation: none !important; }
+  .is-refiling .case-file:not(.is-filed-out) { animation: none; }
+  .wire-needle { transition: none; }
+  .wire-stub.is-fresh { animation: none; }
+  .api-console.is-printing .api-pre { animation: none; }
+  .api-console.is-printing::after { display: none; }
+  .contact-send-button.is-sealing .wax-blob,
+  .contact-send-button.is-sealing .wax-die,
+  .contact-topic.is-pressed .topic-seal { animation: none; }
+  .pm-toast,
+  .pm-sheet,
+  .pm-sheet-paper,
+  .postage-cancel,
+  .loupe-layer,
+  .loupe-glass { transition-duration: 1ms; }
+}
+
+@media print {
+  .pm-toast,
+  .pm-sheet,
+  .loupe-glass,
+  .loupe-hint,
+  .loupe-key,
+  .light-table-switch,
+  .case-filters,
+  .wire-boss-hit { display: none !important; }
+  .loupe-layer { position: static; opacity: 1; -webkit-mask-image: none; mask-image: none; }
+}
