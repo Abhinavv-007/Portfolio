@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Security Research — Abhinav Raj</title>
+  <title>Security Research · Abhinav Raj</title>
   <meta name="description" content="How Abhinav Raj tests web applications and APIs: authorization, IDOR/BOLA, authentication, OAuth/OIDC, APIs, business logic, SSRF, XSS and source review. Controlled accounts, synthetic data, minimum-impact proof, state restoration, clear reproduction and actionable fixes. Bugcrowd global Top 50, June and July 2026.">
   <meta name="author" content="Abhinav Raj">
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Build Journal">
   <meta property="og:locale" content="en_IN">
-  <meta property="og:title" content="Security Research — Abhinav Raj">
+  <meta property="og:title" content="Security Research · Abhinav Raj">
   <meta property="og:description" content="What I look for, how I test it safely, and what a report from me looks like. Bugcrowd global Top 50 in June and July 2026.">
   <meta property="og:url" content="https://abhnv.in/security">
   <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
@@ -21,7 +21,7 @@
   <meta property="og:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Abhnv8">
-  <meta name="twitter:title" content="Security Research — Abhinav Raj">
+  <meta name="twitter:title" content="Security Research · Abhinav Raj">
   <meta name="twitter:description" content="What I look for, how I test it safely, and what a report from me looks like.">
   <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
   <meta name="twitter:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
@@ -31,7 +31,7 @@
     "@type": "WebPage",
     "@id": "https://abhnv.in/security",
     "url": "https://abhnv.in/security",
-    "name": "Security Research — Abhinav Raj",
+    "name": "Security Research · Abhinav Raj",
     "description": "Research areas, testing methodology and report format of security researcher Abhinav Raj.",
     "isPartOf": { "@id": "https://abhnv.in/#website" },
     "about": { "@id": "https://abhnv.in/#person" },
@@ -43,8 +43,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
-  <link rel="stylesheet" href="/styles.css?v=58">
-  <link rel="stylesheet" href="/interactive.css?v=58">
+  <link rel="stylesheet" href="/styles.css?v=59">
+  <link rel="stylesheet" href="/interactive.css?v=59">
+  <link rel="stylesheet" href="/motion.css?v=59">
 </head>
 <body data-page="security">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -125,7 +126,7 @@
         <span class="bugcrowd-seal-handle">@abhnv8</span>
       </a>
       <div class="bugcrowd-copy">
-        <h2 id="bugcrowdTitle">Ranked among Bugcrowd's global Top&nbsp;50 researchers in June and July 2026.</h2>
+        <h2 id="bugcrowdTitle">Ranked among Bugcrowd's global Top&nbsp;50 researchers in June and July 2026</h2>
         <p>I have been researching on Bugcrowd programs since March 2026. The profile is the only public record I keep of the work; everything else stays with the programs that received it.</p>
         <ul class="bugcrowd-ranks" aria-label="Rankings">
           <li><strong>Top 50</strong><span>Global &middot; June 2026</span></li>
@@ -135,6 +136,8 @@
         <a class="text-link hover-cut" href="https://bugcrowd.com/h/abhnv8" target="_blank" rel="noopener"><span>Open the Bugcrowd profile</span></a>
       </div>
     </section>
+
+    <div data-kinetic="Authorization|IDOR|OAuth|SSRF|XSS|Business logic" data-kinetic-two="Two accounts|One request|Clear proof|Shipped fix"></div>
 
     <section class="sec-areas" id="areas" aria-labelledby="areasTitle">
       <div class="sec-head">
@@ -180,7 +183,7 @@
             <pre class="lab-pre" data-lab-request></pre>
           </div>
           <div class="lab-pane lab-pane--response">
-            <div class="lab-pane-head"><span>Response</span><strong class="lab-code" data-lab-code>—</strong></div>
+            <div class="lab-pane-head"><span>Response</span><strong class="lab-code" data-lab-code>···</strong></div>
             <pre class="lab-pre" data-lab-response aria-live="polite"></pre>
             <p class="lab-verdict" data-lab-verdict aria-live="polite"></p>
           </div>
@@ -240,7 +243,7 @@
         <div>
           <div class="section-kicker">Disclosure</div>
           <h2 id="disclosureTitle">Found something in one of mine?</h2>
-          <p>Clex, Clex AI, Driped, trgt, Modih Mail and this site are all mine, and I would rather hear about a problem from you than from anyone else. Email <a href="mailto:hello@abhnv.in">hello@abhnv.in</a> with steps to reproduce, and give me a few days to respond before anything is published.</p>
+          <p>Clex, Clex AI, Driped, trgt, Modih Mail and this site are all mine, and I would rather hear about a problem from you than from anyone else. Email <a href="mailto:abhnv@abhnv.in">abhnv@abhnv.in</a> with steps to reproduce, and give me a few days to respond before anything is published.</p>
           <p>What I ask in return is what I do myself: test against your own accounts, keep the proof minimal, do not access, change or keep anyone else's data, and do not run anything that degrades the service.</p>
         </div>
         <div class="sec-disclosure-links">
@@ -268,8 +271,9 @@
     </footer>
   </main>
 
-  <script src="/data.js?v=58"></script>
-  <script src="/app.js?v=58"></script>
-  <script src="/interactive.js?v=58"></script>
+  <script src="/data.js?v=59"></script>
+  <script src="/app.js?v=59"></script>
+  <script src="/interactive.js?v=59"></script>
+  <script src="/motion.js?v=59"></script>
 </body>
 </html>

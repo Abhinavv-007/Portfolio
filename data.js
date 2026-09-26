@@ -20,7 +20,7 @@
       name: "Abhinav Raj",
       role: "Security Researcher & Product Builder",
       publication: "The Build Journal",
-      email: "hello@abhnv.in",
+      email: "abhnv@abhnv.in",
       site: "https://abhnv.in",
       location: "India",
       summary: "Security researcher and product builder. I test how web applications and APIs enforce authorization, authentication and business rules, and I ship products of my own: Clex, Clex AI, Driped, trgt and Modih Mail.",
@@ -244,7 +244,7 @@
       {
         title: "trgt",
         slug: "trgt",
-        label: "Race-weekend intelligence",
+        label: "Race weekend intelligence",
         shortImage: "assets/projects/short/trgt.webp",
         detailedImage: "assets/projects/detailed/trgt.webp",
         logo: "assets/logos/trgt.svg",
@@ -405,7 +405,7 @@
         },
         {
           id: "code",
-          title: "Source-code review",
+          title: "Source code review",
           short: "Reading the function that should contain the check",
           what: "Open-source components, exposed JavaScript bundles and public repositories, read for authorization checks, secrets handling and unsafe defaults.",
           why: "The fastest way to find a missing check is to read the code that should contain it.",
@@ -416,10 +416,10 @@
         { title: "Careful scoping", body: "I read the program's scope and rules before anything else. Out-of-scope assets are never touched, and ambiguous ones get a question, not a test." },
         { title: "Controlled accounts", body: "Every test runs between accounts I created for it. No real user, customer or employee is ever the other side of a request." },
         { title: "Synthetic data", body: "The names, files, payments and messages in my tests are invented. Nothing personal from the target is copied, and nothing real is uploaded." },
-        { title: "Minimum-impact proof", body: "The proof is the smallest request that shows the flaw. No mass reads, no automation against production data, no denial of service, no lateral movement." },
+        { title: "Minimum impact proof", body: "The proof is the smallest request that shows the flaw. No mass reads, no automation against production data, no denial of service, no lateral movement." },
         { title: "State restoration", body: "Anything I changed gets reverted: settings, memberships, uploads, test orders. A program should not need to clean up after a report." },
         { title: "Clear reproduction", body: "Reports carry the exact requests, the accounts used, expected versus actual behaviour, and what was checked to rule out a false positive." },
-        { title: "Root-cause analysis", body: "I explain why the bug exists, not just where: the missing check, the wrong trust boundary, the assumption baked into the flow." },
+        { title: "Root cause analysis", body: "I explain why the bug exists, not just where: the missing check, the wrong trust boundary, the assumption baked into the flow." },
         { title: "Actionable remediation", body: "Each report ends with a fix an engineer can ship, and a note on where else the same pattern is likely to live." }
       ],
       patterns: [
@@ -439,7 +439,7 @@
         },
         {
           cls: "Authentication",
-          title: "Reset flow trusted client-supplied identity",
+          title: "Reset flow trusted the identity the client sent",
           found: "A password-reset step took the account to change from the request body instead of from the verified token.",
           proof: "Own accounts only: the token from A, the identifier from B.",
           fix: "Bind the account to the token when it is issued and ignore any identity carried in the request."
@@ -453,14 +453,14 @@
         },
         {
           cls: "Business logic",
-          title: "Step skipped in a multi-stage flow",
+          title: "A checkout step that could be skipped",
           found: "A checkout could reach confirmation with the payment step replayed from an earlier, cheaper order.",
           proof: "My own cart and the smallest amounts. The order was cancelled and refunded after proof.",
           fix: "Tie each step's token to the current order and re-validate totals on the server at confirmation."
         },
         {
           cls: "SSRF",
-          title: "Server fetched a user-chosen URL",
+          title: "Server fetched a URL the user chose",
           found: "An import feature fetched a user-supplied URL with no allow-list and followed redirects.",
           proof: "The server made one request to an endpoint I control.",
           fix: "An allow-list of hosts, no redirects into private ranges, and a separate egress identity with no internal reach."
@@ -512,7 +512,7 @@
       { title: "AI in Society: AI and Discrimination", issuer: "University of Helsinki", url: "https://courses.mooc.fi/certificates/validate/2jhkpufuytud4pd", tags: ["AI", "Society"] },
       { title: "AI in Society: AI and Democracy", issuer: "University of Helsinki", url: "https://courses.mooc.fi/certificates/validate/4c6wbs6v6k7mt9g", tags: ["AI", "Society"] },
       { title: "Intro to AI", issuer: "Newton School of Technology", url: "https://my.newtonschool.co/course/yubnkx5qb3s7/certificate/744iiktw86iz/verify/", tags: ["AI"] },
-      { title: "Deep-dive into ChatGPT and other AI tools", issuer: "Newton School of Technology", url: "https://my.newtonschool.co/course/yubnkx5qb3s7/certificate/3hppu3jaatch/verify/", tags: ["AI"] },
+      { title: "Deep dive into ChatGPT and other AI tools", issuer: "Newton School of Technology", url: "https://my.newtonschool.co/course/yubnkx5qb3s7/certificate/3hppu3jaatch/verify/", tags: ["AI"] },
       { title: "The Introduction to the Internet of Things", issuer: "University of Helsinki", url: "https://courses.mooc.fi/certificates/validate/vqgbszbeu79jare", tags: ["IoT", "Systems"] },
       { title: "Introduction to Augmented Reality and ARCore", issuer: "Google", url: "https://coursera.org/verify/RZRMAXMZ6JF0", tags: ["AR", "Mobile"] },
       { title: "Blockchain Basics", issuer: "University at Buffalo", url: "https://coursera.org/verify/YRQDRYVTPE6T", tags: ["Blockchain", "Web3"] },
