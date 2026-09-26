@@ -417,10 +417,10 @@
     if (reducedMotion || !hasIO) return;
     const selector = [
       ".hero-roles article", ".thought-list article", ".note-row", ".pattern-card", ".method-list li",
-      ".sec-builds li", ".secbuild", ".api-card", ".api-stat", ".api-why-grid article", ".cert-card",
+      ".sec-builds li", ".secbuild", ".api-card", ".api-stat", ".api-why-grid article",
       ".skill-group", ".certs-stat", ".contact-brief-grid article", ".case-lens-grid article",
       ".anatomy-grid article", ".blueprint-grid article", ".work-detail-card", ".research-card",
-      ".bugcrowd-ranks li", ".profile-stats li", ".report-row", "[data-cutout]"
+      ".profile-stats li", "[data-cutout]"
     ].join(", ");
     const cards = $$(selector).filter((el) => !el.closest(".menu-panel, .palette, .extra-spin, .reel, .press-index") && el.offsetParent !== null);
     if (!cards.length) return;
