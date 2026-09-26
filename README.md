@@ -1,8 +1,8 @@
 # abhnv.in — The Build Journal
 
 The personal site of **Abhinav Raj**, security researcher and product builder.
-Security research on Bugcrowd programs since March 2026 (global Top 50 in June
-and July 2026). Builder of Clex, Clex AI, Driped, trgt and Modih Mail.
+Security research on Bugcrowd programs since March 2026 (global Top 50 in June,
+July and September 2026). Builder of Clex, Clex AI, Driped, trgt and Modih Mail.
 
 Live: https://abhnv.in
 

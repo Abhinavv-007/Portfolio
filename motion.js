@@ -9,7 +9,7 @@
     1. Helpers and one shared scroll clock
     2. Sound: a small synthesised press kit (off until the reader asks)
     3. Heading registration and word rise
-    4. Declassified: the hero name
+    4. Paper-cut titles and scissor-cut cards
     5. Halftone develop
     6. EXTRA: the spinning front page
     7. The five products, fanned
@@ -45,8 +45,8 @@
     const mo = new MutationObserver(() => { if (body.classList.contains("loaded")) run(); });
     if (body.classList.contains("loaded")) { run(); return; }
     mo.observe(body, { attributes: true, attributeFilter: ["class"] });
-    // Never wait forever on the intro.
-    window.setTimeout(run, 3000);
+    // Never wait forever on the intro (or the opening titles).
+    window.setTimeout(run, window.PR_FILM ? 9000 : 3000);
   };
 
   /* One scroll clock for everything that listens to scroll. It samples
@@ -186,6 +186,13 @@
       swish(t) {
         noise(t, { dur: 0.2, freq: 700, freqEnd: 3200, q: 0.9, peak: 0.07, attack: 0.03 });
       },
+      // Scissors: two quick blade closes.
+      snip(t) {
+        [0, 0.07].forEach((d) => {
+          noise(t + d, { dur: 0.035, type: "highpass", freq: 5200, peak: 0.07, attack: 0.001 });
+          noise(t + d + 0.01, { dur: 0.05, freq: 2600, q: 2, peak: 0.04, attack: 0.002 });
+        });
+      },
       // A key settling: letters locking in.
       tick(t) {
         noise(t, { dur: 0.014, type: "highpass", freq: 3600, peak: 0.05, attack: 0.001 });
@@ -266,7 +273,7 @@
   function setupHeadings() {
     const skip = ".clipping, .project-card, .menu-panel, .press-index, .palette, .extra-spin, .terminal-shell, .pm-sheet, [data-no-press]";
     const headings = $$("main h1, main h2").filter((h) => {
-      if (h.closest(skip) || h.classList.contains("pr-declass")) return false;
+      if (h.closest(skip)) return false;
       const style = window.getComputedStyle(h);
       return parseFloat(style.fontSize) >= 26 && style.display !== "none";
     });
@@ -326,152 +333,145 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* 4. Declassified: the hero name                                      */
+  /* 4. Paper-cut titles                                                 */
   /* ------------------------------------------------------------------ */
 
-  const GLYPHS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&@$/<>*";
-  const glyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+  const SCISSORS = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><g class="blade-a"><circle cx="6" cy="6" r="3"/><path d="M8.1 8.1 20 20"/></g><g class="blade-b"><circle cx="6" cy="18" r="3"/><path d="M8.1 15.9 20 4"/></g></svg>`;
 
-  // Scramble one letter for `ms`, then set it back and let it lock.
-  function scrambleLetter(letter, ms, onLock) {
-    const final = letter.dataset.char || letter.textContent;
-    letter.dataset.char = final;
-    if (letter._scramble) window.clearInterval(letter._scramble);
-    const w = letter.getBoundingClientRect().width;
-    letter.style.width = `${w}px`;
-    letter.classList.remove("is-locked");
-    letter.classList.add("is-scrambling");
-    letter._scramble = window.setInterval(() => { letter.textContent = glyph(); }, 48);
-    window.setTimeout(() => {
-      window.clearInterval(letter._scramble);
-      letter._scramble = 0;
-      letter.textContent = final;
-      letter.classList.remove("is-scrambling");
-      letter.style.width = "";
-      void letter.offsetWidth;
-      letter.classList.add("is-locked");
-      if (onLock) onLock();
-    }, ms);
-  }
-
-  function setupDeclassify() {
-    if (reducedMotion || page !== "index") return;
-    const h1 = $(".profile-head h1.split-title");
-    if (!h1) return;
-    const words = $$(".hero-letter-word", h1);
-    const letters = $$(".hero-letter", h1);
-    if (!words.length || !letters.length) return;
-    letters.forEach((l) => { l.dataset.char = l.textContent; });
-    h1.classList.add("pr-declass");
-
-    const bars = words.map((word) => {
-      const bar = document.createElement("span");
-      bar.className = "pr-bar";
-      bar.setAttribute("aria-hidden", "true");
-      bar.innerHTML = "<b>Redacted</b>";
-      const edge = document.createElement("span");
-      edge.className = "pr-bar-edge";
-      edge.setAttribute("aria-hidden", "true");
-      word.append(bar, edge);
-      return { word, bar, edge, letters: $$(".hero-letter", word) };
-    });
-
-    let opened = false;
-    const open = () => {
-      if (opened) return;
-      opened = true;
-      // Everything under the bars starts as ciphertext.
-      letters.forEach((l) => {
-        l.style.width = `${l.getBoundingClientRect().width}px`;
-        l.classList.add("is-scrambling");
+  // Split titles (made by app.js) drop in letter by letter as cut paper.
+  function setupPaperTitles() {
+    if (reducedMotion) return;
+    const titles = $$(".split-title").filter((h) => $$(".hero-letter", h).length);
+    if (!titles.length) return;
+    titles.forEach((h, hi) => {
+      h.classList.add("pr-cut");
+      const letters = $$(".hero-letter", h);
+      const r = (n) => { const x = Math.sin(n * 91.7 + hi * 13.1) * 43758.5453; return x - Math.floor(x); };
+      letters.forEach((l, k) => {
+        l.style.setProperty("--k", String(k));
+        l.style.setProperty("--rest", `${((r(k) - 0.5) * 5).toFixed(2)}deg`);
+        l.style.setProperty("--fr", `${((r(k + 7) - 0.5) * 70).toFixed(1)}deg`);
+        l.style.setProperty("--fx", `${((r(k + 3) - 0.5) * 0.8).toFixed(2)}em`);
       });
-      const spin = window.setInterval(() => {
-        letters.forEach((l) => { if (l.classList.contains("is-scrambling")) l.textContent = glyph(); });
-      }, 50);
-
-      const WORD_MS = 620;
-      const GAP_MS = 140;
-      const t0 = performance.now();
-      const locked = new Set();
-      const lock = (l) => {
-        if (locked.has(l)) return;
-        locked.add(l);
-        l.textContent = l.dataset.char;
-        l.classList.remove("is-scrambling");
-        l.style.width = "";
-        void l.offsetWidth;
-        l.classList.add("is-locked");
-        Sound.play("tick");
-      };
-      const frame = (now) => {
-        let running = false;
-        bars.forEach((b, i) => {
-          const start = t0 + i * (WORD_MS + GAP_MS);
-          const p = clamp((now - start) / WORD_MS);
-          const eased = p < 1 ? 1 - Math.pow(1 - p, 2.2) : 1;
-          b.word.style.setProperty("--cut", `${(eased * 100).toFixed(2)}%`);
-          b.word.style.setProperty("--edge", p > 0 && p < 1 ? "1" : "0");
-          const width = b.word.getBoundingClientRect().width || 1;
-          b.letters.forEach((l) => {
-            const center = (l.offsetLeft + l.offsetWidth * 0.5) / width;
-            if (eased >= center + 0.04) lock(l);
-          });
-          if (p < 1) running = true;
-          else b.letters.forEach(lock);
+      const cut = () => {
+        if (h.classList.contains("is-in")) return;
+        h.classList.add("is-in");
+        const total = 820 + letters.length * 62;
+        // A pair of scissors runs the cut line under the title.
+        const line = document.createElement("span");
+        line.className = "pr-cutline";
+        line.setAttribute("aria-hidden", "true");
+        const snips = document.createElement("span");
+        snips.className = "pr-scissors";
+        snips.innerHTML = SCISSORS;
+        if (getComputedStyle(h).position === "static") h.style.position = "relative";
+        h.append(line, snips);
+        const t0 = performance.now();
+        const run = (now) => {
+          const p = clamp((now - t0) / (total * 0.8));
+          const e = 1 - Math.pow(1 - p, 2);
+          h.style.setProperty("--cut", `${(e * 100).toFixed(1)}%`);
+          if (p < 1) window.requestAnimationFrame(run);
+          else {
+            snips.remove();
+            line.style.transition = "opacity 500ms ease";
+            line.style.opacity = "0";
+            window.setTimeout(() => line.remove(), 600);
+          }
+        };
+        window.requestAnimationFrame(run);
+        Sound.play("snip");
+        // Touch or hover a letter and it peels up off the page.
+        const lift = (l) => {
+          if (!l || l.classList.contains("is-lifted")) return;
+          l.classList.add("is-lifted");
+          window.setTimeout(() => l.classList.remove("is-lifted"), 520);
+        };
+        h.addEventListener("pointerover", (e) => { if (e.pointerType === "mouse") lift(e.target instanceof Element && e.target.closest(".hero-letter")); });
+        h.addEventListener("pointerdown", (e) => {
+          const hit = e.target instanceof Element && e.target.closest(".hero-letter");
+          if (!hit) return;
+          const i = letters.indexOf(hit);
+          [i - 1, i, i + 1].forEach((j, n) => window.setTimeout(() => lift(letters[j]), n * 50));
+          Sound.play("tick");
+          buzz(5);
         });
-        if (running) window.requestAnimationFrame(frame);
-        else {
-          window.clearInterval(spin);
-          letters.forEach(lock);
-          h1.classList.add("is-open");
-          armPlay();
-        }
       };
-      window.requestAnimationFrame(frame);
-    };
-
-    // After the reveal the name stays live: touch or hover a letter and it
-    // drops back into cipher for a moment.
-    const armPlay = () => {
-      const poke = (letter) => {
-        if (!letter || letter.classList.contains("is-scrambling")) return;
-        scrambleLetter(letter, 260 + Math.random() * 160);
-        Sound.play("tick");
-      };
-      h1.addEventListener("pointerover", (e) => {
-        if (e.pointerType !== "mouse") return;
-        poke(e.target instanceof Element && e.target.closest(".hero-letter"));
-      });
-      h1.addEventListener("pointerdown", (e) => {
-        const hit = e.target instanceof Element && e.target.closest(".hero-letter");
-        if (!hit) return;
-        const i = letters.indexOf(hit);
-        [i - 1, i, i + 1].forEach((j, k) => window.setTimeout(() => poke(letters[j]), k * 60));
-        buzz(5);
-      });
-      // Now and then one letter flickers back into cipher, while on screen.
-      let visible = true;
-      if (hasIO) new IntersectionObserver((es) => { visible = es[0].isIntersecting; }).observe(h1);
-      window.setInterval(() => {
-        if (!visible || document.hidden) return;
-        const l = letters[Math.floor(Math.random() * letters.length)];
-        if (!l.classList.contains("is-scrambling")) scrambleLetter(l, 220);
-      }, 5200);
-    };
-
-    // Never leave the name hidden: open it after a while regardless.
-    window.setTimeout(open, 14000);
-    whenLoaded(() => {
-      window.setTimeout(() => {
-        if (!hasIO) { open(); return; }
+      // Never leave a title hidden.
+      window.setTimeout(cut, 16000);
+      whenLoaded(() => {
+        if (!hasIO) { cut(); return; }
         const io = new IntersectionObserver((entries) => {
           if (!entries.some((e) => e.isIntersecting)) return;
           io.disconnect();
-          window.setTimeout(open, 180);
-        }, { threshold: 0.6 });
-        io.observe(h1);
-      }, 350);
+          window.setTimeout(cut, 120);
+        }, { threshold: 0.5 });
+        io.observe(h);
+      });
     });
+  }
+
+  // Cards are cut out of the sheet as they arrive: a dashed line is traced
+  // around the edge by a pair of scissors, then the card lifts free.
+  function setupCutouts() {
+    if (reducedMotion || !hasIO) return;
+    const selector = [
+      ".hero-roles article", ".thought-list article", ".note-row", ".pattern-card", ".method-list li",
+      ".sec-builds li", ".secbuild", ".api-card", ".api-stat", ".api-why-grid article", ".cert-card",
+      ".skill-group", ".certs-stat", ".contact-brief-grid article", ".case-lens-grid article",
+      ".anatomy-grid article", ".blueprint-grid article", ".work-detail-card", ".research-card",
+      ".bugcrowd-ranks li", ".profile-stats li", ".report-row", "[data-cutout]"
+    ].join(", ");
+    const cards = $$(selector).filter((el) => !el.closest(".menu-panel, .palette, .extra-spin, .reel, .press-index") && el.offsetParent !== null);
+    if (!cards.length) return;
+    cards.forEach((el, i) => {
+      el.classList.add("pr-cutout");
+      el.style.setProperty("--lift-r", `${(i % 2 ? 1 : -1) * (0.6 + (i % 3) * 0.4)}deg`);
+    });
+    let queue = 0;
+    const cutOne = (el) => {
+      const r = el.getBoundingClientRect();
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("class", "pr-cut-svg");
+      svg.setAttribute("aria-hidden", "true");
+      const W = r.width + 6, H = r.height + 6;
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      const len = 2 * (W + H);
+      const mk = (cls) => {
+        const rect = document.createElementNS(svgNS, "rect");
+        rect.setAttribute("x", "1.5"); rect.setAttribute("y", "1.5");
+        rect.setAttribute("width", String(W - 3)); rect.setAttribute("height", String(H - 3));
+        if (cls) rect.setAttribute("class", cls);
+        return rect;
+      };
+      svg.style.setProperty("--len", String(len));
+      svg.append(mk(""), mk("pr-cut-trace"));
+      const snips = document.createElement("span");
+      snips.className = "pr-cut-snips";
+      snips.setAttribute("aria-hidden", "true");
+      snips.innerHTML = SCISSORS;
+      el.append(svg, snips);
+      window.setTimeout(() => {
+        el.classList.add("is-cut");
+        svg.classList.add("is-done");
+        snips.remove();
+        window.setTimeout(() => svg.remove(), 420);
+      }, 480);
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        const el = entry.target;
+        const delay = (queue % 4) * 110;
+        queue += 1;
+        window.setTimeout(() => { queue = Math.max(0, queue - 1); cutOne(el); }, delay);
+      });
+    }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+    whenLoaded(() => cards.forEach((el) => io.observe(el)));
+    // Anything the observer never reaches (hidden tabs, print) still shows.
+    window.setTimeout(() => cards.forEach((el) => { if (!el.classList.contains("is-cut") && el.getBoundingClientRect().top < window.innerHeight) { el.classList.add("is-cut"); } }), 20000);
   }
 
   /* ------------------------------------------------------------------ */
@@ -619,20 +619,32 @@
   /* 8. Hold-to-stamp email slip                                         */
   /* ------------------------------------------------------------------ */
 
+  // Notices print out of a slot like a desk receipt, then tear off.
   let toastTimer = 0;
-  function toast(message) {
+  function toast(title, detail = "") {
     let el = $(".pr-toast");
     if (!el) {
       el = document.createElement("div");
       el.className = "pr-toast";
       el.setAttribute("role", "status");
       el.setAttribute("aria-live", "polite");
+      el.innerHTML = `<span class="pr-toast-slot" aria-hidden="true"></span><div class="pr-toast-paper"><small data-when></small><b data-title></b><span data-detail></span><i aria-hidden="true">&#10003; filed</i></div>`;
       body.appendChild(el);
     }
-    el.textContent = message;
+    const now = new Date();
+    $("[data-when]", el).textContent = `Desk receipt · ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    $("[data-title]", el).textContent = title;
+    $("[data-detail]", el).textContent = detail;
+    el.classList.remove("is-in", "is-torn");
+    void el.offsetWidth;
     el.classList.add("is-in");
+    Sound.play("rustle");
     window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => el.classList.remove("is-in"), 2600);
+    toastTimer = window.setTimeout(() => {
+      el.classList.add("is-torn");
+      Sound.play("snip");
+      window.setTimeout(() => el.classList.remove("is-in", "is-torn"), 700);
+    }, 3200);
   }
 
   async function copyText(text) {
@@ -706,7 +718,7 @@
         hint.innerHTML = copied
           ? `Copied <strong>${EMAIL}</strong> to your clipboard. <a href="mailto:${EMAIL}">Open your mail app</a>.`
           : `The address is <strong>${EMAIL}</strong>. <a href="mailto:${EMAIL}">Open your mail app</a>.`;
-        if (copied) toast(`Copied · ${EMAIL}`);
+        if (copied) toast("Address copied", EMAIL);
         release(true);
       };
 
@@ -759,7 +771,7 @@
       });
       btn.addEventListener("pointerup", () => {
         // Safari only lets the clipboard be written inside a gesture: retry here.
-        if (completed && !copied) copyText(EMAIL).then((ok) => { if (ok) { copied = true; toast(`Copied · ${EMAIL}`); } });
+        if (completed && !copied) copyText(EMAIL).then((ok) => { if (ok) { copied = true; toast("Address copied", EMAIL); } });
         release(false);
       });
       btn.addEventListener("pointercancel", () => release(false));
@@ -1329,7 +1341,7 @@
   /* Boot                                                                */
   /* ------------------------------------------------------------------ */
 
-  const boot = [setupWire, setupOdometers, setupKinetic, setupDeclassify, setupHeadings, setupHalftone, setupExtra, setupRail, setupStampCta, setupDock, setupBlots, setupMarqueeDrift, setupSoundCues, setupDeskStatus, setupTabTitle, setupTypedKickers, setupStacks, setupScrollSpin, setupRailPeek, setupSignature, setupSoundHint];
+  const boot = [setupWire, setupOdometers, setupKinetic, setupPaperTitles, setupHeadings, setupHalftone, setupExtra, setupRail, setupStampCta, setupDock, setupBlots, setupMarqueeDrift, setupSoundCues, setupDeskStatus, setupTabTitle, setupTypedKickers, setupStacks, setupScrollSpin, setupRailPeek, setupSignature, setupSoundHint, setupCutouts];
   boot.forEach((fn) => {
     try { fn(); } catch (err) { if (window.console) console.warn(`[press room] ${fn.name} skipped`, err); }
   });

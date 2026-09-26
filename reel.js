@@ -332,60 +332,6 @@
     domain: String(p.liveUrl || "").replace(/^https?:\/\//, "").replace(/\/$/, "")
   }));
 
-  function leader(ctx, t, e) {
-    const { w, h, u } = e;
-    frame(ctx, e, "#1c1a16");
-    const cx = w / 2 + e.px * u * 2;
-    const cy = h / 2 + e.py * u * 2;
-    const R = u * 34;
-    const n = Math.max(1, 3 - Math.floor(t));
-    const f = t % 1;
-    ctx.save();
-    ctx.fillStyle = "rgba(234, 223, 206, 0.09)";
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, Math.hypot(w, h), -Math.PI / 2, -Math.PI / 2 + f * TAU);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-    line(ctx, 0, cy, w, cy, C.faint, 1);
-    line(ctx, cx, 0, cx, h, C.faint, 1);
-    ctx.save();
-    ctx.strokeStyle = "rgba(234, 223, 206, 0.7)";
-    ctx.lineWidth = u * 0.5;
-    circle(ctx, cx, cy, R);
-    ctx.stroke();
-    ctx.lineWidth = u * 0.25;
-    circle(ctx, cx, cy, R * 0.84);
-    ctx.stroke();
-    ctx.restore();
-    const pop = E.outBack(seg(f, 0, 0.18));
-    text(ctx, String(n), cx, cy + u * 2.5, { font: F.disp(u * 42 * lerp(0.7, 1, pop)), color: C.paper });
-    // Film running past: sprocket holes on both edges.
-    ctx.save();
-    ctx.fillStyle = "rgba(234, 223, 206, 0.22)";
-    const gap = u * 9;
-    const off = (t * u * 90) % gap;
-    for (let y = -gap + off; y < h + gap; y += gap) {
-      rrect(ctx, u * 2, y, u * 3, u * 5, u);
-      ctx.fill();
-      rrect(ctx, w - u * 5, y, u * 3, u * 5, u);
-      ctx.fill();
-    }
-    ctx.restore();
-    label(ctx, "The Build Journal", u * 8, TOP(e), e, { align: "left" });
-    label(ctx, "Reel 01", w - u * 8, TOP(e), e, { align: "right" });
-    label(ctx, "Picture start", cx, h - u * 7, e, { color: C.red });
-    ctx.save();
-    ctx.fillStyle = `rgba(255, 250, 235, ${(Math.sin(t * 91) * 0.5 + 0.5) * 0.035})`;
-    ctx.fillRect(0, 0, w, h);
-    if (t > 2.84) {
-      ctx.fillStyle = `rgba(255, 248, 230, ${seg(t, 2.84, 3.0)})`;
-      ctx.fillRect(0, 0, w, h);
-    }
-    ctx.restore();
-  }
-
   const MANIFESTO = [
     ["Most", 0], ["bugs", 0], ["are a", 0], ["server", 1], ["trusting", 0],
     ["a number", 1], ["it should", 0], ["have", 0], ["checked", 1]
@@ -599,12 +545,15 @@
     const blur = 1 - seg(t, 1.2, 1.5);
     for (let g = 2; g >= 1; g -= 1) text(ctx, String(v), w / 2, cy + u * 4 - g * u * 2.5 * blur, { font: F.disp(big), color: C.ink, alpha: 0.12 * blur });
     text(ctx, String(v), w / 2, cy + u * 4, { font: F.disp(big), color: C.ink });
-    const b1 = P ? [w * 0.3, h * 0.74] : [w * 0.2, h * 0.5];
-    const b2 = P ? [w * 0.7, h * 0.74] : [w * 0.8, h * 0.5];
-    stamp(ctx, "JUNE", b1[0], b1[1], u * 5, seg(t, 1.7, 2.0), { rot: -0.2, sub: "2026 · top 50", color: C.red2 });
-    stamp(ctx, "JULY", b2[0], b2[1], u * 5, seg(t, 2.2, 2.5), { rot: 0.16, sub: "2026 · top 50", color: C.red2 });
+    const b1 = P ? [w * 0.2, h * 0.73] : [w * 0.17, h * 0.42];
+    const b2 = P ? [w * 0.5, h * 0.8] : [w * 0.83, h * 0.42];
+    const b3 = P ? [w * 0.8, h * 0.73] : [w * 0.5, h * 0.84];
+    const ss = u * (P ? 4.2 : 5);
+    stamp(ctx, "JUNE", b1[0], b1[1], ss, seg(t, 1.7, 2.0), { rot: -0.2, sub: "2026 · top 50", color: C.red2 });
+    stamp(ctx, "JULY", b2[0], b2[1], ss, seg(t, 2.2, 2.5), { rot: 0.16, sub: "2026 · top 50", color: C.red2 });
+    stamp(ctx, "SEPT", b3[0], b3[1], ss, seg(t, 2.7, 3.0), { rot: -0.08, sub: "2026 · top 50", color: C.red2 });
     // Paper confetti off each stamp
-    [[b1, 1.7], [b2, 2.2]].forEach(([b, t0], j) => {
+    [[b1, 1.7], [b2, 2.2], [b3, 2.7]].forEach(([b, t0], j) => {
       const lt = t - t0;
       if (lt < 0 || lt > 1.6) return;
       const r = rng(7 + j * 13);
@@ -622,7 +571,7 @@
         ctx.restore();
       }
     });
-    label(ctx, "Researching since March 2026", w / 2, P ? h * 0.9 : h * 0.64, e, { color: C.ink, alpha: seg(t, 2.6, 3) });
+    label(ctx, "Three times in 2026 · researching since March", w / 2, P ? h * 0.93 : h * 0.64, e, { color: C.ink, alpha: seg(t, 3.1, 3.5) });
   }
 
   function productsScene(ctx, t, e) {
@@ -728,13 +677,12 @@
   const SHOWREEL = {
     id: "showreel",
     name: "Reel 01",
-    label: "Reel 01: a motion reel of the journal. A film leader counts down, the front-page line about servers trusting numbers is set word by word, an animated case file shows a cross-account invoice read being blocked by one ownership check with a 403 stamp, the Bugcrowd global Top 50 for June and July 2026 is stamped, the five products scroll past, and an end card shows the name and email.",
-    poster: 12.6,
+    label: "Reel 01: a motion reel of the journal. The front-page line about servers trusting numbers is set word by word, an animated case file shows a cross-account invoice read being blocked by one ownership check with a 403 stamp, the Bugcrowd global Top 50 for June, July and September 2026 is stamped, the five products scroll past, and an end card shows the name and email.",
+    poster: 1.2,
     scenes: [
-      { label: "Leader", dur: 3.0, draw: leader, cues: [[0.02, "tick"], [1, "tick"], [2, "tick"]] },
-      { label: "Manifesto", dur: 5.2, draw: manifesto, trans: "iris", cues: MANIFESTO.map((_, i) => [0.16 + i * 0.5, i === MANIFESTO.length - 1 ? "thump" : "tick"]) },
+      { label: "Manifesto", dur: 5.2, draw: manifesto, cues: MANIFESTO.map((_, i) => [0.16 + i * 0.5, i === MANIFESTO.length - 1 ? "thump" : "tick"]) },
       { label: "The request", dur: 6.8, draw: request, trans: "wipe", cues: [[0.7, "swish"], [2.1, "swish"], [3.9, "tick"], [4.15, "swish"], [5.32, "thump"]] },
-      { label: "The leaderboard", dur: 3.8, draw: leaderboard, trans: "slice", cues: [[1.72, "thump"], [2.22, "thump"]] },
+      { label: "The leaderboard", dur: 4.4, draw: leaderboard, trans: "slice", cues: [[1.72, "thump"], [2.22, "thump"], [2.72, "thump"]] },
       { label: "Five products", dur: 5.4, draw: productsScene, trans: "blinds", cues: [0, 1, 2, 3, 4].map((i) => [0.3 + i * 0.98, "tick"]) },
       { label: "End card", dur: 4.0, draw: endCard, trans: "iris", cues: [[1.82, "thump"]] }
     ]
@@ -1338,9 +1286,10 @@
         new IntersectionObserver((entries) => {
           const e = entries[0];
           this.visible = e.isIntersecting;
-          if (e.intersectionRatio >= 0.45 && !this.userPaused && !reducedMotion) this.play();
-          if (!e.isIntersecting) this.pause(true);
-        }, { threshold: [0, 0.45] }).observe(this.frameEl);
+          // Only roll once the reader is really at the film.
+          if (e.intersectionRatio >= 0.7 && !this.userPaused && !reducedMotion) this.play();
+          if (e.intersectionRatio < 0.35) this.pause(true);
+        }, { threshold: [0, 0.35, 0.7] }).observe(this.frameEl);
       } else {
         this.visible = true;
       }
@@ -1360,6 +1309,8 @@
 
     play() {
       if (this.playing) return;
+      // The first play always starts at the top of the film.
+      if (!this.started) { this.started = true; this.t = 0; }
       this.playing = true;
       this.visible = true;
       this.fig.classList.add("is-playing");
@@ -1379,6 +1330,7 @@
     }
 
     seek(t) {
+      this.started = true;
       const d = this.tl.duration;
       this.t = ((t % d) + d) % d;
       this.draw();
