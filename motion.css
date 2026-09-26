@@ -95,91 +95,183 @@ html.pr-motion .pr-set.is-done .pr-w {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Declassified: the hero name                                      */
+/* 3. Paper-cut titles: every letter is a cut-out piece of paper       */
 /* ------------------------------------------------------------------ */
 
-/* app.js presses the letters in on load; the name here is revealed by
-   the redaction bars instead, so that entrance is switched off. */
-html.pr-motion body .profile-head h1.pr-declass .hero-letter {
+/* app.js presses split titles in on load; here the letters are dropped
+   in as cut paper instead, so that entrance is switched off. */
+html.pr-motion body .split-title.pr-cut .hero-letter {
   animation: none !important;
-  opacity: 1 !important;
+  opacity: 0 !important;
   transform: none !important;
 }
 
-.pr-declass .hero-letter-word {
+.split-title.pr-cut .hero-letter {
+  position: relative;
+  text-shadow:
+    0.035em 0.05em 0 rgba(26, 25, 22, 0.16),
+    0.012em 0.018em 0 rgba(255, 250, 238, 0.9);
+  transform-origin: 50% 80%;
+  transition: translate 360ms var(--pr-spring), rotate 360ms var(--pr-spring), text-shadow 300ms ease;
+}
+
+html.pr-motion body .split-title.pr-cut.is-in .hero-letter {
+  opacity: 1 !important;
+  rotate: var(--rest, 0deg);
+  animation: prPaperDrop 820ms cubic-bezier(0.2, 1.3, 0.35, 1) both !important;
+  animation-delay: calc(var(--k, 0) * 62ms) !important;
+}
+
+@keyframes prPaperDrop {
+  0% {
+    opacity: 0;
+    translate: var(--fx, 0) -1.4em;
+    rotate: var(--fr, -30deg);
+    text-shadow: 0.2em 0.35em 0.15em rgba(26, 25, 22, 0.12), 0 0 0 transparent;
+  }
+  18% { opacity: 1; }
+  100% {
+    opacity: 1;
+    translate: 0 0;
+    rotate: var(--rest, 0deg);
+  }
+}
+
+html.pr-motion body .split-title.pr-cut.is-in .hero-letter.is-lifted {
+  translate: 0 -0.08em;
+  rotate: calc(var(--rest, 0deg) * -3);
+  text-shadow:
+    0.08em 0.14em 0.04em rgba(26, 25, 22, 0.22),
+    0.012em 0.018em 0 rgba(255, 250, 238, 0.9);
+}
+
+/* A cut line and a pair of scissors ahead of the name */
+.pr-cutline {
+  position: absolute;
+  left: -0.1em;
+  right: -0.1em;
+  bottom: -0.12em;
+  height: 0;
+  border-top: 2px dashed rgba(26, 25, 22, 0.45);
+  clip-path: inset(0 calc(100% - var(--cut, 0%)) 0 0);
+  pointer-events: none;
+}
+
+.pr-scissors {
+  position: absolute;
+  bottom: -0.12em;
+  left: var(--cut, 0%);
+  width: 0.34em;
+  height: 0.34em;
+  translate: -50% -50%;
+  color: var(--red);
+  pointer-events: none;
+}
+
+.pr-scissors svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.pr-scissors .blade-a,
+.pr-scissors .blade-b {
+  transform-origin: 50% 50%;
+  animation: prSnip 180ms ease-in-out infinite alternate;
+}
+
+.pr-scissors .blade-b {
+  animation-direction: alternate-reverse;
+}
+
+@keyframes prSnip {
+  from { rotate: -10deg; }
+  to { rotate: 10deg; }
+}
+
+/* ------------------------------------------------------------------ */
+/* 3b. Scissor-cut reveals for cards                                  */
+/* ------------------------------------------------------------------ */
+
+html.pr-motion .pr-cutout {
   position: relative;
 }
 
-.pr-declass .hero-letter.is-scrambling {
-  display: inline-block;
-  text-align: center;
-  color: var(--red);
-  font-family: var(--mono);
-  font-weight: 700;
-  transform: scaleY(0.92) !important;
+html.pr-motion .pr-cutout:not(.is-cut) > * {
+  opacity: 0;
 }
 
-.pr-declass .hero-letter.is-locked {
-  animation: prLock 520ms cubic-bezier(0.2, 0.9, 0.25, 1.2) both !important;
+html.pr-motion .pr-cutout:not(.is-cut) {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
 }
 
-@keyframes prLock {
-  0% {
-    transform: translateY(-0.08em) scale(1.12);
-    text-shadow: -0.09em 0 0 var(--pr-cyan), 0.08em 0.03em 0 var(--pr-magenta), 0.02em -0.06em 0 var(--pr-yellow);
-  }
-  100% {
-    transform: none;
-    text-shadow: 0 0 0 transparent, 0 0 0 transparent, 0 0 0 transparent;
-  }
+html.pr-motion .pr-cutout.is-cut {
+  animation: prLift 620ms cubic-bezier(0.2, 1.2, 0.35, 1) both;
 }
 
-.pr-bar {
+html.pr-motion .pr-cutout.is-cut > * {
+  transition: opacity 420ms ease 120ms;
+}
+
+@keyframes prLift {
+  0% { translate: 0 0.7rem; rotate: var(--lift-r, -1.2deg); filter: drop-shadow(0 0 0 rgba(26, 25, 22, 0)); }
+  60% { translate: 0 -0.25rem; filter: drop-shadow(0 0.9rem 0.8rem rgba(26, 25, 22, 0.2)); }
+  100% { translate: 0 0; rotate: 0deg; filter: drop-shadow(0 0 0 rgba(26, 25, 22, 0)); }
+}
+
+.pr-cut-svg {
   position: absolute;
-  inset: 0.02em -0.08em -0.18em -0.06em;
-  z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 0 0.3rem 0.28rem;
-  background:
-    repeating-linear-gradient(100deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 7px),
-    var(--ink);
-  box-shadow: 0 0.06em 0 rgba(0, 0, 0, 0.18);
-  clip-path: inset(0 0 0 var(--cut, 0%));
-  pointer-events: none;
-}
-
-.pr-bar b {
-  font-family: var(--mono);
-  font-size: clamp(0.5rem, 0.8vw, 0.62rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.2em;
-  color: rgba(234, 223, 206, 0.55);
-}
-
-.pr-bar-edge {
-  position: absolute;
-  top: -0.12em;
-  bottom: -0.12em;
-  left: var(--cut, 0%);
+  inset: -3px;
   z-index: 3;
-  width: 3px;
-  margin-left: -1.5px;
-  background: #ffd7a8;
-  box-shadow: 0 0 0.5em 0.12em rgba(209, 90, 53, 0.85), 0 0 1.4em 0.3em rgba(209, 90, 53, 0.45);
-  opacity: var(--edge, 0);
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  overflow: visible;
   pointer-events: none;
 }
 
-.pr-declass.is-open .pr-bar,
-.pr-declass.is-open .pr-bar-edge {
-  display: none;
+.pr-cut-svg rect {
+  fill: none;
+  stroke: rgba(26, 25, 22, 0.55);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
 }
 
-.pr-declass.is-open .hero-letter {
-  cursor: default;
+.pr-cut-svg .pr-cut-trace {
+  stroke: var(--red);
+  stroke-width: 2;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+  animation: prTrace 520ms cubic-bezier(0.5, 0, 0.3, 1) forwards;
+}
+
+.pr-cut-svg.is-done {
+  opacity: 0;
+  transition: opacity 360ms ease;
+}
+
+@keyframes prTrace {
+  to { stroke-dashoffset: 0; }
+}
+
+.pr-cut-snips {
+  position: absolute;
+  top: -0.7rem;
+  left: 0;
+  z-index: 4;
+  width: 1.3rem;
+  height: 1.3rem;
+  color: var(--red);
+  pointer-events: none;
+  animation: prSnipRun 520ms cubic-bezier(0.5, 0, 0.3, 1) forwards;
+}
+
+@keyframes prSnipRun {
+  from { left: -0.6rem; opacity: 1; }
+  90% { opacity: 1; }
+  to { left: calc(100% - 0.6rem); opacity: 0; }
 }
 
 /* ------------------------------------------------------------------ */
@@ -1281,31 +1373,136 @@ body.has-dock .pm-toast {
   z-index: 4405;
 }
 
-/* Small notices ("Address copied") */
+/* Notices: a receipt printed out of a slot, then torn off */
 .pr-toast {
   position: fixed;
   left: 50%;
-  bottom: calc(var(--pr-dock-h) + var(--pr-dock-gap) + 0.9rem);
+  bottom: calc(var(--pr-dock-h) + var(--pr-dock-gap) + 0.8rem);
   z-index: 4420;
-  max-width: calc(100vw - 2rem);
-  padding: 0.7rem 1rem;
-  white-space: nowrap;
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--paper-light);
-  background: var(--ink);
-  box-shadow: 0.2rem 0.2rem 0 var(--red);
-  translate: -50% 0.8rem;
-  opacity: 0;
+  width: min(19rem, calc(100vw - 2rem));
+  translate: -50% 0;
   pointer-events: none;
-  transition: translate 420ms var(--ease), opacity 260ms ease;
 }
 
-.pr-toast.is-in {
-  translate: -50% 0;
+.pr-toast-slot {
+  position: absolute;
+  left: -0.6rem;
+  right: -0.6rem;
+  bottom: -0.35rem;
+  z-index: 2;
+  height: 0.7rem;
+  border-radius: 0.35rem;
+  background: linear-gradient(180deg, #2c2924, #0e0d0b);
+  box-shadow: 0 0.4rem 0.9rem rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition: opacity 200ms ease, transform 360ms var(--ease);
+}
+
+.pr-toast.is-in .pr-toast-slot {
   opacity: 1;
+  transform: none;
+}
+
+.pr-toast.is-torn .pr-toast-slot {
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition-delay: 260ms;
+}
+
+.pr-toast-paper {
+  position: relative;
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.95rem 1rem 0.9rem;
+  color: var(--ink);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 1.2rem, rgba(37, 63, 84, 0.07) 1.2rem calc(1.2rem + 1px)),
+    linear-gradient(180deg, #fbf6ec, #eee3d0);
+  box-shadow: 0 0.8rem 1.6rem rgba(26, 25, 22, 0.22);
+  -webkit-mask: radial-gradient(circle 0.32rem at 0.4rem 0, transparent 98%, #000) -0.4rem 0 / 0.8rem 100% repeat-x;
+  mask: radial-gradient(circle 0.32rem at 0.4rem 0, transparent 98%, #000) -0.4rem 0 / 0.8rem 100% repeat-x;
+  clip-path: inset(100% 0 0 0);
+  transform-origin: 50% 100%;
+}
+
+.pr-toast.is-in .pr-toast-paper {
+  animation: prPrint 900ms steps(9, end) forwards;
+}
+
+.pr-toast.is-torn .pr-toast-paper {
+  animation: prTear 620ms cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+
+@keyframes prPrint {
+  from { clip-path: inset(100% 0 0 0); translate: 0 0.6rem; }
+  to { clip-path: inset(0 0 0 0); translate: 0 0; }
+}
+
+@keyframes prTear {
+  0% { clip-path: inset(0 0 0 0); translate: 0 0; rotate: 0deg; opacity: 1; }
+  25% { rotate: -3deg; translate: 0 -0.2rem; }
+  100% { clip-path: inset(0 0 0 0); translate: 1.2rem -5rem; rotate: 14deg; opacity: 0; }
+}
+
+.pr-toast-paper small {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pr-toast-paper b {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.3rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.pr-toast-paper span {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--red);
+}
+
+.pr-toast-paper i {
+  position: absolute;
+  right: 0.8rem;
+  top: 0.9rem;
+  padding: 0.2rem 0.45rem;
+  border: 2px solid var(--red);
+  font-family: var(--mono);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  rotate: -8deg;
+  opacity: 0;
+  scale: 2;
+}
+
+.pr-toast.is-in .pr-toast-paper i {
+  animation: prReceiptStamp 360ms 820ms cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+}
+
+@keyframes prReceiptStamp {
+  to { opacity: 0.9; scale: 1; }
+}
+
+/* The press-mark notice from interactive.js gets the same print-out. */
+.pm-toast {
+  -webkit-mask: radial-gradient(circle 0.32rem at 0.4rem 0, transparent 98%, #000) -0.4rem 0 / 0.8rem 100% repeat-x;
+  mask: radial-gradient(circle 0.32rem at 0.4rem 0, transparent 98%, #000) -0.4rem 0 / 0.8rem 100% repeat-x;
+  transform-origin: 50% 100%;
+}
+
+.pm-toast.is-in {
+  animation: prPrint 900ms steps(9, end) both;
 }
 
 /* ------------------------------------------------------------------ */

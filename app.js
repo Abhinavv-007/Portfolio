@@ -1021,6 +1021,14 @@
 
   function setupIntro() {
     const intro = $(".intro");
+    // The opening titles (film.js) own the first reveal of a visit.
+    if (window.PR_FILM) {
+      intro?.remove();
+      const film = window.PR_FILM;
+      film.onReveal = () => document.body.classList.add("loaded");
+      film.done.then(() => document.body.classList.add("loaded", "intro-complete"));
+      return;
+    }
     if (!intro) return;
     const finish = () => {
       document.body.classList.add("loaded", "intro-complete");

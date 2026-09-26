@@ -30,7 +30,8 @@
         handle: "abhnv8",
         ranks: [
           { label: "Global Top 50", period: "June 2026" },
-          { label: "Global Top 50", period: "July 2026" }
+          { label: "Global Top 50", period: "July 2026" },
+          { label: "Global Top 50", period: "September 2026" }
         ]
       },
       openTo: [
@@ -112,9 +113,9 @@
         body: "Testing authorization, authentication, OAuth, API and business-logic controls on Bugcrowd programs. Reports are written to be reproduced and fixed, not just triaged."
       },
       {
-        when: "June and July 2026",
+        when: "June, July and September 2026",
         title: "Bugcrowd global Top 50",
-        body: "Ranked among Bugcrowd's global Top 50 researchers in both months."
+        body: "Ranked among Bugcrowd's global Top 50 researchers three times in the first seven months of research."
       },
       {
         when: "March 2026",

@@ -1,8 +1,8 @@
 # abhnv.in — The Build Journal
 
 The personal site of **Abhinav Raj**, security researcher and product builder.
-Security research on Bugcrowd programs since March 2026 (global Top 50 in June
-and July 2026). Builder of Clex, Clex AI, Driped, trgt and Modih Mail.
+Security research on Bugcrowd programs since March 2026 (global Top 50 in June,
+July and September 2026). Builder of Clex, Clex AI, Driped, trgt and Modih Mail.
 
 Live: https://abhnv.in
 
@@ -56,6 +56,9 @@ The contact form needs `RESEND_API_KEY` (and optionally `CONTACT_TO_EMAIL`,
   synthesised sound that stays off until the reader turns it on)
 - Films: `reel.js` + `reel.css` (canvas motion graphics with a scrubbable player: Reel 01 on the home page
   and one film per case study, all drawn live, no video files)
+- Opening titles: `film.js` (the six second paper-cut film on the first page of a visit; add `?intro=1` to replay it)
+- Posters: `posters.js` (every product, paper and case-study image drawn as a live paper-cut poster)
+- Page desks: `pages.js` + `pages.css` (security rosettes and checklist, credential tags, the API route map, contact)
 - Styles: `styles.css` (new work is appended under "Pass 57")
 - Security contact: `.well-known/security.txt` (the `Expires` line must be refreshed before September 2027)
 
