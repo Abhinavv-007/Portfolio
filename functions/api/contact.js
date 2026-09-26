@@ -3,8 +3,8 @@
 // provider details stay in the function logs.
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
-const DEFAULT_TO_EMAIL = "hello@abhnv.in";
-const DEFAULT_FROM_EMAIL = "abhnv.in <hello@abhnv.in>";
+const DEFAULT_TO_EMAIL = "abhnv@abhnv.in";
+const DEFAULT_FROM_EMAIL = "abhnv.in <abhnv@abhnv.in>";
 const MAX_BODY_BYTES = 12_000;
 
 const TOPICS = {
@@ -100,7 +100,7 @@ export async function onRequestPost(context) {
 
   if (!env.RESEND_API_KEY) {
     console.error("contact: RESEND_API_KEY is not bound on this deployment");
-    return json({ ok: false, error: "The form is not available right now. Email hello@abhnv.in directly." }, 503);
+    return json({ ok: false, error: "The form is not available right now. Email abhnv@abhnv.in directly." }, 503);
   }
 
   const toEmail = clean(env.CONTACT_TO_EMAIL || DEFAULT_TO_EMAIL, 200);
@@ -134,7 +134,7 @@ export async function onRequestPost(context) {
     });
   } catch (error) {
     console.error("contact: relay request failed", error);
-    return json({ ok: false, error: "The message could not be sent. Email hello@abhnv.in directly." }, 502);
+    return json({ ok: false, error: "The message could not be sent. Email abhnv@abhnv.in directly." }, 502);
   }
 
   if (!resendResponse.ok) {
@@ -146,7 +146,7 @@ export async function onRequestPost(context) {
       // Non-JSON error body; nothing more to log.
     }
     console.error("contact: relay rejected the message", resendResponse.status, detail);
-    return json({ ok: false, error: "The message could not be sent. Email hello@abhnv.in directly." }, 502);
+    return json({ ok: false, error: "The message could not be sent. Email abhnv@abhnv.in directly." }, 502);
   }
 
   return json({ ok: true });

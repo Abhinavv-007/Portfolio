@@ -2,7 +2,7 @@
 # Clex (clex.in), Clex AI (ai.clex.in), Driped (driped.in), trgt (trgt.in), Modih Mail (modih.in).
 # Format: RFC 9116.
 
-Contact: mailto:hello@abhnv.in
+Contact: mailto:abhnv@abhnv.in
 Contact: https://abhnv.in/contact
 Expires: 2027-09-01T00:00:00.000Z
 Preferred-Languages: en

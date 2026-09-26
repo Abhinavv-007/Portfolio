@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API — abhnv.in</title>
+  <title>API · abhnv.in</title>
   <meta name="description" content="A read-only JSON API for everything published on abhnv.in: profile, security research areas and methodology, the five products, research papers, credentials, skills and links. CORS open, no keys, edge-cached.">
   <meta name="author" content="Abhinav Raj">
   <meta name="robots" content="index, follow">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Build Journal">
   <meta property="og:locale" content="en_IN">
-  <meta property="og:title" content="API — abhnv.in">
+  <meta property="og:title" content="API · abhnv.in">
   <meta property="og:description" content="Read-only JSON for everything on the site. CORS open, no keys, edge-cached.">
   <meta property="og:url" content="https://abhnv.in/api">
   <meta property="og:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
@@ -21,7 +21,7 @@
   <meta property="og:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Abhnv8">
-  <meta name="twitter:title" content="API — abhnv.in">
+  <meta name="twitter:title" content="API · abhnv.in">
   <meta name="twitter:description" content="Read-only JSON for everything on the site. CORS open, no keys, edge-cached.">
   <meta name="twitter:image" content="https://abhnv.in/assets/social-preview-2026-09.jpg">
   <meta name="twitter:image:alt" content="The Build Journal front page: Abhinav Raj, Security Researcher and Product Builder.">
@@ -30,8 +30,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
-  <link rel="stylesheet" href="/styles.css?v=58">
-  <link rel="stylesheet" href="/interactive.css?v=58">
+  <link rel="stylesheet" href="/styles.css?v=59">
+  <link rel="stylesheet" href="/interactive.css?v=59">
+  <link rel="stylesheet" href="/motion.css?v=59">
 </head>
 <body data-page="api">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -110,7 +111,7 @@
     <section class="api-quickstart" id="api-quickstart" aria-labelledby="apiQuickTitle">
       <div class="api-quickstart-copy reveal">
         <div class="section-kicker">Quickstart</div>
-        <h2 id="apiQuickTitle">Request a route.<br>Read the JSON.</h2>
+        <h2 id="apiQuickTitle">Request a route<br>Read the JSON</h2>
         <p>Every response uses the same envelope: <code class="api-inline">ok</code>, <code class="api-inline">data</code> and <code class="api-inline">meta</code> with the version and a timestamp. Pick a command to run it against the live API in the console.</p>
         <div class="api-pill-groups">
           <div class="api-pill-group">
@@ -201,7 +202,7 @@ curl -s "https://abhnv.in/api/search?q=authorization" | jq</code></pre>
           <pre class="api-pre"><code id="snippet-fetch">const res = await fetch("https://abhnv.in/api/projects");
 const { ok, data, meta } = await res.json();
 if (!ok) throw new Error("API error");
-console.log(data.map((p) =&gt; `${p.title} — ${p.liveUrl}`), meta.version);</code></pre>
+console.log(data.map((p) =&gt; `${p.title} · ${p.liveUrl}`), meta.version);</code></pre>
         </article>
         <article class="api-snippet">
           <header>
@@ -213,7 +214,7 @@ console.log(data.map((p) =&gt; `${p.title} — ${p.liveUrl}`), meta.version);</c
 base = "https://abhnv.in/api"
 areas = requests.get(f"{base}/security").json()["data"]["areas"]
 for a in areas:
-    print(a["title"], "—", a["short"])</code></pre>
+    print(a["title"], "·", a["short"])</code></pre>
         </article>
         <article class="api-snippet">
           <header>
@@ -279,12 +280,12 @@ const { ok, data } = await fetch(url).then((r) =&gt; r.json());</code></pre>
         </article>
         <article>
           <span aria-hidden="true">02</span>
-          <h3>Read-only</h3>
+          <h3>Read only</h3>
           <p>Every route is <code class="api-inline">GET</code>. The only write is the contact form, and it accepts nothing but a message.</p>
         </article>
         <article>
           <span aria-hidden="true">03</span>
-          <h3>Edge-cached</h3>
+          <h3>Edge cached</h3>
           <p>Responses are cached for five minutes with <code class="api-inline">stale-while-revalidate</code>, so embeds stay fast and a burst of traffic never reaches a function.</p>
         </article>
         <article>
@@ -313,9 +314,10 @@ const { ok, data } = await fetch(url).then((r) =&gt; r.json());</code></pre>
     </footer>
   </main>
 
-  <script src="/data.js?v=58"></script>
-  <script src="/app.js?v=58"></script>
-  <script src="/interactive.js?v=58"></script>
-  <script src="/api-page.js?v=58"></script>
+  <script src="/data.js?v=59"></script>
+  <script src="/app.js?v=59"></script>
+  <script src="/interactive.js?v=59"></script>
+  <script src="/motion.js?v=59"></script>
+  <script src="/api-page.js?v=59"></script>
 </body>
 </html>

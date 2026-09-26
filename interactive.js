@@ -1,5 +1,5 @@
 /*
-  Interactive layer for abhnv.in — "The Build Journal".
+  Interactive layer for abhnv.in: "The Build Journal".
 
   app.js renders the pages and owns the page furniture (menu, intro, reveals).
   This file adds the things a reader can *operate*: the press seals, the loupe,
@@ -79,9 +79,9 @@
     const slots = MARKS.map((mark, i) => {
       const got = has(mark.id);
       return `
-        <span class="pm-slot${got ? " is-found" : ""}" data-mark-slot="${esc(mark.id)}" title="${got ? esc(mark.name + " — " + mark.note) : "Not found yet"}">
+        <span class="pm-slot${got ? " is-found" : ""}" data-mark-slot="${esc(mark.id)}" title="${got ? esc(mark.name + ": " + mark.note) : "Not found yet"}">
           ${got ? sealSvg(pad(i + 1)) : `<span class="pm-slot-num" aria-hidden="true">${pad(i + 1)}</span>`}
-          <span class="pm-slot-name">${got ? esc(mark.name) : "—"}</span>
+          <span class="pm-slot-name">${got ? esc(mark.name) : "···"}</span>
         </span>`;
     }).join("");
     strip.innerHTML = `
@@ -185,12 +185,12 @@
           <span>Printer's proof</span>
           <span>Nº ${number}</span>
         </div>
-        <h2>You found all six.</h2>
+        <h2>You found all six</h2>
         <p class="pm-sheet-lede">Six marks were set into this issue, one on every desk. Finding them meant using each page the way it was built to be used: the loupe on the clipping, the light table on the certificates, the dial in the wire room, an invoice read by the wrong account.</p>
         <ul class="pm-sheet-list">
           ${MARKS.map((m, i) => `<li><span class="pm-sheet-seal">${sealSvg(pad(i + 1))}</span><span><strong>${esc(m.name)}</strong><em>${esc(m.note)}</em></span></li>`).join("")}
         </ul>
-        <p class="pm-sheet-note">That is the whole job, really. Read closely, try the thing nobody tries, and write down what you found. Thanks for reading properly — <strong>Abhinav</strong>.</p>
+        <p class="pm-sheet-note">That is the whole job, really. Read closely, try the thing nobody tries, and write down what you found. Thanks for reading properly, <strong>Abhinav</strong></p>
         <div class="pm-sheet-foot">
           <a class="text-link hover-cut" href="/contact"><span>Write to me</span></a>
           <a class="text-link hover-cut" href="/security"><span>How I test systems</span></a>
@@ -492,7 +492,7 @@
       <span class="loupe-halftone"></span>
       <span class="loupe-fineprint">
         <em>Colophon.</em> Set in Playfair Display and printed at abhnv.in.
-        Six press marks were struck into this issue — this is the first of them.
+        Six press marks were struck into this issue. This is the first of them.
         <span class="pm-mark-slot" data-mark="halftone"></span>
       </span>
     `, {
@@ -730,7 +730,7 @@
           <button type="button" class="wire-boss-hit" data-wire-boss aria-label="Lift the plate under the dial"></button>
         </div>
         <p class="wire-readout">
-          <strong data-wire-ms>&mdash;</strong>
+          <strong data-wire-ms>&middot;&middot;&middot;</strong>
           <span data-wire-note>Waiting for the first request</span>
         </p>
         <p class="wire-plate" data-wire-plate hidden><em>Maker's plate</em><span class="pm-mark-slot wire-mark" data-mark="wire"></span></p>
@@ -764,7 +764,7 @@
       room.classList.toggle("is-error", !ok);
       readMs.textContent = ok ? `${ms} ms` : "no reply";
       readNote.textContent = ok
-        ? (ms < 40 ? "Served from the edge cache." : ms < 150 ? "A normal trip from the edge." : "Slower than usual — the function ran cold.")
+        ? (ms < 40 ? "Served from the edge cache." : ms < 150 ? "A normal trip from the edge." : "Slower than usual: the function ran cold.")
         : "The request did not complete.";
 
       const empty = $(".wire-tape-empty", tape);

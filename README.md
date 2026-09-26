@@ -50,7 +50,12 @@ The contact form needs `RESEND_API_KEY` (and optionally `CONTACT_TO_EMAIL`,
 
 - Copy and data: `data.js`
 - Case studies: `case-studies.js` (structure) and `case-studies-extras.js` (direction, lessons, pull quote)
-- Behaviour: `app.js` (shared), `api-page.js` (API docs page)
+- Behaviour: `app.js` (shared), `interactive.js` (instruments and press marks), `api-page.js` (API docs page)
+- Motion: `motion.js` + `motion.css` (the press room: declassified name reveal, EXTRA spinning front page,
+  heading registration, halftone images, live wire, kinetic type, odometers, press dock, hold-to-stamp,
+  synthesised sound that stays off until the reader turns it on)
+- Films: `reel.js` + `reel.css` (canvas motion graphics with a scrubbable player: Reel 01 on the home page
+  and one film per case study, all drawn live, no video files)
 - Styles: `styles.css` (new work is appended under "Pass 57")
 - Security contact: `.well-known/security.txt` (the `Expires` line must be refreshed before September 2027)
 

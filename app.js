@@ -1262,6 +1262,8 @@
     let audioContext = null;
     return () => {
       if (reducedMotion) return;
+      // Browsers refuse audio before the reader has touched the page.
+      if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
       try {
         audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
         if (audioContext.state === "suspended") audioContext.resume();
@@ -1508,7 +1510,7 @@
         writeLabel("Sent");
         window.setTimeout(() => writeLabel(idleLabel), 3200);
       } catch (error) {
-        writeStatus(error?.message || "The message could not be sent. Email hello@abhnv.in directly.", "error");
+        writeStatus(error?.message || "The message could not be sent. Email abhnv@abhnv.in directly.", "error");
         writeLabel("Try again");
       } finally {
         if (submit) submit.disabled = false;
