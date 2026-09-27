@@ -2,9 +2,8 @@
   Page desks: what each inner page does beyond the shared press room.
 
     Security     Top 50 rosettes and the run from March to September,
-                 area panels cut in like a new page, the lab fires a
-                 request and stamps the answer, the methodology is a
-                 checklist that ticks itself, report patterns unfold,
+                 area panels cut in like a new page, the methodology is
+                 a checklist that ticks itself, report patterns unfold,
                  a FIXED stamp on the report, an envelope for disclosure
     Credentials  skills as paper luggage tags, certificates dealt onto
                  the desk with a verified rosette
@@ -110,45 +109,6 @@
         sound("snip");
       });
       mo.observe(panel, { childList: true });
-    }
-
-    // --- The lab: fire the request, stamp the answer -------------------
-    const lab = $("[data-authlab]");
-    if (lab) {
-      const code = $("[data-lab-code]", lab);
-      const resp = $(".lab-pane--response", lab);
-      const runBtn = $("[data-lab-run]", lab);
-      const stamp = document.createElement("div");
-      stamp.className = "pg-lab-stamp";
-      stamp.setAttribute("aria-hidden", "true");
-      resp?.appendChild(stamp);
-      const fly = () => {
-        if (reducedMotion || !runBtn || !resp) return;
-        const a = runBtn.getBoundingClientRect();
-        const b = resp.getBoundingClientRect();
-        const env = document.createElement("span");
-        env.className = "pg-lab-envelope";
-        env.style.left = `${a.left + a.width / 2}px`;
-        env.style.top = `${a.top + a.height / 2}px`;
-        env.style.setProperty("--dx", `${b.left + b.width / 2 - (a.left + a.width / 2)}px`);
-        env.style.setProperty("--dy", `${b.top + 40 - (a.top + a.height / 2)}px`);
-        document.body.appendChild(env);
-        env.addEventListener("animationend", () => env.remove(), { once: true });
-        sound("swish");
-      };
-      runBtn?.addEventListener("click", fly);
-      if (code) {
-        new MutationObserver(() => {
-          const c = code.textContent.trim();
-          if (!/^\d{3}$/.test(c)) return;
-          const ok = c.startsWith("2");
-          stamp.innerHTML = `<b>${c}</b><span>${ok ? "Served" : "Blocked"}</span>`;
-          stamp.dataset.tone = ok ? "leak" : "safe";
-          stamp.classList.remove("is-on");
-          void stamp.offsetWidth;
-          window.setTimeout(() => { stamp.classList.add("is-on"); sound("thump"); }, reducedMotion ? 0 : 420);
-        }).observe(code, { childList: true, characterData: true, subtree: true });
-      }
     }
 
     // --- Methodology: a checklist that ticks itself --------------------
@@ -470,6 +430,123 @@
   }
 
   /* ================================================================ */
+  /* API: the live wire under the headline                             */
+  /* ================================================================ */
+
+  // Telegraph wires strung between poles, carrying requests as glowing
+  // packets. Ambient traffic runs all the time; every command run in the
+  // console sends a red packet of its own down the middle wire.
+  function apiWire() {
+    if (page !== "api" || !window.HTMLCanvasElement) return;
+    const stats = $(".api-stats-row");
+    if (!stats) return;
+    const band = document.createElement("figure");
+    band.className = "pg-wire";
+    band.innerHTML = `<canvas class="pg-wire-canvas" aria-hidden="true"></canvas><figcaption class="pg-wire-cap"><i aria-hidden="true"></i>On the wire &middot; live</figcaption>`;
+    stats.insertAdjacentElement("afterend", band);
+    const canvas = $("canvas", band);
+    const ctx = canvas.getContext("2d");
+    const PATHS = ["/api/summary", "/api/profile", "/api/security", "/api/projects", "/api/research", "/api/certifications", "/api/skills", "/api/links", "/api/search?q=oauth", "/api/health", "/api/tags", "/api/assets", "/api/command?cmd=help"];
+    const COLORS = ["#d15a35", "#6fa3d8", "#8fb070"];
+    let W = 0, H = 0, dpr = 1, visible = false, raf = 0, last = 0, spawnIn = 0;
+    const packets = [];
+    const size = () => {
+      const r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+    };
+    const wireY = (i, x) => {
+      const base = H * (0.3 + i * 0.22);
+      const span = W / 4;
+      const k = ((x % span) + span) % span / span;
+      return base + Math.sin(k * Math.PI) * H * 0.07;
+    };
+    const spawn = (o = {}) => {
+      packets.push({
+        wire: o.wire != null ? o.wire : Math.floor(Math.random() * 3),
+        x: -160,
+        v: o.v || 120 + Math.random() * 160,
+        label: o.label || PATHS[Math.floor(Math.random() * PATHS.length)],
+        color: o.color || COLORS[Math.floor(Math.random() * COLORS.length)],
+        hot: Boolean(o.hot)
+      });
+    };
+    const draw = (now) => {
+      raf = 0;
+      if (!visible) return;
+      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      last = now;
+      spawnIn -= dt;
+      if (spawnIn <= 0 && !reducedMotion) { spawn(); spawnIn = 0.7 + Math.random() * 1.1; }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      // Poles and wires
+      for (let p = 0; p <= 4; p += 1) {
+        const x = (p / 4) * W;
+        ctx.fillStyle = "rgba(241, 232, 216, 0.14)";
+        ctx.fillRect(x - 1, H * 0.12, 2, H * 0.84);
+        ctx.fillRect(x - 12, H * 0.2, 24, 2);
+      }
+      for (let i = 0; i < 3; i += 1) {
+        ctx.beginPath();
+        for (let x = 0; x <= W; x += 6) { const y = wireY(i, x); if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
+        ctx.strokeStyle = "rgba(241, 232, 216, 0.28)";
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        for (let p = 0; p <= 4; p += 1) { ctx.fillStyle = "rgba(241, 232, 216, 0.5)"; ctx.beginPath(); ctx.arc((p / 4) * W, wireY(i, (p / 4) * W), 2.4, 0, Math.PI * 2); ctx.fill(); }
+      }
+      // Packets
+      ctx.font = `700 ${H < 100 ? 9 : 10}px "Courier New", Courier, monospace`;
+      ctx.textBaseline = "middle";
+      for (let k = packets.length - 1; k >= 0; k -= 1) {
+        const q = packets[k];
+        q.x += q.v * dt * (q.hot ? 1.6 : 1);
+        if (q.x > W + 180) { packets.splice(k, 1); continue; }
+        const y = wireY(q.wire, q.x);
+        const tw = ctx.measureText(q.label).width + 16;
+        const trail = ctx.createLinearGradient(q.x - 120, 0, q.x, 0);
+        trail.addColorStop(0, "rgba(0,0,0,0)");
+        trail.addColorStop(1, q.hot ? "rgba(255, 110, 70, 0.8)" : `${q.color}88`);
+        ctx.strokeStyle = trail;
+        ctx.lineWidth = q.hot ? 3 : 2;
+        ctx.beginPath();
+        for (let x = q.x - 120; x <= q.x; x += 6) { const yy = wireY(q.wire, x); if (x === q.x - 120) ctx.moveTo(x, yy); else ctx.lineTo(x, yy); }
+        ctx.stroke();
+        ctx.save();
+        ctx.shadowColor = q.hot ? "rgba(255, 110, 70, 0.9)" : q.color;
+        ctx.shadowBlur = q.hot ? 18 : 8;
+        ctx.fillStyle = q.hot ? "#e0492c" : "#1f1c18";
+        ctx.strokeStyle = q.hot ? "#ffd9c9" : q.color;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(q.x, y - 9, tw, 18, 9); else ctx.rect(q.x, y - 9, tw, 18);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+        ctx.fillStyle = q.hot ? "#fff4e6" : "rgba(241, 232, 216, 0.9)";
+        ctx.fillText(q.label, q.x + 8, y + 0.5);
+      }
+      if (!reducedMotion) raf = window.requestAnimationFrame(draw);
+    };
+    const wake = () => { if (!raf) raf = window.requestAnimationFrame(draw); };
+    size();
+    window.addEventListener("resize", size);
+    if (hasIO) new IntersectionObserver((e) => { visible = e[0].isIntersecting; if (visible) { last = 0; wake(); } }).observe(band);
+    else { visible = true; wake(); }
+    // Real requests from the console ride the middle wire in red.
+    const label = $("#apiConsoleLabel");
+    if (label) {
+      new MutationObserver(() => {
+        const path = label.textContent.replace(/^\s*GET\s+/, "").trim();
+        if (path) { spawn({ wire: 1, label: `GET ${path}`, hot: true, v: 260 }); wake(); }
+      }).observe(label, { childList: true, characterData: true, subtree: true });
+    }
+    for (let i = 0; i < 4; i += 1) { spawn(); packets[packets.length - 1].x = Math.random() * (W || 900); }
+  }
+
+  /* ================================================================ */
   /* Contact                                                           */
   /* ================================================================ */
 
@@ -483,24 +560,54 @@
       $("input", label)?.addEventListener("change", () => { sound("tick"); label.classList.remove("pg-tab-pop"); void label.offsetWidth; label.classList.add("pg-tab-pop"); });
     });
     const status = $("#contactFormStatus");
-    const preview = $("[data-letter]") || form;
-    if (status) {
+    const desk = $(".post-desk");
+    if (!desk) return;
+
+    // The postage is licked and pressed on as the pad comes into view, and
+    // the postmark thunks down over it a beat later.
+    onView(desk, () => { desk.classList.add("is-posted"); window.setTimeout(() => sound("thump"), 520); });
+
+    // The title is typed out the first time the desk comes into view.
+    const title = $("[data-pn-title]", desk);
+    if (title && !reducedMotion) {
+      const full = title.textContent.trim();
+      title.setAttribute("aria-label", full);
+      title.innerHTML = `<span aria-hidden="true" data-pn-typed></span><span class="pn-caret" aria-hidden="true"></span>`;
+      const typed = $("[data-pn-typed]", title);
+      onView(title, async () => {
+        for (let i = 1; i <= full.length; i += 1) {
+          typed.textContent = full.slice(0, i);
+          if (full[i - 1] !== " ") sound("tick");
+          await new Promise((r) => window.setTimeout(r, 55 + Math.random() * 60));
+        }
+      });
+    }
+
+    // Sent: the letter folds, goes into an envelope, is sealed and flies off.
+    const envelope = $(".pn-envelope", desk);
+    const letter = $("[data-letter]", desk);
+    if (status && envelope && letter && !reducedMotion) {
       new MutationObserver(() => {
-        if (status.dataset.state !== "success" || reducedMotion) return;
-        const r = preview.getBoundingClientRect();
-        const plane = document.createElement("span");
-        plane.className = "pg-plane";
-        plane.style.left = `${r.left + r.width / 2}px`;
-        plane.style.top = `${r.top + r.height / 2}px`;
-        plane.innerHTML = `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M60 6 4 30l18 7 4 19 9-12 15 9z" fill="#fbf6ec" stroke="#171612" stroke-width="2" stroke-linejoin="round"/><path d="M22 37 60 6 26 56" fill="none" stroke="#171612" stroke-width="2"/></svg>`;
-        document.body.appendChild(plane);
-        sound("swish");
-        plane.addEventListener("animationend", () => plane.remove(), { once: true });
+        if (status.dataset.state !== "success") return;
+        const d = desk.getBoundingClientRect();
+        const l = letter.getBoundingClientRect();
+        envelope.style.left = `${l.left - d.left + l.width / 2}px`;
+        envelope.style.top = `${l.top - d.top + l.height / 2}px`;
+        desk.classList.remove("is-sending", "is-sealed", "is-flying");
+        void desk.offsetWidth;
+        desk.classList.add("is-sending");
+        sound("rustle");
+        window.setTimeout(() => desk.classList.add("is-sealed"), 420);
+        window.setTimeout(() => sound("thump"), 1000);
+        window.setTimeout(() => { desk.classList.add("is-flying"); sound("swish"); }, 1500);
+        window.setTimeout(() => desk.classList.remove("is-sending", "is-sealed", "is-flying"), 3300);
+        // A fresh postmark for the next letter.
+        window.setTimeout(() => { desk.classList.remove("is-posted"); void desk.offsetWidth; desk.classList.add("is-posted"); }, 3400);
       }).observe(status, { attributes: true, attributeFilter: ["data-state"] });
     }
   }
 
-  [security, credentials, api, contact].forEach((fn) => {
+  [security, credentials, api, apiWire, contact].forEach((fn) => {
     try { fn(); } catch (err) { if (window.console) console.warn(`[pages] ${fn.name} skipped`, err); }
   });
 })();

@@ -1,0 +1,28 @@
+{
+  "name": "Miko Motion and Emotion Pack v2",
+  "version": 2,
+  "canvas": { "width": 384, "height": 512, "format": "webp", "alpha": true },
+  "masterFormat": "png",
+  "frames": [
+    { "id": "travel-run", "web": "web/01-travel-run.webp", "master": "source/01-travel-run.png", "holdMs": 180, "loopable": true },
+    { "id": "travel-leap-up", "web": "web/02-travel-leap-up.webp", "master": "source/02-travel-leap-up.png", "holdMs": 260, "loopable": false },
+    { "id": "trip-stumble", "web": "web/03-trip-stumble.webp", "master": "source/03-trip-stumble.png", "holdMs": 170, "loopable": false },
+    { "id": "trip-tumble", "web": "web/04-trip-tumble.webp", "master": "source/04-trip-tumble.png", "holdMs": 220, "loopable": false },
+    { "id": "trip-impact", "web": "web/05-trip-impact.webp", "master": "source/05-trip-impact.png", "holdMs": 220, "loopable": false },
+    { "id": "trip-dizzy", "web": "web/06-trip-dizzy.webp", "master": "source/06-trip-dizzy.png", "holdMs": 850, "loopable": true },
+    { "id": "recover-getup", "web": "web/07-recover-getup.webp", "master": "source/07-recover-getup.png", "holdMs": 420, "loopable": false },
+    { "id": "cry-full-sob", "web": "web/08-cry-full-sob.webp", "master": "source/08-cry-full-sob.png", "holdMs": 700, "loopable": true },
+    { "id": "climb-reach", "web": "web/09-climb-reach.webp", "master": "source/09-climb-reach.png", "holdMs": 360, "loopable": false },
+    { "id": "climb-struggle", "web": "web/10-climb-struggle.webp", "master": "source/10-climb-struggle.png", "holdMs": 700, "loopable": true },
+    { "id": "climb-slip", "web": "web/11-climb-slip.webp", "master": "source/11-climb-slip.png", "holdMs": 240, "loopable": false },
+    { "id": "cry-walk", "web": "web/12-cry-walk.webp", "master": "source/12-cry-walk.png", "holdMs": 260, "loopable": true }
+  ],
+  "sequences": {
+    "travel": ["travel-run"],
+    "travelUp": ["travel-leap-up"],
+    "tripAndRecover": ["trip-stumble", "trip-tumble", "trip-impact", "trip-dizzy", "recover-getup"],
+    "climbFail": ["climb-reach", "climb-struggle", "climb-slip", "trip-impact", "trip-dizzy", "recover-getup"],
+    "bigCry": ["cry-full-sob"],
+    "sadTravel": ["cry-walk"]
+  }
+}

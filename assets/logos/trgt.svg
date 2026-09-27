@@ -1,3 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" role="img" aria-label="TRGT">
-  <text x="50%" y="73%" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="174" font-weight="700" letter-spacing="-4" fill="#1d1d1b">TRGT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="TRGT">
+  <circle cx="48" cy="48" r="46" fill="#171612"/>
+  <circle cx="48" cy="48" r="40.5" fill="none" stroke="#f4ecdb" stroke-opacity="0.32" stroke-width="1.4" stroke-dasharray="2.2 3.2"/>
+  <circle cx="48" cy="48" r="46" fill="none" stroke="#c0321f" stroke-width="2.4"/>
+  <circle cx="45" cy="51" r="23" fill="#c0321f"/>
+  <circle cx="45" cy="51" r="15.5" fill="#f4ecdb"/>
+  <circle cx="45" cy="51" r="8.5" fill="#c0321f"/>
+  <circle cx="45" cy="51" r="3" fill="#f4ecdb"/>
+  <path d="M62,20 V40" stroke="#f4ecdb" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M62,21 h14 v10 h-14 Z" fill="#f4ecdb"/>
+  <path d="M62,21 h3.5 v5 h-3.5 Z M69,21 h3.5 v5 h-3.5 Z M65.5,26 h3.5 v5 h-3.5 Z M72.5,26 h3.5 v5 h-3.5 Z" fill="#171612"/>
 </svg>

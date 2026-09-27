@@ -1036,8 +1036,26 @@
     };
     if (reducedMotion) { finish(); return; }
 
-    const titleHTML = $(".intro-title", intro)?.innerHTML || "The Build Journal";
     const handoff = readHandoff();
+    // Arrival: the page burns open out of the char the last page left
+    // behind, starting where the reader clicked (burn.js).
+    if (window.PR_BURN) {
+      let origin = null;
+      try {
+        const o = JSON.parse(sessionStorage.getItem("bj-burn-origin") || "null");
+        sessionStorage.removeItem("bj-burn-origin");
+        if (o && Number.isFinite(o.x) && Number.isFinite(o.y)) origin = { x: o.x * window.innerWidth, y: o.y * window.innerHeight };
+      } catch (_) { /* storage blocked */ }
+      if (!origin) origin = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.55 };
+      window.setTimeout(() => document.body.classList.add("loaded"), 140);
+      window.PR_BURN.reveal({ origins: [origin], duration: handoff ? 1.1 : 1.25, zIndex: 6000 }).then(finish, finish);
+      // The fire canvas carries the char from its first frame: drop the static cover under it.
+      window.requestAnimationFrame(() => window.requestAnimationFrame(() => { intro.style.visibility = "hidden"; }));
+      window.setTimeout(finish, 3200);
+      return;
+    }
+
+    const titleHTML = $(".intro-title", intro)?.innerHTML || "The Build Journal";
     intro.innerHTML = `
       <div class="intro-carrier">
         <div class="intro-sheet">
@@ -1109,6 +1127,21 @@
       leaving = true;
       try { sessionStorage.setItem("bj-handoff", "1"); } catch (_) { /* noop */ }
       if (reducedMotion) { window.location.href = href; return; }
+      if (window.PR_BURN) {
+        // Departure: the fire starts where the reader clicked and eats the page.
+        let x = e.clientX, y = e.clientY;
+        if (!e.detail || (!x && !y)) {
+          const r = link.getBoundingClientRect();
+          x = r.left + r.width / 2;
+          y = r.top + r.height / 2;
+        }
+        try { sessionStorage.setItem("bj-burn-origin", JSON.stringify({ x: x / window.innerWidth, y: y / window.innerHeight })); } catch (_) { /* noop */ }
+        const go = () => { window.location.href = href; };
+        try { window.PRESS_SOUND && window.PRESS_SOUND.play("crackle"); } catch (_) { /* sound is optional */ }
+        window.PR_BURN.consume({ origins: [{ x, y }], duration: 0.85 }).then(go, go);
+        window.setTimeout(go, 2200);
+        return;
+      }
       cover.classList.add("is-covering");
       window.setTimeout(() => { window.location.href = href; }, 540);
     });
@@ -1116,6 +1149,7 @@
       if (!event.persisted) return;
       leaving = false;
       cover.classList.remove("is-covering");
+      $$(".pr-burn").forEach((c) => c.remove());
       document.body.classList.add("loaded", "intro-complete");
       $(".intro")?.remove();
     });
@@ -1699,91 +1733,7 @@
         `;
       }).join("");
     }
-
-    // --- Authorization lab ---------------------------------------------
-    const lab = $("[data-authlab]");
-    if (lab) setupAuthLab(lab);
   }
-
-  function setupAuthLab(lab) {
-    const accounts = [
-      { id: "ava", name: "Ava", session: "s_ava_7f21" },
-      { id: "ben", name: "Ben", session: "s_ben_3c09" }
-    ];
-    const records = [
-      { id: "1041", owner: "ava", label: "Invoice 1041", body: { id: 1041, customer: "Ava Sharma (test)", total: "₹1,250.00", address: "12 Example Lane" } },
-      { id: "1042", owner: "ben", label: "Invoice 1042", body: { id: 1042, customer: "Ben Iyer (test)", total: "₹640.00", address: "48 Sample Road" } }
-    ];
-    const state = { who: "ben", what: "1041", check: true, runs: 0 };
-    const whoRow = $("[data-lab-who]", lab);
-    const whatRow = $("[data-lab-what]", lab);
-    const checkBtn = $("[data-lab-check]", lab);
-    const runBtn = $("[data-lab-run]", lab);
-    const req = $("[data-lab-request]", lab);
-    const res = $("[data-lab-response]", lab);
-    const verdict = $("[data-lab-verdict]", lab);
-    const code = $("[data-lab-code]", lab);
-    const counter = $("[data-lab-count]", lab);
-
-    whoRow.innerHTML = accounts.map((a) => `<button type="button" data-who="${a.id}" aria-pressed="${state.who === a.id}">${esc(a.name)}<small>session ${esc(a.session)}</small></button>`).join("");
-    whatRow.innerHTML = records.map((r) => `<button type="button" data-what="${r.id}" aria-pressed="${state.what === r.id}">${esc(r.label)}<small>owner: ${esc(accounts.find((a) => a.id === r.owner).name)}</small></button>`).join("");
-
-    const sync = () => {
-      $$("[data-who]", whoRow).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.who === state.who)));
-      $$("[data-what]", whatRow).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.what === state.what)));
-      checkBtn.setAttribute("aria-checked", String(state.check));
-      checkBtn.querySelector(".lab-switch-label").textContent = state.check ? "Ownership check: on" : "Ownership check: off";
-      const account = accounts.find((a) => a.id === state.who);
-      req.textContent = `GET /api/invoices/${state.what} HTTP/1.1\nHost: example.test\nCookie: session=${account.session}`;
-    };
-    const run = async () => {
-      const account = accounts.find((a) => a.id === state.who);
-      const record = records.find((r) => r.id === state.what);
-      const owns = record.owner === account.id;
-      const allowed = owns || !state.check;
-      state.runs += 1;
-      lab.classList.remove("is-ok", "is-blocked", "is-leak");
-      res.textContent = "";
-      code.textContent = "…";
-      verdict.textContent = "";
-      await sleep(reducedMotion ? 0 : 260);
-      if (allowed) {
-        code.textContent = "200 OK";
-        res.textContent = JSON.stringify(record.body, null, 2);
-        if (owns) {
-          lab.classList.add("is-ok");
-          verdict.textContent = `${account.name} read ${account.name}'s own invoice. That is the intended behaviour.`;
-        } else {
-          lab.classList.add("is-leak");
-          verdict.textContent = `${account.name} read ${accounts.find((a) => a.id === record.owner).name}'s invoice with a valid session and a different number. That is an IDOR, and it is the most common thing I report.`;
-        }
-      } else {
-        code.textContent = "403 Forbidden";
-        res.textContent = JSON.stringify({ error: "forbidden", reason: "invoice.owner_id != session.user_id" }, null, 2);
-        lab.classList.add("is-blocked");
-        verdict.textContent = `The server compared the invoice's owner with the session's user and refused. One line of code, and the bug does not exist.`;
-      }
-      if (counter) counter.textContent = `${state.runs} request${state.runs === 1 ? "" : "s"} sent to nowhere. All accounts and records here are invented.`;
-    };
-    whoRow.addEventListener("click", (e) => { const b = e.target.closest("[data-who]"); if (!b) return; state.who = b.dataset.who; sync(); });
-    whatRow.addEventListener("click", (e) => { const b = e.target.closest("[data-what]"); if (!b) return; state.what = b.dataset.what; sync(); });
-    checkBtn.addEventListener("click", () => { state.check = !state.check; sync(); });
-    runBtn.addEventListener("click", run);
-    sync();
-    res.textContent = "Press \"Send the request\" to see what the server answers.";
-    verdict.textContent = "Start with Ben asking for Ava's invoice and the check switched on. Then switch it off.";
-    if ("IntersectionObserver" in window && !reducedMotion) {
-      let fired = false;
-      const io = new IntersectionObserver((entries) => {
-        if (fired || !entries.some((e) => e.isIntersecting)) return;
-        fired = true;
-        io.disconnect();
-        window.setTimeout(run, 700);
-      }, { threshold: 0.5 });
-      io.observe(lab);
-    }
-  }
-
 
   function setupLetterPreview() {
     const form = $("#contactForm");

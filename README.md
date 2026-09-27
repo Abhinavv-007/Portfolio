@@ -11,7 +11,7 @@ Live: https://abhnv.in
 | Route | File | Purpose |
 | --- | --- | --- |
 | `/` | `index.html` | Profile: who I am, timeline, focus, the five products |
-| `/security` | `security.html` | Research areas, the authorization lab, methodology, report format, disclosure |
+| `/security` | `security.html` | Research areas, methodology, report format, disclosure |
 | `/work` | `work.html` | Builds archive and research papers |
 | `/work/<slug>/` | `work/*/index.html` | Case studies (rendered from `case-studies.js` + `case-studies-extras.js`) |
 | `/credentials` | `credentials.html` | Skills and 27 verified certificates |
@@ -56,8 +56,10 @@ The contact form needs `RESEND_API_KEY` (and optionally `CONTACT_TO_EMAIL`,
   synthesised sound that stays off until the reader turns it on)
 - Films: `reel.js` + `reel.css` (canvas motion graphics with a scrubbable player: Reel 01 on the home page
   and one film per case study, all drawn live, no video files)
-- Opening titles: `film.js` (the six second paper-cut film on the first page of a visit; add `?intro=1` to replay it)
-- Posters: `posters.js` (every product, paper and case-study image drawn as a live paper-cut poster)
+- Opening titles: `film.js` (a five second newsreel on every fresh load and reload: the front page spins in, the headline type scrambles, the sheet burns away; `?intro=1&filmt=2` holds one frame)
+- Fire: `burn.js` (the burn engine behind the opening titles, every page change and the reel's scene cuts)
+- Posters: `posters.js` (the illustrated posters, printed in through a halftone screen, then kept alive with a slow push, a light sweep and a pointer lamp)
+- Guide: `mascot/` (Miko, a tiny caped adventurer who offers a tour on arrival: `assets/miko/` holds the transparent high-fidelity expression/action sprites, `nav-body.js` mounts them on the motion skeleton, `nav-rig.js` maps expressions and poses, `nav-stage.js` moves Miko and handles speech, `nav-tour.js` holds the per-page tour scripts, `nav-brain.js` decides what Miko does, `nav.css` styles the interface)
 - Page desks: `pages.js` + `pages.css` (security rosettes and checklist, credential tags, the API route map, contact)
 - Styles: `styles.css` (new work is appended under "Pass 57")
 - Security contact: `.well-known/security.txt` (the `Expires` line must be refreshed before September 2027)

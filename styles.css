@@ -10877,10 +10877,11 @@ body[data-page="api"] .api-why {
   overflow: hidden;
   pointer-events: none;
   transition: none;
+  /* The char a page burns into (burn.js paints the same sheet), so a page
+     change never flashes between the two. */
   background:
-    repeating-linear-gradient(180deg, rgba(26, 25, 22, 0.05) 0 1px, transparent 1px 7px),
-    linear-gradient(180deg, rgba(255, 248, 226, 0.5), rgba(214, 204, 189, 0.12) 40%, rgba(199, 184, 164, 0.25)),
-    var(--paper);
+    radial-gradient(ellipse at 50% 55%, rgba(58, 36, 22, 0.55), rgba(0, 0, 0, 0.4) 75%),
+    #130f0b;
 }
 
 .intro.intro--armed {

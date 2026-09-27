@@ -1155,7 +1155,7 @@
   /* 4. Player                                                           */
   /* ------------------------------------------------------------------ */
 
-  const TR = 0.5;
+  const TR = 0.7;
   const fmt = (s) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
   const tc = (s) => `${fmt(s)}:${String(Math.floor((s % 1) * 24)).padStart(2, "0")}`;
 
@@ -1304,6 +1304,17 @@
       this.h = r.height;
       this.canvas.width = Math.round(r.width * this.dpr);
       this.canvas.height = Math.round(r.height * this.dpr);
+      // Offscreen sheets for the burn between scenes and the press kick
+      const sheet = () => { const c = document.createElement("canvas"); c.width = this.canvas.width; c.height = this.canvas.height; return c; };
+      this.coverC = sheet();
+      this.fxC = sheet();
+      this.burnC = sheet();
+      this.burner = null;
+      if (window.PR_BURN && !reducedMotion) {
+        const d = Math.hypot(this.w, this.h);
+        this.burner = window.PR_BURN.create({ canvas: this.burnC, mode: "reveal", seed: 5, origins: [{ x: this.w * 0.5, y: this.h * 1.04 }, { x: this.w * 0.06, y: this.h * 0.12, delay: d * 0.12 }, { x: this.w * 0.96, y: this.h * 0.3, delay: d * 0.2 }] });
+        this.burner.size(this.w, this.h, this.dpr);
+      }
       this.draw();
     }
 
@@ -1355,6 +1366,43 @@
       this.raf = window.requestAnimationFrame((n) => this.loop(n));
     }
 
+    // The print on film: a press misregistration kick as each scene lands,
+    // a little flicker, dust and the odd scratch while it plays.
+    filmLook(ctx, e, s, lt) {
+      const kick = 1 - clamp(lt / 0.22);
+      if (kick > 0 && this.fxC) {
+        const fc = this.fxC.getContext("2d");
+        fc.setTransform(1, 0, 0, 1, 0, 0);
+        fc.clearRect(0, 0, this.fxC.width, this.fxC.height);
+        fc.drawImage(this.canvas, 0, 0);
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalAlpha = 0.28 * kick;
+        ctx.globalCompositeOperation = "multiply";
+        ctx.drawImage(this.fxC, 5 * kick * this.dpr, -2 * kick * this.dpr);
+        ctx.globalAlpha = 0.2 * kick;
+        ctx.drawImage(this.fxC, -4 * kick * this.dpr, 2 * kick * this.dpr);
+        ctx.restore();
+      }
+      if (!this.playing) return;
+      ctx.save();
+      const flick = 0.035 * (Math.sin(this.t * 53) * 0.5 + Math.sin(this.t * 17) * 0.5);
+      ctx.fillStyle = flick > 0 ? `rgba(255, 244, 226, ${flick})` : `rgba(10, 8, 6, ${-flick})`;
+      ctx.fillRect(0, 0, e.w, e.h);
+      const seed = Math.floor(this.t * 24);
+      const r = rng(seed + 7);
+      ctx.fillStyle = "rgba(23, 22, 18, 0.35)";
+      for (let k = 0; k < 5; k += 1) {
+        const sz = 0.6 + r() * 1.8;
+        ctx.fillRect(r() * e.w, r() * e.h, sz, sz * (r() < 0.3 ? 3 : 1));
+      }
+      if (r() < 0.12) {
+        ctx.fillStyle = "rgba(255, 250, 240, 0.18)";
+        ctx.fillRect(r() * e.w, 0, 1, e.h);
+      }
+      ctx.restore();
+    }
+
     draw() {
       if (!this.w) return;
       const ctx = this.ctx;
@@ -1367,20 +1415,48 @@
       if (i < 0) i = scenes.length - 1;
       const s = scenes[i];
       const lt = this.t - s.start;
+      // Camera: a slow push through every scene and a projector's gate weave
+      const now = performance.now() / 1000;
+      const dt = Math.min(0.05, now - (this.lastDraw || now));
+      this.lastDraw = now;
+      const weave = this.playing && !reducedMotion ? [Math.sin(this.t * 37) * 0.35 + Math.sin(this.t * 91) * 0.2, Math.cos(this.t * 29) * 0.35] : [0, 0];
+      const shoot = (c, sc, t) => {
+        const push = reducedMotion ? 1 : 1 + 0.05 * E.io3(clamp(t / sc.dur));
+        c.save();
+        c.translate(e.w / 2 + weave[0], e.h / 2 + weave[1]);
+        c.scale(push, push);
+        c.translate(-e.w / 2, -e.h / 2);
+        sc.draw(c, t, e);
+        c.restore();
+      };
       try {
-        if (s.trans && lt < TR && i > 0) {
+        const burnIt = s.trans && lt < TR && i > 0 && this.burner && (s.trans === "iris" || s.trans === "blinds");
+        if (burnIt) {
+          // The last frame of the old scene burns away over the new one.
           const prev = scenes[i - 1];
-          prev.draw(ctx, prev.dur - 0.001, e);
+          const cc = this.coverC.getContext("2d");
+          cc.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+          shoot(cc, prev, prev.dur - 0.001);
+          this.burner.setCover(this.coverC);
+          shoot(ctx, s, lt);
+          this.burner.draw(E.io3(lt / TR) * this.burner.END, now, dt);
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.drawImage(this.burnC, 0, 0);
+          ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+        } else if (s.trans && lt < TR && i > 0) {
+          const prev = scenes[i - 1];
+          shoot(ctx, prev, prev.dur - 0.001);
           ctx.save();
           TRANSITIONS[s.trans](ctx, e, lt / TR);
-          s.draw(ctx, lt, e);
+          shoot(ctx, s, lt);
           ctx.restore();
         } else {
-          s.draw(ctx, lt, e);
+          shoot(ctx, s, lt);
         }
       } catch (err) {
         if (!this.warned && window.console) { console.warn("[reel]", err); this.warned = true; }
       }
+      if (!reducedMotion) this.filmLook(ctx, e, s, lt);
       // Transport and labels
       const p = this.t / this.tl.duration;
       this.fig.style.setProperty("--p", p.toFixed(4));

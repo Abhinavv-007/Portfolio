@@ -43,10 +43,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap">
-  <link rel="stylesheet" href="/styles.css?v=60">
-  <link rel="stylesheet" href="/interactive.css?v=60">
-  <link rel="stylesheet" href="/motion.css?v=60">
-  <link rel="stylesheet" href="/pages.css?v=60">
+  <link rel="stylesheet" href="/styles.css?v=66">
+  <link rel="stylesheet" href="/interactive.css?v=66">
+  <link rel="stylesheet" href="/motion.css?v=66">
+  <link rel="stylesheet" href="/papercut.css?v=66">
+  <link rel="stylesheet" href="/pages.css?v=66">
+  <link rel="stylesheet" href="/mascot/nav.css?v=66">
 </head>
 <body data-page="security">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -108,7 +110,6 @@
         <p>Every test runs between accounts I created, with data I invented, and stops at the smallest request that proves the problem. Whatever I change, I put back.</p>
         <div class="page-headline-actions">
           <a class="text-link hover-cut" href="#areas"><span>What I look for</span></a>
-          <a class="text-link hover-cut" href="#lab"><span>Try the lab</span></a>
           <a class="text-link hover-cut" href="#method"><span>How I test</span></a>
           <a class="text-link hover-cut" href="#disclosure"><span>Report something to me</span></a>
         </div>
@@ -153,50 +154,6 @@
       </div>
     </section>
 
-    <section class="sec-lab" id="lab" aria-labelledby="labTitle">
-      <div class="sec-head">
-        <div class="section-kicker">Interactive</div>
-        <h2 id="labTitle">Why one check matters</h2>
-        <p>A tiny invoice API with two invented accounts. Choose who is asking, which invoice they ask for, and whether the server bothers to compare the two. Nothing here leaves your browser.</p>
-      </div>
-      <div class="authlab" data-authlab>
-        <div class="authlab-controls">
-          <div class="lab-group">
-            <span class="lab-label">Who is asking</span>
-            <div class="lab-row" data-lab-who></div>
-          </div>
-          <div class="lab-group">
-            <span class="lab-label">Which record</span>
-            <div class="lab-row" data-lab-what></div>
-          </div>
-          <div class="lab-group">
-            <span class="lab-label">Server behaviour</span>
-            <button type="button" class="lab-switch" role="switch" aria-checked="true" data-lab-check>
-              <span class="lab-switch-track" aria-hidden="true"><span class="lab-switch-knob"></span></span>
-              <span class="lab-switch-label">Ownership check: on</span>
-            </button>
-          </div>
-          <button type="button" class="lab-run" data-lab-run>Send the request</button>
-          <p class="lab-count" data-lab-count aria-live="polite">All accounts and records here are invented.</p>
-        </div>
-        <div class="authlab-wire">
-          <div class="lab-pane">
-            <div class="lab-pane-head"><span>Request</span></div>
-            <pre class="lab-pre" data-lab-request></pre>
-          </div>
-          <div class="lab-pane lab-pane--response">
-            <div class="lab-pane-head"><span>Response</span><strong class="lab-code" data-lab-code>···</strong></div>
-            <pre class="lab-pre" data-lab-response aria-live="polite"></pre>
-            <p class="lab-verdict" data-lab-verdict aria-live="polite"></p>
-          </div>
-        </div>
-        <div class="authlab-fix">
-          <span class="lab-label">The fix, in one line</span>
-          <pre class="lab-pre lab-pre--fix"><code>invoice = Invoice.find_by(id: params[:id], owner_id: current_user.id) || forbid!</code></pre>
-        </div>
-      </div>
-    </section>
-
     <section class="sec-method" id="method" aria-labelledby="methodTitle">
       <div class="sec-head">
         <div class="section-kicker">Methodology</div>
@@ -210,7 +167,7 @@
       <div class="sec-head">
         <div class="section-kicker">Report format</div>
         <h2 id="reportTitle">What a report from me looks like</h2>
-        <p>The shape of a real report with the target removed. The example is an invented invoice endpoint, the same one as the lab above.</p>
+        <p>The shape of a real report with the target removed. The example is an invented invoice endpoint.</p>
       </div>
       <div class="report-sheet">
         <div class="report-mast" aria-hidden="true">
@@ -273,11 +230,19 @@
     </footer>
   </main>
 
-  <script src="/data.js?v=60"></script>
-  <script src="/film.js?v=60"></script>
-  <script src="/app.js?v=60"></script>
-  <script src="/interactive.js?v=60"></script>
-  <script src="/motion.js?v=60"></script>
-  <script src="/pages.js?v=60"></script>
+  <script src="/data.js?v=66"></script>
+  <script src="/burn.js?v=66"></script>
+  <script src="/film.js?v=66"></script>
+  <script src="/app.js?v=66"></script>
+  <script src="/interactive.js?v=66"></script>
+  <script src="/motion.js?v=66"></script>
+  <script src="/papercut.js?v=66"></script>
+  <script src="/pages.js?v=66"></script>
+  <script src="/mascot/nav-body.js?v=66"></script>
+  <script src="/mascot/nav-rig.js?v=66"></script>
+  <script src="/mascot/nav-stage.js?v=66"></script>
+  <script src="/mascot/nav-cine.js?v=66"></script>
+  <script src="/mascot/nav-tour.js?v=66"></script>
+  <script src="/mascot/nav-brain.js?v=66"></script>
 </body>
 </html>

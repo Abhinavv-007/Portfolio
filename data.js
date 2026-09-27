@@ -198,7 +198,7 @@
         label: "One endpoint for many models",
         shortImage: "assets/projects/short/clex-ai.webp",
         detailedImage: "assets/projects/detailed/clex-ai.webp",
-        logo: "assets/logos/clex.svg",
+        logo: "assets/logos/clex-ai.svg",
         caseStudyUrl: "work/clex-ai/",
         liveUrl: "https://ai.clex.in",
         repoUrl: "https://github.com/Abhinavv-007/clex-ai",
