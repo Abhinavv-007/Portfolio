@@ -1,0 +1,15 @@
+{
+  "name": "Miko Horizontal Glide Pack v3",
+  "version": 3,
+  "canvas": { "width": 384, "height": 512, "format": "webp", "alpha": true },
+  "frames": [
+    { "id": "glide-takeoff", "web": "web/01-glide-takeoff.webp", "master": "source/01-glide-takeoff.png", "holdMs": 220 },
+    { "id": "glide-cruise", "web": "web/02-glide-cruise.webp", "master": "source/02-glide-cruise.png", "holdMs": 0, "loopable": true },
+    { "id": "glide-brake", "web": "web/03-glide-brake.webp", "master": "source/03-glide-brake.png", "holdMs": 260 },
+    { "id": "glide-sad", "web": "web/04-glide-sad.webp", "master": "source/04-glide-sad.png", "holdMs": 0, "loopable": true }
+  ],
+  "sequences": {
+    "horizontalTravel": ["glide-takeoff", "glide-cruise", "glide-brake"],
+    "sadHorizontalTravel": ["glide-takeoff", "glide-sad", "glide-brake"]
+  }
+}

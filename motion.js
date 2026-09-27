@@ -521,6 +521,19 @@
     }
     let stamped = false;
     const ease = (t) => 1 - Math.pow(1 - t, 3);
+    // Fit the sheet (and the stamp that overhangs it) into the stage.
+    // Measured only when the size changes, never while scrolling.
+    const fit = () => {
+      const avail = stage.clientHeight * 0.9;
+      const need = paper.offsetHeight + 24;
+      const wide = stage.clientWidth * 0.96;
+      const needW = paper.offsetWidth + 40;
+      const k = Math.min(1, avail / Math.max(1, need), wide / Math.max(1, needW));
+      paper.style.setProperty("--fit", k.toFixed(4));
+    };
+    fit();
+    window.addEventListener("resize", fit, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     const update = () => {
       const rect = section.getBoundingClientRect();
       if (rect.bottom < -50 || rect.top > window.innerHeight + 50) return;
@@ -619,32 +632,76 @@
   /* 8. Hold-to-stamp email slip                                         */
   /* ------------------------------------------------------------------ */
 
-  // Notices print out of a slot like a desk receipt, then tear off.
+  // Notices print out of a slot at the foot of the page like a desk
+  // receipt: the paper feeds up a line at a time, sits for a moment, then
+  // is torn off along the perforation and flutters away up the screen.
   let toastTimer = 0;
-  function toast(title, detail = "") {
+  let toastEnd = 0;
+  function toast(title, detail = "", lines = null) {
     let el = $(".pr-toast");
     if (!el) {
       el = document.createElement("div");
       el.className = "pr-toast";
       el.setAttribute("role", "status");
       el.setAttribute("aria-live", "polite");
-      el.innerHTML = `<span class="pr-toast-slot" aria-hidden="true"></span><div class="pr-toast-paper"><small data-when></small><b data-title></b><span data-detail></span><i aria-hidden="true">&#10003; filed</i></div>`;
+      el.innerHTML = `
+        <div class="pr-toast-feed">
+          <div class="pr-toast-paper">
+            <header class="pr-toast-head"><b>The Build Journal</b><small data-no></small></header>
+            <small class="pr-toast-when" data-when></small>
+            <b class="pr-toast-title" data-title></b>
+            <span class="pr-toast-detail" data-detail></span>
+            <dl class="pr-toast-lines" data-lines></dl>
+            <span class="pr-toast-code" aria-hidden="true"></span>
+            <small class="pr-toast-thanks">Thank you for writing &#10038;</small>
+            <i class="pr-toast-filed" aria-hidden="true">&#10003; Filed</i>
+          </div>
+        </div>
+        <span class="pr-toast-slot" aria-hidden="true"><i></i></span>
+        <span class="pr-toast-bits" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>`;
       body.appendChild(el);
     }
     const now = new Date();
-    $("[data-when]", el).textContent = `Desk receipt · ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    const hhmm = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    $("[data-no]", el).textContent = `No. ${String(1000 + Math.floor(Math.random() * 9000))}`;
+    $("[data-when]", el).textContent = `Desk receipt · ${hhmm}`;
     $("[data-title]", el).textContent = title;
     $("[data-detail]", el).textContent = detail;
+    const dl = $("[data-lines]", el);
+    dl.textContent = "";
+    (lines || [["Desk", "Correspondence"], ["Filed", `${hhmm} IST`]]).forEach(([k, v]) => {
+      const row = document.createElement("div");
+      const dt = document.createElement("dt");
+      const dd = document.createElement("dd");
+      dt.textContent = k;
+      dd.textContent = v;
+      row.append(dt, dd);
+      dl.appendChild(row);
+    });
+    // A fresh barcode for every receipt.
+    let x = 0;
+    const bars = [];
+    while (x < 100) {
+      const w = 0.6 + Math.random() * 2.4;
+      bars.push(`#171612 ${x.toFixed(1)}% ${(x + w).toFixed(1)}%`, `transparent ${(x + w).toFixed(1)}% ${(x + w + 0.8 + Math.random() * 1.8).toFixed(1)}%`);
+      x += w + 1.4 + Math.random() * 1.4;
+    }
+    $(".pr-toast-code", el).style.backgroundImage = `linear-gradient(90deg, ${bars.join(", ")})`;
+
+    window.clearTimeout(toastTimer);
+    window.clearTimeout(toastEnd);
     el.classList.remove("is-in", "is-torn");
     void el.offsetWidth;
     el.classList.add("is-in");
     Sound.play("rustle");
-    window.clearTimeout(toastTimer);
+    if (!reducedMotion) for (let i = 1; i < 8; i += 1) window.setTimeout(() => Sound.play("tick"), i * 95);
     toastTimer = window.setTimeout(() => {
       el.classList.add("is-torn");
       Sound.play("snip");
-      window.setTimeout(() => el.classList.remove("is-in", "is-torn"), 700);
-    }, 3200);
+      window.setTimeout(() => Sound.play("swish"), 160);
+      buzz(8);
+      toastEnd = window.setTimeout(() => el.classList.remove("is-in", "is-torn"), reducedMotion ? 300 : 1900);
+    }, reducedMotion ? 3600 : 4400);
   }
 
   async function copyText(text) {
@@ -669,33 +726,48 @@
     }
   }
 
+  // The rubber stamp on the desk. Press and hold: the ring inks round, the
+  // stamp rocks back and slams down on the slip, the impression lands with
+  // a spray of ink, the address goes to the clipboard, and a receipt feeds
+  // out of the slot at the foot of the page and is torn off up the screen.
   function setupStampCta() {
-    $$("[data-stamp-cta]").forEach((host) => {
+    $$("[data-stamp-cta]").forEach((host, n) => {
+      const hintId = `stampHint${n}`;
+      const slipNo = String(n + 1).padStart(4, "0");
       host.classList.add("stamp-cta");
       host.innerHTML = `
-        <button class="stamp-cta-btn" type="button" aria-describedby="stampHint">
-          <span class="stamp-cta-ring" aria-hidden="true">
-            <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle class="fill" cx="50" cy="50" r="46"/></svg>
-          </span>
-          <span class="stamp-cta-tool" aria-hidden="true">
-            <span class="stamp-cta-knob"></span><span class="stamp-cta-neck"></span><span class="stamp-cta-base"></span>
-          </span>
-          <span class="stamp-cta-label">Hold to stamp</span>
-          <span class="sr-only visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Press and hold to copy my email address, ${EMAIL}</span>
-        </button>
-        <div class="stamp-cta-slip">
-          <div class="stamp-cta-slip-note">Stamp here to take my address<strong>Your reply goes straight to my desk</strong></div>
-          <div class="stamp-cta-impression" aria-hidden="true">
-            <small>Received by the desk</small>
-            <b>${EMAIL}</b>
-            <small>Address copied</small>
+        <div class="stamp-cta-desk">
+          <button class="stamp-cta-btn" type="button" aria-describedby="${hintId}">
+            <span class="stamp-cta-ring" aria-hidden="true">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle class="fill" cx="50" cy="50" r="46"/></svg>
+            </span>
+            <span class="stamp-cta-tool" aria-hidden="true">
+              <span class="stamp-cta-knob"></span><span class="stamp-cta-neck"></span><span class="stamp-cta-base"><i>AR</i></span>
+            </span>
+            <span class="stamp-cta-label" aria-hidden="true">Hold to stamp</span>
+            <span class="stamp-cta-sr">Press and hold to copy my email address, ${EMAIL}</span>
+          </button>
+          <div class="stamp-cta-slip">
+            <span class="stamp-cta-fold" aria-hidden="true"></span>
+            <div class="stamp-cta-slip-note">
+              <small>Correspondence slip &middot; No. ${slipNo}</small>
+              <strong>Stamp here to take my address</strong>
+              <em>Your reply goes straight to my desk</em>
+            </div>
+            <div class="stamp-cta-impression" aria-hidden="true">
+              <small>Received by the desk</small>
+              <b>${EMAIL}</b>
+              <small>Address copied &#10003;</small>
+            </div>
+            <span class="stamp-cta-ink" aria-hidden="true"></span>
           </div>
         </div>
-        <p class="stamp-cta-hint" id="stampHint" aria-live="polite">Press and hold the stamp. Or just <a href="mailto:${EMAIL}">write to ${EMAIL}</a>.</p>
+        <p class="stamp-cta-hint" id="${hintId}" aria-live="polite">Press and hold the stamp. Or just <a href="mailto:${EMAIL}">write to ${EMAIL}</a>.</p>
       `;
       const btn = $(".stamp-cta-btn", host);
       const hint = $(".stamp-cta-hint", host);
-      const HOLD_MS = reducedMotion ? 350 : 780;
+      const ink = $(".stamp-cta-ink", host);
+      const HOLD_MS = reducedMotion ? 350 : 820;
       let holding = false;
       let start = 0;
       let value = 0;
@@ -706,19 +778,41 @@
 
       const setHold = (v) => { value = v; host.style.setProperty("--hold", v.toFixed(3)); };
 
+      // Ink thrown off the rubber as it lands.
+      const splatter = () => {
+        ink.textContent = "";
+        if (reducedMotion) return;
+        for (let i = 0; i < 16; i += 1) {
+          const dot = document.createElement("i");
+          // Thrown out past the rim of the impression, never over the address.
+          const a = Math.random() * Math.PI * 2;
+          const d = 1 + Math.random() * 0.35;
+          dot.style.setProperty("--x", `${(Math.cos(a) * d * 150).toFixed(0)}px`);
+          dot.style.setProperty("--y", `${(Math.sin(a) * d * 62).toFixed(0)}px`);
+          dot.style.setProperty("--s", (0.4 + Math.random() * 1.1).toFixed(2));
+          dot.style.animationDelay = `${(Math.random() * 60).toFixed(0)}ms`;
+          ink.appendChild(dot);
+        }
+      };
+
       const complete = async () => {
         completed = true;
         holding = false;
         host.classList.remove("is-stamped");
         void host.offsetWidth;
         host.classList.add("is-stamped");
+        splatter();
         Sound.play("thump");
         buzz([12, 40, 22]);
         copied = await copyText(EMAIL);
         hint.innerHTML = copied
           ? `Copied <strong>${EMAIL}</strong> to your clipboard. <a href="mailto:${EMAIL}">Open your mail app</a>.`
           : `The address is <strong>${EMAIL}</strong>. <a href="mailto:${EMAIL}">Open your mail app</a>.`;
-        if (copied) toast("Address copied", EMAIL);
+        window.setTimeout(() => toast(copied ? "Address copied" : "Address ready", EMAIL, [
+          ["Desk", "Correspondence"],
+          ["Reply", "Within a day"],
+          ["Slip", `No. ${slipNo}`]
+        ]), reducedMotion ? 0 : 380);
         release(true);
       };
 
@@ -734,6 +828,7 @@
         if (holding) return;
         holding = true;
         completed = false;
+        host.classList.add("is-holding");
         pressedAt = performance.now();
         start = pressedAt - value * HOLD_MS;
         window.cancelAnimationFrame(raf);
@@ -744,6 +839,7 @@
       const release = (fromComplete) => {
         const wasHolding = holding;
         holding = false;
+        host.classList.remove("is-holding");
         window.cancelAnimationFrame(raf);
         if (!fromComplete && wasHolding && !completed && performance.now() - pressedAt < 220) {
           host.classList.remove("is-nudged");
@@ -1338,10 +1434,32 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* 18. Nothing off screen keeps moving                                 */
+  /* ------------------------------------------------------------------ */
+
+  // Every loop on the page (the wire, the marquee, twinkling stars, a
+  // slowly turning seal, blinking carets) is paused while its section is
+  // out of view, and picks up again just before it scrolls back in.
+  function setupOffscreenPause() {
+    if (!hasIO) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.target.classList.toggle("pr-off", !e.isIntersecting));
+    }, { rootMargin: "160px 0px" });
+    const watch = () => $$("main > section, main > footer, main > .footer, main > .pc-scene, main > div, .wire").forEach((el) => {
+      if (el.dataset.prWatched) return;
+      el.dataset.prWatched = "1";
+      io.observe(el);
+    });
+    // Scenery and late sections are added after this runs: look again.
+    window.setTimeout(watch, 0);
+    window.addEventListener("load", watch, { once: true });
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Boot                                                                */
   /* ------------------------------------------------------------------ */
 
-  const boot = [setupWire, setupOdometers, setupKinetic, setupPaperTitles, setupHeadings, setupHalftone, setupExtra, setupRail, setupStampCta, setupDock, setupBlots, setupMarqueeDrift, setupSoundCues, setupDeskStatus, setupTabTitle, setupTypedKickers, setupStacks, setupScrollSpin, setupRailPeek, setupSignature, setupSoundHint, setupCutouts];
+  const boot = [setupOffscreenPause, setupWire, setupOdometers, setupKinetic, setupPaperTitles, setupHeadings, setupHalftone, setupExtra, setupRail, setupStampCta, setupDock, setupBlots, setupMarqueeDrift, setupSoundCues, setupDeskStatus, setupTabTitle, setupTypedKickers, setupStacks, setupScrollSpin, setupRailPeek, setupSignature, setupSoundHint, setupCutouts];
   boot.forEach((fn) => {
     try { fn(); } catch (err) { if (window.console) console.warn(`[press room] ${fn.name} skipped`, err); }
   });

@@ -13,7 +13,9 @@ const CORS_HEADERS = {
   "access-control-allow-methods": "GET, OPTIONS",
   "access-control-allow-headers": "content-type, accept",
   "access-control-max-age": "86400",
-  "vary": "origin"
+  // Accept too: /api serves the docs page to browsers and JSON to everything
+  // else, so a cached JSON reply must never be reused for a page load.
+  "vary": "origin, accept"
 };
 
 // ---- Commands accepted by /api/command?cmd= --------------------------------

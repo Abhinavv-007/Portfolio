@@ -33,11 +33,11 @@
 
   const MARKS = [
     { id: "halftone", page: "index", name: "The halftone", note: "Hidden in the dot screen of the front-page clipping." },
-    { id: "mismatch", page: "security", name: "The mismatch", note: "Printed the moment one account read another's invoice." },
+    { id: "mismatch", page: "security", name: "The mismatch", note: "Filed with IDOR, where one account reads another's invoice." },
     { id: "fineprint", page: "work", name: "The fine print", note: "Set too small to read without the loupe." },
     { id: "watermark", page: "credentials", name: "The watermark", note: "Pressed into the sheet. Only the light table shows it." },
     { id: "wire", page: "api", name: "The wire", note: "Struck on the plate under the latency dial." },
-    { id: "wax", page: "contact", name: "The wax", note: "Sitting under the signature stamp all along." }
+    { id: "wax", page: "contact", name: "The wax", note: "Inked into the slip by the rubber stamp." }
   ];
 
   const STORE_KEY = "buildjournal.pressmarks.v1";
@@ -909,25 +909,21 @@
       }
     }
 
-    // The signature stamp has been sitting on the desk this whole time.
-    // Lift it and there is a press mark under the wax.
-    const stamp = $(".contact-stamp");
-    if (stamp && !has("wax")) {
-      const cradle = document.createElement("span");
-      cradle.className = "wax-cradle";
-      cradle.innerHTML = `<span class="pm-mark-slot" data-mark="wax"></span>`;
-      stamp.parentNode.insertBefore(cradle, stamp);
-      cradle.appendChild(stamp);
-      stamp.classList.add("is-liftable");
-      stamp.setAttribute("role", "button");
-      stamp.setAttribute("tabindex", "0");
-      stamp.setAttribute("aria-label", "Lift the signature stamp");
-      const lift = () => cradle.classList.add("is-lifted");
-      stamp.addEventListener("click", lift);
-      stamp.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); lift(); }
+    // The press mark is inked into the slip by the rubber stamp: hold it
+    // down, the impression lands, and there it is.
+    const stampCta = $(".contact-column--email .stamp-cta") || $(".stamp-cta");
+    if (stampCta && !has("wax")) {
+      const observer = new MutationObserver(() => {
+        if (!stampCta.classList.contains("is-stamped")) return;
+        observer.disconnect();
+        const slip = $(".stamp-cta-slip", stampCta);
+        if (!slip) return;
+        const slot = document.createElement("span");
+        slot.className = "pm-mark-slot pm-mark-slot--slip";
+        slip.appendChild(slot);
+        armMark(slot, "wax");
       });
-      armMark($("[data-mark='wax']", cradle), "wax");
+      observer.observe(stampCta, { attributes: true, attributeFilter: ["class"] });
     }
   }
 
@@ -1006,24 +1002,25 @@
     }
   }
 
-  /* --- The security desk: the lab already proves the point ------------ */
+  /* --- The security desk: the mark sits in the IDOR file ------------- */
 
-  function setupLabMark() {
+  function setupMismatchMark() {
     if (page !== "security" || has("mismatch")) return;
-    const lab = $("[data-authlab]");
-    const verdict = $("[data-lab-verdict]", lab || document);
-    if (!lab || !verdict) return;
-    // The mark is struck the moment the lab actually leaks a record — that
-    // is, when the reader switches the ownership check off and looks.
-    const observer = new MutationObserver(() => {
-      if (!lab.classList.contains("is-leak")) return;
-      observer.disconnect();
+    const panel = $("[data-area-panel]");
+    if (!panel) return;
+    // The panel is re-set on every tab change, so the slot is put back
+    // each time the IDOR area is open, until the mark is claimed.
+    const place = () => {
+      if (has("mismatch") || panel.getAttribute("aria-labelledby") !== "tab-idor") return;
+      const head = $(".area-panel-head", panel);
+      if (!head || $(".pm-mark-slot", head)) return;
       const slot = document.createElement("span");
       slot.className = "pm-mark-slot pm-mark-slot--lab";
-      verdict.appendChild(slot);
+      head.appendChild(slot);
       armMark(slot, "mismatch");
-    });
-    observer.observe(lab, { attributes: true, attributeFilter: ["class"] });
+    };
+    new MutationObserver(place).observe(panel, { childList: true });
+    place();
   }
 
   /* ------------------------------------------------------------------ */
@@ -1038,5 +1035,5 @@
   setupWireRoom();
   setupPostDesk();
   setupRecordsOffice();
-  setupLabMark();
+  setupMismatchMark();
 })();

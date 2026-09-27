@@ -4,3 +4,6 @@
 .codex/
 .wrangler/
 .playwright-mcp/
+
+# Mascot pack PNG masters: kept locally, the site ships the WebP files
+mascot/assets/*/source/

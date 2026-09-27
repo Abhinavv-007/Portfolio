@@ -1,3 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 220" role="img" aria-label="THE GLASS BALLOT">
-  <text x="50%" y="73%" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="132" font-weight="700" letter-spacing="-4" fill="#1d1d1b">THE GLASS BALLOT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="THE GLASS BALLOT">
+  <circle cx="48" cy="48" r="46" fill="#171612"/>
+  <circle cx="48" cy="48" r="40.5" fill="none" stroke="#f4ecdb" stroke-opacity="0.32" stroke-width="1.4" stroke-dasharray="2.2 3.2"/>
+  <circle cx="48" cy="48" r="46" fill="none" stroke="#7fc4c8" stroke-width="2.4"/>
+  <rect x="45" y="20" width="21" height="27" rx="2" fill="#f4ecdb" transform="rotate(10 55 33)"/>
+  <path d="M50,33 L54,38 L62,28" fill="none" stroke="#2f6468" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="rotate(10 55 33)"/>
+  <path d="M26,42 H70 V70 H26 Z" fill="#7fc4c8" fill-opacity="0.28" stroke="#7fc4c8" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M40,42 H56" stroke="#171612" stroke-width="4" stroke-linecap="round"/>
+  <path d="M30,48 L36,64" stroke="#f4ecdb" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round"/>
 </svg>
