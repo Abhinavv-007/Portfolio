@@ -1,0 +1,44 @@
+{
+  "id": "miko-sleepdock-v4",
+  "version": 4,
+  "canvas": {
+    "width": 384,
+    "height": 512,
+    "fit": "contain",
+    "transparent": true
+  },
+  "states": {
+    "settling": {
+      "src": "./web/01-settle-to-sleep.webp",
+      "durationMs": 420,
+      "next": "sleeping"
+    },
+    "sleeping": {
+      "src": "./web/02-docked-sleep.webp",
+      "durationMs": null,
+      "loop": "gentle-breath",
+      "action": "wake"
+    },
+    "waking": {
+      "src": "./web/03-tap-to-wake.webp",
+      "durationMs": 350,
+      "next": "stretching"
+    },
+    "stretching": {
+      "src": "./web/04-awake-stretch.webp",
+      "durationMs": 450,
+      "next": "idle"
+    }
+  },
+  "display": {
+    "desktopHeightPx": [72, 96],
+    "mobileHeightPx": [60, 78],
+    "safeInsetPx": [12, 16],
+    "preferredCorner": "bottom-right",
+    "fallbackCorner": "bottom-left"
+  },
+  "accessibility": {
+    "role": "button",
+    "ariaLabel": "Wake Miko"
+  }
+}
