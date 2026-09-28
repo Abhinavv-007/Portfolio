@@ -5,12 +5,13 @@
 
     fresh landing  he runs in after the opening titles and asks whether
                    you would like a tour. Yes: a victory hop and off he
-                   goes. No: a wobbly lip, real tears, and a slow waddle
-                   off screen, with one hopeful look back.
+                   goes. No: a wobbly lip, real tears, and a sniffly glide
+                   to a quiet corner, where he curls up for a nap.
     mid-tour       he carries on with this page's part of the tour
     companion      he lives in the corner: looks at your pointer, naps,
                    hops, and talks when you poke him
-    away           he peeks in from the edge, in case you change your mind
+    away           asleep, small, in a safe bottom corner (the sleep dock,
+                   nav-dock.js) until you tap him awake
 
   The tour scripts themselves are in nav-tour.js; this file runs them,
   carries the tour across pages (sessionStorage) and draws the controls.
@@ -21,6 +22,7 @@
   const N = window.NAV;
   if (!N) return;
   const { rig } = N;
+  const DOCK = window.NAV_DOCK || null;
   const $ = (s, el = document) => el.querySelector(s);
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
   const store = {
@@ -198,6 +200,7 @@
   }
 
   async function startTour() {
+    if (DOCK && DOCK.state !== "off") await DOCK.wake();
     store.set("tour", { on: true, seen: [], next: page });
     setMode("companion");
     await runTour();
@@ -253,10 +256,11 @@
     N.busy(true);
     acting = true;
     try {
+      if (DOCK && DOCK.state !== "off") await DOCK.wake();
       const g = N.ground();
       rig.facing = 1;
       rig.setFace("happy");
-      N.place(-80, g);
+      if (!N.visible) N.place(-80, g);
       await N.walkTo(Math.max(150, N.vw() * 0.14), { run: true });
       rig.squash(0.16);
       rig.do("wave");
@@ -299,63 +303,74 @@
       rig.setFace("cry");
       rig.squash(0.12);
       await N.say("I-it's fine! I'm not crying! The adventure breeze got in my eyes.", { hold: 1900 });
-      N.hush();
-      await N.pause(900);
-      // A slow, weepy walk off, and one hopeful look back
-      rig.setFace("sob");
-      await N.walkTo(N.vw() * 0.06 + 10, { sad: true });
-      rig.facing = 1;
       rig.do("sad");
       rig.setFace("sad");
       rig.emote("q", 900);
-      await N.pause(1100);
+      await N.say("I'll just nap in the corner. Poke me if you change your mind!", { hold: 1700, close: true });
+      // A slow, sniffly glide to a quiet corner, and a nap
       rig.setFace("sob");
-      await N.leave({ sad: true, side: -1 });
+      await nap({ sad: true });
     } finally {
       CINE.letterbox(false);
     }
-    setMode("away");
     N.busy(false);
     acting = false;
-    window.setTimeout(() => peek(true), 2600);
   }
 
   /* ---------------------------------------------------------------- */
-  /* Away: peeking in from the edge                                    */
+  /* Away: napping in the corner                                       */
   /* ---------------------------------------------------------------- */
 
-  async function peek(hint) {
-    if (mode !== "away" || store.get("tour")?.on) return;
+  // Off to a safe corner to curl up small. From there the sleep dock has
+  // him: no speech, tour bar or wandering until he is woken.
+  async function nap(o = {}) {
+    const e = N.epoch;
+    hudOn(false);
+    N.hush();
+    N.spotOff();
+    CINE.letterboxOff();
+    if (!DOCK) {
+      await N.leave({ sad: o.sad, run: !o.sad });
+      setMode("away");
+      return;
+    }
+    const spot = DOCK.spot();
+    const kk = N.k();
+    await N.walkTo(Math.min(N.vw() - 88 * kk - 8, Math.max(88 * kk + 8, spot.x)), { y: spot.y, sad: o.sad, careful: true });
+    N.check(e);
+    setMode("away");
+    await DOCK.sleep({ from: true });
+  }
+
+  // Sent to sleep from outside (or found asleep on arrival).
+  function sleep() {
+    if (!DOCK) return;
+    setMode("away");
+    if (!N.visible) { DOCK.sleep(); return; }
     N.interrupt();
+    N.busy(false);
     acting = true;
-    try {
-      rig.facing = 1;
-      rig.do("peek");
-      rig.setFace("curious");
-      N.place(-60, N.ground());
-      await N.walkTo(Math.max(22, N.vw() * 0.012) + 6, { speed: 90, then: "peek" });
-      if (hint) {
-        rig.setFace("mischief");
-        await N.say("Psst... poke me if you change your mind!", { hold: 2600, close: true });
-        rig.setFace("curious");
-      }
-    } catch (_) { /* interrupted */ }
-    acting = false;
+    nap().catch(() => {}).then(() => { acting = false; });
   }
 
+  // Woken by a tap, a key or a miko:wake event: an eye opens, a big
+  // stretch, and he is all ears again, right where he napped.
   async function comeBack() {
+    if (!DOCK || !DOCK.asleep) return;
     N.interrupt();
     acting = true;
     try {
+      await DOCK.wake();
+      setMode("companion");
       rig.setFace("excited");
       rig.emote("bang", 700);
-      const h = home();
-      await N.hopTo(h.x + 40, h.y, { height: 90 });
-      setMode("companion");
+      rig.squash(0.14);
       await menu(true);
     } catch (_) { /* interrupted */ }
     acting = false;
   }
+  if (DOCK) DOCK.onPress(comeBack);
+  window.addEventListener("miko:wake", () => { comeBack(); });
 
   /* ---------------------------------------------------------------- */
   /* Companion: living in the corner                                   */
@@ -390,18 +405,19 @@
       rig.do("star");
       await N.say(pick(FACTS), { face: "mischief", hold: 3000, close: true });
       rig.do("idle");
+      // Woken in the nap corner: back to his usual spot afterwards.
+      if (back) await goHome();
       acting = false;
     } else if (choice === 2) {
       rig.do("wave");
       await N.say("Okay! Bye bye!", { face: "smile", hold: 900, close: true });
-      await N.leave({ run: true, side: -1 });
-      setMode("away");
+      await nap();
       acting = false;
-      window.setTimeout(() => peek(false), 3500);
     } else acting = false;
   }
 
   function companion(enter) {
+    if (DOCK) DOCK.off();
     setMode("companion");
     N.interrupt();
     const h = home();
@@ -469,7 +485,7 @@
         rig.setFace("embarrassed");
         await N.say(pick(["Oof... that was a big splat.", "Ow ow ow... my hair curl!", "Warn me next time!"]), { hold: 1400, close: true });
         if (mode === "companion" && !store.get("tour")?.on) await goHome();
-        else if (mode === "away") { rig.facing = -1; await N.leave({ run: true, side: -1 }); window.setTimeout(() => peek(false), 1500); }
+        else if (mode === "away") await nap();
       } catch (_) { /* interrupted */ }
       acting = false;
       return;
@@ -531,7 +547,7 @@
     const tour = store.get("tour");
     // Every drawing is decoded before the first sequence plays, so no frame
     // ever pops in blank. A slow network never holds him back for long.
-    const sprites = Promise.race([rig.preload ? rig.preload() : Promise.resolve(), N.wait(3500)]);
+    const sprites = Promise.race([Promise.all([rig.preload ? rig.preload() : null, DOCK ? DOCK.preload() : null]), N.wait(3500)]);
     if (film && film.done) {
       await film.done;
       await N.wait(400);
@@ -544,9 +560,10 @@
     if (tour && tour.on && arrival.fresh) store.set("tour", { on: false, seen: [], next: null });
     if (arrival.fresh && page !== "terminal") { greet(); return; }
     if (mode === "companion") { companion(true); return; }
-    peek(false);
+    sleep();
   })();
 
-  window.MIKO = { greet, startTour, endTour, peek, companion };
+  // peek is the old name for sending him away, kept for older page scripts.
+  window.MIKO = { greet, startTour, endTour, sleep, wake: comeBack, peek: sleep, companion };
   window.INKY = window.MIKO; // Backward-compatible alias for older page scripts.
 })();

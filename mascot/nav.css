@@ -83,6 +83,124 @@
   overflow: visible;
 }
 
+/* ---- The sleep dock: curled up small in a safe corner (nav-dock.js) ----
+   The button is the lower part of the drawing's canvas; the canvas itself
+   is contained, never stretched or cropped. --dock-grow scales him about
+   his feet while he shrinks in and stretches back out. */
+
+@property --dock-grow {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+.nav-dock {
+  --dock-w: 72px;
+  --dock-h: 96px;
+  --dock-hit: 0.7;
+  --dock-t: 320ms;
+  --dock-ease: cubic-bezier(0.3, 0.7, 0.4, 1);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(var(--dock-w) * var(--dock-grow));
+  height: calc(var(--dock-h) * var(--dock-hit) * var(--dock-grow));
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 46% 46% 32% 32%;
+  background: none;
+  color: inherit;
+  font: inherit;
+  overflow: visible;
+  translate: -50% 0;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    opacity 220ms ease,
+    visibility 0s,
+    left var(--dock-t) var(--dock-ease),
+    bottom var(--dock-t) var(--dock-ease),
+    --dock-grow var(--dock-t) var(--dock-ease);
+}
+
+.nav-dock[hidden] { display: none; }
+.nav-dock.is-snap { transition: none; }
+.nav-dock:focus-visible { outline: 2px dashed var(--nav-red); outline-offset: 5px; }
+
+/* Out of the way of something worth reading or pressing, until it moves */
+.nav-dock.is-yielding {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 0s linear 220ms;
+}
+
+.nav-dock-shadow {
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: -4%;
+  height: 9%;
+  border-radius: 50%;
+  background: rgba(64, 40, 28, 0.2);
+  pointer-events: none;
+}
+
+.nav-dock-art {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% / var(--dock-hit));
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 4px 6px rgba(67, 38, 24, 0.22));
+  pointer-events: none;
+}
+
+.nav-dock-art img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.nav-dock-art img.is-shown { opacity: 1; }
+
+/* Asleep he is almost still: one slow breath, a pixel or two */
+.nav-dock.is-sleeping .nav-dock-art { animation: navDockBreath 2.9s ease-in-out infinite; }
+.nav-dock.is-yielding .nav-dock-art { animation-play-state: paused; }
+.nav-dock-art.is-popping { animation: navDockPop 280ms cubic-bezier(0.2, 1.4, 0.4, 1); }
+
+@keyframes navDockBreath { 50% { transform: translateY(-1.5px) scale(1.01); } }
+@keyframes navDockPop { from { transform: scale(1.04, 0.95); } }
+
+/* While he naps, nothing of his talks, points or frames the page */
+.miko-asleep .nav-bubble,
+.miko-asleep .nav-spot,
+.miko-asleep .nav-hud,
+.miko-asleep .nav-chapter,
+.miko-asleep .nav-cine-bars {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* The swap between the dock and the full-size Miko is a single frame */
+.miko-asleep .nav-char { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dock { transition: opacity 220ms ease, visibility 0s; }
+  .nav-dock.is-sleeping .nav-dock-art,
+  .nav-dock-art.is-popping { animation: none; }
+}
+
 /* ---- The speech bubble: a scrap of the journal's own paper ---- */
 
 .nav-bubble {
