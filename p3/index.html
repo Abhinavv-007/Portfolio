@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Risk, Uncertainty and Decision-Making: A Comparative Study · Abhinav Raj</title>
+  <meta name="description" content="A research paper by Abhinav Raj (August 2025) comparing how risk is defined, measured, perceived and managed across probability, decision theory, Bayesian reasoning, psychology and institutions, with the mathematics explained and made interactive.">
+  <meta name="author" content="Abhinav Raj">
+  <meta name="theme-color" content="#2b2925">
+  <link rel="canonical" href="https://abhnv.in/p3/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://abhnv.in/p3/">
+  <meta property="og:title" content="Risk, Uncertainty and Decision-Making">
+  <meta property="og:description" content="Why no single definition of risk works everywhere, and how to choose the right one. A research paper by Abhinav Raj, August 2025.">
+  <meta property="og:image" content="https://abhnv.in/p3/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://abhnv.in/p3/og.png">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400..900;1,400..700&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400..900;1,62.5..100,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..600&family=UnifrakturMaguntia&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/research/press/katex/katex.min.css">
+  <link rel="stylesheet" href="/research/press/press.css?v=2">
+  <link rel="stylesheet" href="/research/press/press-ui.css?v=2">
+  <link rel="stylesheet" href="/p3/paper.css?v=2">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Risk Factors, Uncertainty, and Decision-Making: A Comparative Study of How Risk Is Defined, Measured, Perceived, and Managed Across Different Frameworks","author":{"@type":"Person","name":"Abhinav Raj","url":"https://abhnv.in/"},"datePublished":"2025-08-01","inLanguage":"en","url":"https://abhnv.in/p3/","keywords":"risk, uncertainty, risk factors, probability, expected utility, Bayesian reasoning, prospect theory, risk perception, vulnerability, risk management"}
+  </script>
+</head>
+<body class="ed-risk">
+  <a class="skip" href="#s1">Skip to the paper</a>
+  <header class="runhead" aria-label="Running head">
+    <a class="runhead-flag" href="/research/">The Build Journal</a>
+    <span class="runhead-sec" aria-live="polite"></span>
+    <nav class="runhead-tools" aria-label="Reading tools"></nav>
+    <i class="progress" aria-hidden="true"></i>
+  </header>
+
+  <div class="desk">
+    <article class="sheet" aria-label="Front page">
+      <div class="sheet-half sheet-top">
+        <div class="nameplate">
+          <div class="ear ear-die"><b>Roll the die</b><button class="die" type="button" id="die" aria-label="Roll the die"></button><span id="dieAvg">Average of 0 rolls</span></div>
+          <div><span class="flag-over">Research Supplement</span><p class="flag">The Build Journal</p></div>
+          <div class="ear ear-r"><b>Forecast</b><span class="big">Uncertain</span>with a chance of being wrong about the chance.</div>
+        </div>
+        <div class="dateline"><span>No. 3</span><span>August 2025</span><span>By Abhinav Raj &middot; abhnv.in</span></div>
+        <p class="banner-kicker">Decision science &middot; A comparative study</p>
+        <h1 class="banner">Risk, Uncertainty and Decision-Making</h1>
+        <p class="banner-deck">How risk is defined, measured, felt and managed across different frameworks, and why no single definition works everywhere.</p>
+        <div class="byline-row"><span>By <strong>Abhinav Raj</strong></span><span data-readtime>45 minute read</span><span>12 sections, 41 equations, 16 things to try</span></div>
+        <span class="fold-hint" aria-hidden="true">Scroll to unfold</span>
+      </div>
+      <div class="sheet-fold">
+        <div class="sheet-crease"></div>
+        <div class="sheet-half sheet-bottom">
+          <div class="front-cols">
+            <div class="front-story">
+              <h3>The same word means different things to a banker, a doctor and an engineer</h3>
+              <p>People talk about risk when they head to an exam in bad weather, choose a medical treatment, board a flight, invest their savings, release software, approve a policy or build a bridge. It is one of the most familiar words in ordinary life, and one of the most argued over in research and practice.</p>
+              <p>In classical probability, risk usually means measurable chances attached to outcomes. In expected utility theory it is about choosing between uncertain prospects. Bayesians tie it to degrees of belief that change with evidence. Psychologists find it shaped by framing, emotion, trust and memory. Institutions link it to objectives, accountability and action.</p>
+              <p>This paper compares those frameworks on the same questions, works through the core mathematics in plain language, and concludes that the strongest approach is layered: use different tools for different decisions, and be honest about their limits.</p>
+              <p><a class="jump" href="#s1">Continued in section 1</a></p>
+            </div>
+            <aside class="front-rail">
+              <h4>Inside</h4>
+              <ol class="inside">
+                <li><a href="#s2"><span>2</span>What risk actually means</a></li>
+                <li><a href="#s4"><span>4</span>Six ways to see risk</a></li>
+                <li><a href="#s5"><span>5</span>The mathematics, explained</a></li>
+                <li><a href="#s6"><span>6</span>Why we misjudge risk</a></li>
+                <li><a href="#s8"><span>8</span>Managing it in practice</a></li>
+                <li><a href="#s9"><span>9</span>The comparison table</a></li>
+              </ol>
+              <h4>Keywords</h4>
+              <p class="kw">risk, uncertainty, risk factors, probability, expected utility, Bayesian reasoning, prospect theory, risk perception, vulnerability, risk management</p>
+            </aside>
+          </div>
+          <div class="sheet-back" aria-hidden="true"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <main class="paper" id="paper">
+
+    <!-- ============================== 1 ============================== -->
+    <section class="sec" id="s1">
+      <header class="sec-head">
+        <p class="sec-label"><b>1</b>Introduction</p>
+        <h2>Deciding Before the Future Arrives</h2>
+        <p class="sec-deck">Something of value is at stake, the future is uncertain, and the decision cannot wait.</p>
+      </header>
+      <div class="col">
+        <p>Risk is present whenever we have to act before we know how things will turn out. A student travelling to an exam in the rain worries about traffic, a broken-down bus or arriving late. A traveller choosing a flight weighs safety, cost, fatigue, delays and missed connections. A family buying insurance worries about an illness that may never come but could ruin them if it does. An investor asks whether a higher expected return is worth a bigger possible loss. A software team asks whether shipping a feature now will cause failures, security holes or embarrassment. A government weighs whether a policy that reduces one danger might create another.</p>
+        <p>The scale differs, but the shape is the same. Something of value is at stake, the future is uncertain, and the decision cannot be put off forever.</p>
+        <p>Because the word is so familiar, its meaning can seem obvious. It is not. In finance, risk can mean volatility, loss, the chance of default, a cash crunch, or assets falling together in a crisis. In public health the language is of risk factors, exposure and the burden of disease. In disaster studies, risk depends not only on the hazard but on who is exposed, how vulnerable they are and how well they can cope. Engineers frame it through scenarios, likelihoods and consequences. The international standard ISO 31000 defines it as “the effect of uncertainty on objectives”.<a class="cite" data-ref="1">1</a> Psychologists care about how people perceive, fear, ignore or misread uncertain outcomes. These are not small differences of wording. They decide what gets measured, who is held responsible, which choices look rational and how institutions justify what they do.</p>
+        <p>This is a comparative study rather than a survey of one field. For each framework it asks the same questions. What does risk mean here? What assumptions hold that meaning up? Where does the framework work well, and where does it break? Does it describe the world, prescribe rational choice, explain behaviour, or support practical management? Asking the same questions everywhere shows that much disagreement about risk comes from different purposes, not just confusion.</p>
+        <p>The argument has four claims. First, risk is a family of related ideas, not one universal formula. Second, risk must be kept separate from the numbers used to describe it, because no single number captures everything that matters about uncertain harm or opportunity. Third, a sound account of risk needs both numbers and judgement, since probabilities and averages do not cover everything that matters in real decisions. Fourth, the best framework depends on the decision. Probability models are powerful where events repeat and data are plentiful. Expected utility is strong for prescribing choice. Bayesian methods shine when evidence arrives over time. Behavioural approaches explain how people actually read uncertainty. Organisational frameworks turn uncertainty into governance, controls and action.</p>
+        <p>The paper runs as follows. Section 2 sets out the core ideas and terms. Section 3 reviews the literature and its history. Section 4 compares the main frameworks. Section 5 develops the mathematics, explains every symbol in plain English and proves the central results. Section 6 covers psychology and behaviour, section 7 risk in eight applied fields, and section 8 practical risk management. Section 9 compares the frameworks side by side; sections 10 to 12 give the findings, the limitations and the conclusion.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 2 ============================== -->
+    <section class="sec" id="s2">
+      <header class="sec-head">
+        <p class="sec-label"><b>2</b>Foundations</p>
+        <h2>What Risk Actually Means</h2>
+        <p class="sec-deck">Chance attached to consequences that matter to someone.</p>
+      </header>
+      <div class="col">
+        <h3>Risk in everyday life</h3>
+        <p>In everyday speech, risk means the possibility that something important may go badly because the future is not fully under our control. The thing at stake may be health, time, money, status, comfort, opportunity, safety or trust. This plain meaning has an advantage: it starts from what people care about. If nothing of value is at stake, uncertainty may be interesting, but nobody calls it a serious risk. So ordinary language already holds a deep idea. Risk is not just about chance. It is about chance attached to consequences that matter to someone.</p>
+        <p>A simple example shows the structure. A student has an exam at 8:30 in the morning. The route is usually reliable, but heavy rain is forecast, the buses have a history of delays, and there is little spare time. Is leaving at the usual time risky? That small question already contains a goal, uncertainty, ways things can fail, uneven consequences and a choice between actions. Scroll through the morning and watch how each framework picks out something different.</p>
+      </div>
+
+      <div class="scrolly" id="story-exam">
+        <div class="scrolly-graphic"><div class="exam" aria-label="Simulated arrival times for the student's morning"></div></div>
+        <div class="scrolly-steps">
+          <div class="step"><div><span class="t">The morning</span><p>Leave at 7:40, walk to the stop, wait for a bus, ride 25 minutes. Rain is forecast. The exam doors close at 8:30.</p></div></div>
+          <div class="step"><div><span class="t">The probability lens</span><p>Run the morning 2,000 times. Each dot is one possible arrival. The share of dots past 8:30 is the chance of being late.</p></div></div>
+          <div class="step"><div><span class="t">The behavioural lens</span><p>The student remembers the last few smooth trips. That memory draws a much tighter, rosier picture than the real spread of outcomes. Overconfidence is a risk in itself.</p></div></div>
+          <div class="step"><div><span class="t">The vulnerability lens</span><p>If the bus breaks down, a student with no backup is badly late. One with money for a taxi loses only a few minutes. Same hazard, different risk.</p></div></div>
+          <div class="step"><div><span class="t">The management lens</span><p>Set a rule: accept at most a 5% chance of being late. The model then says how much earlier to leave. Risk becomes a decision threshold.</p></div></div>
+        </div>
+      </div>
+
+      <div class="col">
+        <p class="fig-source"><b>Model:</b> walk 8 minutes; wait for a bus 0 to 10 minutes; ride 25 minutes plus a delay (rain adds about 12 minutes on average); a 3% chance the bus breaks down, adding 35 minutes, or 12 with a taxi as backup. Illustrative values.</p>
+        <p>So risk is not merely a technical label. It is a way of organising practical judgement when we lack full knowledge. People do not first solve a probability problem and then decide whether risk exists. They notice that something they value is uncertain, then look for tools to think about it. Try your own morning.</p>
+
+        <figure class="fig breakout" id="fig-morning" data-resettable>
+          <header class="fig-head"><div><h3>Plan your own morning</h3><p>Change the weather, the buses, your departure time and your backup. The chart re-runs 2,000 mornings each time.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Risk, uncertainty, hazard and their relatives</h3>
+        <p>Serious analysis starts by separating words that everyday talk mixes together.</p>
+        <p><strong>Risk</strong> is the broader possibility that uncertain future events will affect something people value. It usually includes both the chance of outcomes and how serious they are. <strong>Uncertainty</strong> is incomplete knowledge about outcomes, probabilities, causes, timing or how a system works. Following the economist Frank Knight, many writers separate uncertainty that can be measured from deeper uncertainty that does not allow stable probabilities at all.<a class="cite" data-ref="2">2</a> The distinction still matters wherever novelty, strategic opponents or poor data make numerical confidence fragile.</p>
+        <p>A <strong>hazard</strong> is a potential source of harm: a toxic chemical, a storm surge, a design flaw, a software exploit, a virus. A hazard does not automatically mean high risk. It matters only when people, assets or systems can actually be reached by it. <strong>Probability</strong> is a number for chance. It answers “how likely is this event?” but says nothing on its own about how big or important the consequences would be. <strong>Impact</strong>, or consequence, is what happens if the event occurs, whether financial, physical, social, ethical, legal, ecological or reputational.</p>
+        <p><strong>Exposure</strong> is how far people, assets or systems sit in harm's way. A server open to the internet has more cyber exposure than an isolated internal machine; a community on a floodplain more flood exposure than one on a hill. <strong>Vulnerability</strong> is susceptibility to damage, or limited capacity to withstand, absorb or recover. Two groups can be equally exposed but unequally vulnerable because one has savings, backups, mobility or political support and the other does not.<a class="cite" data-ref="3">3</a> A <strong>risk factor</strong> is a condition or attribute linked to a higher chance or greater severity of a bad outcome: smoking for heart disease, chronic absence for dropping out of school, weak passwords and slow patching for a security breach. A risk factor contributes to risk. It is not the risk itself.</p>
+        <p>These distinctions stop ideas collapsing into each other. Confuse hazard with risk and you ignore exposure and vulnerability. Confuse probability with risk and you ignore consequences. Treat a risk factor as a cause and you overstate certainty. Mistake uncertainty for randomness and you overlook ignorance, ambiguity and model error. Here is how three of them combine.</p>
+
+        <figure class="fig breakout" id="fig-hev" data-resettable>
+          <header class="fig-head"><div><h3>Hazard, exposure, vulnerability</h3><p>Raise the storm, move the house, and give the family some protection. Watch the risk meter.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> the meter multiplies the three terms, the teaching relation in equation 41. It is a way of thinking, not a physical law.</figcaption>
+        </figure>
+
+        <h3>Why risk is everywhere</h3>
+        <p>Risk exists almost everywhere because action points towards an open future. Even stable systems vary. Weather changes, machines wear out, viruses mutate, prices move, institutions miscommunicate and people make mistakes. Uncertainty rooted in variability or randomness is called <dfn data-def="Uncertainty that comes from genuine randomness or natural variability, which more data cannot remove.">aleatory</dfn>. Many situations also involve <dfn data-def="Uncertainty that comes from limited knowledge, which better data or understanding can reduce.">epistemic</dfn> uncertainty, which comes from limited knowledge: a medical team that does not fully understand a rare drug interaction, a business without reliable data on a new market, a regulator unsure how a technology will behave at scale. Real decisions usually involve both.</p>
+        <p>Human systems add complexity because they adapt and connect. One disruption can cascade: a software outage becomes a financial, legal and trust problem. A health measure can cut disease while straining schools or the economy. A bank can look stable until many people react to the same signal at once. Strategy makes it harder still. In cybersecurity, defenders face adversaries who watch, adapt and exploit change, so risk cannot be reduced to counting past events.</p>
+        <p>Risk also persists because people value many things at once. Safety, liberty, efficiency, innovation, fairness and cost do not always move together. A rule that reduces fraud may add delay. A stricter security system may block intruders while frustrating and excluding legitimate users. Trade-offs like these mean risk is not only an enemy to eliminate. It is a condition to be negotiated.</p>
+
+        <h3>History and philosophy</h3>
+        <p>The modern language of risk grew out of trade, insurance, sea voyages, state administration and probability theory. The correspondence between Blaise Pascal and Pierre de Fermat in 1654, and later work by the Bernoullis, created the first mathematics for reasoning about uncertain gains and losses. Daniel Bernoulli's 1738 analysis of the St Petersburg paradox was a turning point: it showed that expected money alone cannot explain sensible choice, because an enormous average payoff can still be unattractive if each extra unit of wealth matters less than the last.<a class="cite" data-ref="4">4</a></p>
+        <p>Knight's <em>Risk, Uncertainty and Profit</em> of 1921 remains one of the most influential statements in the field. Knight argued that some uncertain events can be measured well enough for probability, while other uncertainty is too open-ended or unique to be measured that way.<a class="cite" data-ref="2">2</a> The distinction still shapes debates about innovation, entrepreneurship and change. Later thinkers widened the field. Mary Douglas and Aaron Wildavsky argued that what people see as dangerous is shaped by culture and social organisation, not only technical estimates.<a class="cite" data-ref="5">5</a> Ulrich Beck's “risk society” described how modern industry and technology manufacture new risks whose causes are built into institutions.<a class="cite" data-ref="6">6</a> Risk, on this view, is social, political and moral, not a neutral technical object.</p>
+
+        <figure class="fig breakout" id="fig-history">
+          <header class="fig-head"><div><h3>Four centuries of thinking about chance</h3><p>Drag the timeline, or press play.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>A glossary</h3>
+        <div class="tablewrap"><table class="news glossary">
+          <thead><tr><th>Term</th><th>Plain-English meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Risk</td><td>The possibility that uncertain future outcomes will affect something people value.</td></tr>
+            <tr><td>Risk factor</td><td>A condition or attribute linked to a higher likelihood or greater severity of an unwanted outcome.</td></tr>
+            <tr><td>Uncertainty</td><td>Incomplete knowledge about outcomes, probabilities, timing, causes or how a system works.</td></tr>
+            <tr><td>Hazard</td><td>A potential source of harm.</td></tr>
+            <tr><td>Probability</td><td>A number describing how likely a specified event is.</td></tr>
+            <tr><td>Impact or consequence</td><td>The size and kind of effect if the event occurs.</td></tr>
+            <tr><td>Exposure</td><td>How far people, assets or systems are in the path of possible harm.</td></tr>
+            <tr><td>Vulnerability</td><td>Susceptibility to damage, or limited ability to cope and recover.</td></tr>
+            <tr><td>Risk appetite</td><td>The amount and type of risk an actor is willing to pursue or keep.</td></tr>
+            <tr><td>Risk tolerance</td><td>The acceptable range of variation around an objective before action is needed.</td></tr>
+            <tr><td>Decision threshold</td><td>A trigger point at which action, escalation, redesign or refusal is required.</td></tr>
+            <tr><td>Resilience</td><td>The ability to absorb disruption, adapt and keep functioning.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ============================== 3 ============================== -->
+    <section class="sec" id="s3">
+      <header class="sec-head">
+        <p class="sec-label"><b>3</b>The literature</p>
+        <h2>How the Field Grew Up</h2>
+        <p class="sec-deck">From games of chance to boardrooms, by way of psychology.</p>
+      </header>
+      <div class="col">
+        <h3>From probability to utility</h3>
+        <p>The first technical work on risk came from probability and games of chance. Bernoulli's insight changed it: uncertain prospects have to be judged by their value to the person deciding, not just by their money payoff.<a class="cite" data-ref="4">4</a> That gave decision theory its foundation. John von Neumann and Oskar Morgenstern formalised expected utility in 1944 from a set of axioms about preferences,<a class="cite" data-ref="7">7</a> and Leonard Savage extended it in 1954 to situations where probabilities are personal judgements rather than objective frequencies.<a class="cite" data-ref="8">8</a> Together they built a powerful ideal of rational choice under uncertainty.</p>
+        <p>Its strength is coherence: it says how a disciplined decision-maker should compare uncertain options if their preferences are consistent. The same literature exposed its limits. Maurice Allais in 1953 and Daniel Ellsberg in 1961 showed that real choices often break the axioms, especially when certainty or ambiguity is involved.<a class="cite" data-ref="9,10">9,10</a> That did not destroy decision theory, but it made clear that being elegant as a rule is not the same as describing what people do. Try Ellsberg's famous choice.</p>
+
+        <figure class="fig breakout" id="fig-ellsberg" data-resettable>
+          <header class="fig-head"><div><h3>Ellsberg's two urns</h3><p>Two bets, two urns. Pick the urn you would draw from each time.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>The statistical and financial turn</h3>
+        <p>A second stream analysed risk through distributions, variance and portfolios. Harry Markowitz showed in 1952 that the risk of a collection of assets depends not only on each asset but on how they move together.<a class="cite" data-ref="11">11</a> It was one of the first systematic demonstrations that risk is relational: diversification helps precisely because outcomes do not all move in step. Later work added beta, downside risk, value at risk, expected shortfall, drawdown, credit risk and liquidity risk. Finance is technically sophisticated because markets produce constant data and explicit prices, yet it shows how unstable the concept is. For some, risk means volatility; for others, permanent loss, insolvency or extreme tail events. Even in the most quantitative field, risk is plural.</p>
+
+        <h3>The Bayesian turn</h3>
+        <p>Bayesian thinking treats probability as a degree of belief that can be updated when new evidence appears, not only as a long-run frequency. That is especially useful in medicine, reliability analysis, intelligence and forecasting, where evidence arrives step by step and prior knowledge matters. Bayesian methods do not remove uncertainty. They make analysts state their assumptions and revise them consistently. They are strongest when data are sparse, expert judgement matters and learning is ongoing, and they highlight a key modern theme: uncertainty is about what may happen, and also about how much to trust the model of what may happen.</p>
+
+        <h3>Behaviour and psychology</h3>
+        <p>Behavioural research challenged the idea that people usually decide the way expected utility says they should. Amos Tversky and Daniel Kahneman showed in 1974 that people rely on mental shortcuts such as availability, representativeness and anchoring.<a class="cite" data-ref="12">12</a> Their prospect theory of 1979 argued that people judge outcomes against a reference point, feel losses more strongly than equal gains, and weight probabilities unevenly.<a class="cite" data-ref="13">13</a> Paul Slovic showed that public responses to hazards depend on dread, control, familiarity, trust and catastrophic imagery as much as on statistics.<a class="cite" data-ref="14">14</a> George Loewenstein and colleagues argued that risk is often felt before it is thought about.<a class="cite" data-ref="15">15</a> This changed the field: a technically correct estimate can fail to guide behaviour if it clashes with how people perceive uncertainty.</p>
+
+        <h3>Organisations and institutions</h3>
+        <p>Another stream turned risk into management practice. Stanley Kaplan and John Garrick defined risk in 1981 as a set of triplets: what can happen, how likely it is, and what the consequences would be.<a class="cite" data-ref="16">16</a> Health and environmental assessment built step-by-step methods: identify the hazard, assess the dose-response relationship, estimate exposure, characterise the risk. Disaster frameworks stressed hazard, exposure, vulnerability and capacity.<a class="cite" data-ref="3">3</a> ISO 31000 and the COSO enterprise risk framework connected risk to objectives, governance, monitoring and treatment,<a class="cite" data-ref="1,17">1,17</a> and the US National Institute of Standards and Technology built detailed frameworks for information security, privacy and artificial intelligence.<a class="cite" data-ref="18,19,20">18,19,20</a> This work is less philosophically pure, but it is indispensable: it shifts the question from definition to action.</p>
+
+        <h3>A comparative gap</h3>
+        <p>For all this richness, the field is fragmented. Economists, psychologists, engineers, public-health scholars, disaster researchers and managers use the same word for different structures: some stress choice, some perception, some failure scenarios, some objectives, some social vulnerability.<a class="cite" data-ref="21">21</a> A comparison is needed. The useful question is not which field uses the word correctly, but what each framework makes visible and what it leaves out.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 4 ============================== -->
+    <section class="sec" id="s4">
+      <header class="sec-head">
+        <p class="sec-label"><b>4</b>Frameworks</p>
+        <h2>Six Ways to See Risk</h2>
+        <p class="sec-deck">Each framework is a lens. Each lens shows some things and hides others.</p>
+      </header>
+      <div class="col">
+        <p>Before going framework by framework, look at one decision through all six lenses at once.</p>
+        <figure class="fig breakout" id="fig-lens">
+          <header class="fig-head"><div><h3>One release, six lenses</h3><p>A software team wants to ship a new payments feature on Friday afternoon. Pick a lens to see what it measures and what it would decide.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Classical probability</h3>
+        <p>Here risk is expressed through the likelihood of events and the spread of their possible values. It works best when events repeat, or are similar enough that frequencies and statistical models can be estimated: insurance pricing, quality control, much reliability analysis and epidemiology. Its strength is clarity. It makes analysts define events carefully, assign probabilities openly and compare options on common numerical ground. Its weakness is that real uncertainty is often unstable, sparse or changing. The more unique the event, the less a frequency can be trusted. Strategic contests, new technologies, novel viruses and one-off political shocks do not fit a model built for repeated identical trials. Probability is an essential language of risk, but not the whole language.</p>
+        <h3>Expected utility and decision theory</h3>
+        <p>Expected utility shifts attention from events to choices: how should a rational person rank uncertain prospects whose outcomes they value differently? It explains risk aversion without calling it irrational. Someone may refuse a gamble with a high average if extra wealth matters less and less to them and a bad outcome would really hurt. It is strongest where options are clear and stable and consistency matters, as in insurance, investment, policy analysis and negotiation. Its assumptions are demanding: preferences may be unstable or incomplete, probabilities disputed, and framing can change choices. It is best seen as a benchmark of rational coherence, not a full description of how people decide.</p>
+        <h3>Bayesian approaches</h3>
+        <p>Bayesian frameworks treat uncertainty as belief revised by evidence. An analyst starts with a prior, meets evidence and reaches a posterior. That makes learning explicit, which is valuable when data are incomplete, expert judgement matters or decisions must be updated repeatedly, as in diagnosis, forecasting, fault detection, security monitoring, intelligence and medicine. Its weakness is not incoherence but dependence on assumptions. Priors can be disputed, models can be wrong and data can be biased. Bayesian methods do not remove judgement. They discipline it.</p>
+        <h3>Behavioural and psychological approaches</h3>
+        <p>These ask how people actually perceive and choose under uncertainty, starting from limited attention, framing, emotion and social influence. Prospect theory, affect-based models and risk-perception studies belong here. Their strength is realism. They explain why people fear rare catastrophes yet ignore common chronic harms, why they hold losing investments too long, why trust changes how technical information is heard, and why identical numbers can provoke opposite reactions in different frames. Their weakness is that they offer fewer unified rules for institutions. They are best for explaining behaviour and designing interventions, not as stand-alone systems of governance.</p>
+        <h3>Organisational and managerial frameworks</h3>
+        <p>These link risk to objectives, governance, accountability and treatment. ISO 31000 defines risk as the effect of uncertainty on objectives; COSO ties it to strategy and performance.<a class="cite" data-ref="1,17">1,17</a> Risk here is a management matter of ownership, criteria, escalation, reporting and control. The strength is reach: these frameworks help institutions decide what to watch, how much uncertainty to accept, who owns each risk and what response is needed. The weakness is vagueness. If every uncertain effect on objectives is a risk, the idea can lose precision. They remain indispensable because organisations need workable procedures even when conceptual purity is impossible.</p>
+        <h3>Domain-specific frameworks</h3>
+        <p>Many of the most successful frameworks belong to one field. Health and environmental assessment follows hazard identification, exposure assessment, dose-response and characterisation. Disaster management uses hazard, exposure, vulnerability and capacity. Engineering uses scenarios, likelihoods and consequences. Cybersecurity speaks of threats, vulnerabilities, impact, governance and recovery. They work because they follow the causal structure of their field. Their limit is that they do not travel well: a flood model is not a theory of portfolio choice, and a volatility model is not an account of AI safety.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 5 ============================== -->
+    <section class="sec" id="s5">
+      <header class="sec-head">
+        <p class="sec-label"><b>5</b>Mathematics</p>
+        <h2>The Mathematics of Risk, Explained</h2>
+        <p class="sec-deck">Every equation stated, every symbol translated, the central results proved.</p>
+      </header>
+      <div class="col">
+        <h3>Why mathematics matters</h3>
+        <p>Mathematics does not solve the whole problem of risk, but it makes clear what is being assumed, measured and compared. “This option is risky” can hide several different claims: that the bad event is likely, that its impact is large, that the uncertainty is hard to measure, that losses matter more than gains, or that the decision-maker could not recover. Notation forces us to say which. It can also create false confidence if symbols are used without clear meaning. So each equation below comes in layers: the formula, its symbols in plain English, and where it helps, a short proof.</p>
+
+        <h3>Notation</h3>
+        <div class="tablewrap"><table class="news symbols">
+          <thead><tr><th>Symbol</th><th>Meaning in plain English</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tex">S_i</span></td><td>Scenario or outcome number <span class="tex">i</span>, for example <span class="tex">S_1</span> = “arrive on time”, <span class="tex">S_2</span> = “arrive late”.</td></tr>
+            <tr><td><span class="tex">p_i</span></td><td>Probability of scenario <span class="tex">S_i</span>, a number between 0 and 1.</td></tr>
+            <tr><td><span class="tex">L_i</span></td><td>Loss if scenario <span class="tex">S_i</span> happens, in money, time, injuries or another unit.</td></tr>
+            <tr><td><span class="tex">X</span></td><td>A random variable: a quantity whose value depends on which uncertain outcome occurs.</td></tr>
+            <tr><td><span class="tex">x_i</span></td><td>A possible value of <span class="tex">X</span>.</td></tr>
+            <tr><td><span class="tex">E[X]</span></td><td>The expected value of <span class="tex">X</span>, its probability-weighted average.</td></tr>
+            <tr><td><span class="tex">U(x)</span></td><td>Utility of outcome <span class="tex">x</span>: its value to the decision-maker, not just the raw number.</td></tr>
+            <tr><td><span class="tex">\mu</span></td><td>The mean or expected value, often <span class="tex">\mu = E[X]</span>.</td></tr>
+            <tr><td><span class="tex">\sigma^2</span></td><td>Variance: the average squared distance of outcomes from the mean.</td></tr>
+            <tr><td><span class="tex">\sigma</span></td><td>Standard deviation, the square root of the variance.</td></tr>
+            <tr><td><span class="tex">A, B</span></td><td>Events, for example <span class="tex">A</span> = “the traveller misses the flight”, <span class="tex">B</span> = “the road is blocked”.</td></tr>
+            <tr><td><span class="tex">P(A)</span></td><td>Probability that event <span class="tex">A</span> occurs.</td></tr>
+            <tr><td><span class="tex">P(A \mid B)</span></td><td>Probability of <span class="tex">A</span> given that <span class="tex">B</span> has happened.</td></tr>
+            <tr><td><span class="tex">\pi(p)</span></td><td>Decision weight in prospect theory for probability <span class="tex">p</span>, not the same as the objective probability.</td></tr>
+            <tr><td><span class="tex">w</span></td><td>Wealth or resources, in discussions of utility.</td></tr>
+            <tr><td><span class="tex">r</span></td><td>Rate of return in finance.</td></tr>
+            <tr><td><span class="tex">w_1, w_2</span></td><td>Portfolio weights on assets 1 and 2, usually adding up to 1.</td></tr>
+            <tr><td><span class="tex">\sigma_1^2, \sigma_2^2</span></td><td>Variances of the returns of assets 1 and 2.</td></tr>
+            <tr><td><span class="tex">\operatorname{Cov}(X, Y)</span></td><td>Covariance of <span class="tex">X</span> and <span class="tex">Y</span>: whether they move together.</td></tr>
+            <tr><td><span class="tex">H</span></td><td>Hazard, the source of harm, in conceptual relations.</td></tr>
+            <tr><td><span class="tex">E_x</span></td><td>Exposure, with a subscript to avoid confusion with the expected value <span class="tex">E[\cdot]</span>.</td></tr>
+            <tr><td><span class="tex">V</span></td><td>Vulnerability: susceptibility to damage or weak capacity to cope.</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Expected loss</h3>
+        <p>The most basic numerical description of risk is the expected loss:</p>
+        <div class="eq" data-tex="EL = \sum_{i=1}^{n} p_i L_i" data-n="1"></div>
+        <p>where <span class="tex">EL</span> is the expected loss, <span class="tex">p_i</span> the probability of outcome <span class="tex">i</span>, <span class="tex">L_i</span> the loss if it happens, and <span class="tex">n</span> the number of possible outcomes. In words: multiply each possible loss by its chance, then add them up. If a server outage has a 2% chance of costing 100,000, that scenario contributes 2,000 to the expected loss. The result is a long-run average, not a forecast that the next outage will cost exactly that.</p>
+        <p class="reactive" id="rx-el">A <span class="knob" data-k="p" data-min="0.1" data-max="50" data-step="0.1" data-fmt="dec1" data-px="4">2.0</span>% chance of losing <span class="knob" data-k="L" data-min="1000" data-max="1000000" data-step="1000" data-px="2">100,000</span> adds <span class="out" data-out="el">2,000</span> to the expected loss. Over <span class="knob" data-k="yrs" data-min="1" data-max="100" data-step="1" data-px="6">30</span> years you would expect it to strike about <span class="out" data-out="times">0.6</span> times, and to escape it entirely <span class="out" data-out="none">55%</span> of the time.</p>
+        <span class="reactive-hint">Drag the red numbers.</span>
+
+        <h3>Why expected loss is useful, and not enough</h3>
+        <p>Expected loss squeezes uncertain outcomes into one average that helps with budgeting, pricing, insurance and rough comparison. It also hides things. A sure loss of 2,000 and a 2% chance of losing 100,000 have the same expected loss, but they are not equally bearable. One can be absorbed from cash flow; the other may threaten survival. Build a table of your own, then put the two side by side over a lifetime.</p>
+
+        <figure class="fig breakout" id="fig-el" data-resettable>
+          <header class="fig-head"><div><h3>The same average, a different fate</h3><p>Edit the scenarios to compute an expected loss. Then compare a sure loss with a rare large one over 30 years, with the cash reserve you choose.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Simulation:</b> 1,000 thirty-year lives. Each year the reserve earns 2,500 and pays either a sure 2,000 or, with 2% probability, 100,000. A life is ruined if the reserve ever drops below zero. Illustrative values.</figcaption>
+        </figure>
+
+        <h3>Expected loss from the definition of expectation</h3>
+        <p>Let <span class="tex">X</span> be a loss that takes the values <span class="tex">L_1, L_2, \ldots, L_n</span> with probabilities <span class="tex">p_1, p_2, \ldots, p_n</span>. By the standard definition of the expectation of a discrete random variable,</p>
+        <div class="eq" data-tex="E[X] = \sum_{i=1}^{n} x_i \, P(X = x_i)" data-n="2"></div>
+        <p>and writing <span class="tex">L_i</span> for <span class="tex">x_i</span>,</p>
+        <div class="eq" data-tex="E[X] = \sum_{i=1}^{n} L_i \, p_i" data-n="3"></div>
+        <p>So expected loss is simply the expected value of the loss. No extra theorem is needed; it is the same object in the language of risk.</p>
+
+        <h3>Linearity of expectation</h3>
+        <p>One of the most useful and reliable facts in risk analysis is that expectation is linear:</p>
+        <div class="eq" data-tex="E[aX + bY] = a\,E[X] + b\,E[Y]" data-n="4"></div>
+        <p>where <span class="tex">X</span> and <span class="tex">Y</span> are uncertain quantities and <span class="tex">a</span> and <span class="tex">b</span> are fixed numbers. The expected value of a weighted combination equals the same combination of expected values.</p>
+        <p><strong>Proof.</strong> Suppose <span class="tex">X</span> and <span class="tex">Y</span> take values <span class="tex">(x_j, y_k)</span> together with probabilities <span class="tex">p_{jk}</span>. Then</p>
+        <div class="eq eq-steps" data-tex="\begin{aligned} E[aX + bY] &amp;= \sum_j \sum_k (a x_j + b y_k)\, p_{jk} \\ &amp;= a \sum_j \sum_k x_j\, p_{jk} + b \sum_j \sum_k y_k\, p_{jk} \\ &amp;= a\,E[X] + b\,E[Y] \end{aligned}" data-n="5–7"></div>
+        <p>The second line is ordinary algebra; the third uses the definition of expectation. Importantly, the result does not need <span class="tex">X</span> and <span class="tex">Y</span> to be independent. That is why expected values add up so much more easily than variances.</p>
+
+        <h3>Expected utility</h3>
+        <p>Expected utility replaces the raw payoff with its value to the decision-maker:</p>
+        <div class="eq" data-tex="EU = \sum_{i=1}^{n} p_i\, U(x_i)" data-n="8"></div>
+        <p>where <span class="tex">EU</span> is expected utility, <span class="tex">x_i</span> the outcome in scenario <span class="tex">i</span> and <span class="tex">U(x_i)</span> its utility. Uncertain choices should be judged by the average of utility, not necessarily the average of money, because the same amount does not mean the same to everyone. A loss of 1,000 may annoy a large firm and devastate a household with no savings. A common illustration is logarithmic utility,</p>
+        <div class="eq" data-tex="U(w) = \ln(w)" data-n="9"></div>
+        <p>where <span class="tex">w</span> is wealth and <span class="tex">\ln</span> the natural logarithm. It captures diminishing marginal utility: when you have little, an extra unit matters a lot; when you have plenty, it matters less. This is exactly how Bernoulli dissolved the St Petersburg paradox. Play the game, then see what a sensible person would pay to enter.</p>
+
+        <figure class="fig breakout" id="fig-stp" data-resettable>
+          <header class="fig-head"><div><h3>The St Petersburg game</h3><p>Toss a coin until it lands heads. If that takes k tosses, you win 2<sup>k</sup>. The average payout is infinite. Would you pay a fortune to play?</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Calculation:</b> certainty equivalent CE solves ln(w + CE) = Σ 2<sup>−k</sup> ln(w + 2<sup>k</sup>), summed to k = 60, for a player with wealth w who pays nothing up front. This follows Bernoulli (1738).</figcaption>
+        </figure>
+
+        <figure class="fig breakout" id="fig-utility" data-resettable>
+          <header class="fig-head"><div><h3>Why a curve makes you careful</h3><p>A 50–50 gamble: win or lose the same amount. Widen the gamble and watch the gap between the average outcome and the average happiness.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+        <p>Expected utility gives a disciplined rule for choice. It is not a law of how people actually behave. People respond to framing, ambiguity, regret and reference points in ways the equation does not capture.</p>
+
+        <h3>Variance and volatility</h3>
+        <p>The expected value describes the centre of a distribution. The variance describes its spread:</p>
+        <div class="eq" data-tex="\operatorname{Var}(X) = E\big[(X - \mu)^2\big]" data-n="10"></div>
+        <p>where <span class="tex">\mu = E[X]</span>. Subtract the mean from each outcome, square the difference and take the average. Squaring stops positive and negative deviations cancelling, and gives more weight to large ones. The standard deviation is</p>
+        <div class="eq" data-tex="\sigma = \sqrt{\operatorname{Var}(X)}" data-n="11"></div>
+        <p>which is in the same units as <span class="tex">X</span>. In finance it is often used as a measure of volatility.</p>
+        <p><strong>Proof of the variance identity.</strong> Starting from the definition,</p>
+        <div class="eq eq-steps" data-tex="\begin{aligned} \operatorname{Var}(X) &amp;= E\big[(X - \mu)^2\big] \\ &amp;= E\big[X^2 - 2\mu X + \mu^2\big] \\ &amp;= E[X^2] - 2\mu\,E[X] + E[\mu^2] \end{aligned}" data-n="12–14"></div>
+        <p>Since <span class="tex">\mu</span> is a constant, <span class="tex">E[\mu^2] = \mu^2</span>, and <span class="tex">E[X] = \mu</span>. Therefore</p>
+        <div class="eq eq-steps" data-tex="\begin{aligned} \operatorname{Var}(X) &amp;= E[X^2] - 2\mu^2 + \mu^2 \\ &amp;= E[X^2] - \mu^2 \\ &amp;= E[X^2] - \big(E[X]\big)^2 \end{aligned}" data-n="15–17"></div>
+        <p>The identity is useful because it often makes the variance easier to compute. Check it yourself.</p>
+
+        <figure class="fig breakout" id="fig-var" data-resettable>
+          <header class="fig-head"><div><h3>Two roads to the same variance</h3><p>Drag the six equally likely outcomes up or down. Both formulas are recomputed live, and always agree.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Bayes' theorem</h3>
+        <p>Bayesian reasoning rests on one theorem:</p>
+        <div class="eq" data-tex="P(A \mid B) = \frac{P(B \mid A)\, P(A)}{P(B)}" data-n="18"></div>
+        <p>where <span class="tex">A</span> is a hypothesis or event of interest, <span class="tex">B</span> the observed evidence, <span class="tex">P(A)</span> the prior probability of <span class="tex">A</span>, and <span class="tex">P(A \mid B)</span> its posterior probability after seeing <span class="tex">B</span>.</p>
+        <p><strong>Proof.</strong> By the definition of conditional probability,</p>
+        <div class="eq" data-tex="P(A \mid B) = \frac{P(A \cap B)}{P(B)}" data-n="19"></div>
+        <p>and likewise</p>
+        <div class="eq" data-tex="P(B \mid A) = \frac{P(A \cap B)}{P(A)}" data-n="20"></div>
+        <p>Rearranging the second gives</p>
+        <div class="eq" data-tex="P(A \cap B) = P(B \mid A)\, P(A)" data-n="21"></div>
+        <p>and substituting into the first,</p>
+        <div class="eq" data-tex="P(A \mid B) = \frac{P(B \mid A)\, P(A)}{P(B)}" data-n="22"></div>
+        <p>which is Bayes' theorem. Updated belief depends on three things: how plausible the hypothesis was beforehand, how strongly the evidence would be expected if it were true, and how common the evidence is overall. Ignore the base rate and medical tests or alarms are badly misread.</p>
+
+        <h3>A practical Bayesian example</h3>
+        <p>Suppose a disease affects 1% of a population. A test is positive 95% of the time when the disease is present, and also positive 5% of the time when it is absent. Let <span class="tex">A</span> be “the patient has the disease” and <span class="tex">B</span> “the test is positive”. Before you see the answer, guess: if your test comes back positive, how likely is it that you have the disease?</p>
+
+        <figure class="fig breakout" id="fig-bayes" data-resettable>
+          <header class="fig-head"><div><h3>A positive test, a thousand people</h3><p>Make your guess first. Then see the answer as people, not percentages.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Why people, not percentages:</b> Gerd Gigerenzer and Ulrich Hoffrage showed that “natural frequencies”, counts of people, make Bayesian reasoning far easier than conditional probabilities.<a class="cite" data-ref="22,23">22,23</a></figcaption>
+        </figure>
+
+        <div class="eq eq-steps" data-tex="\begin{aligned} P(A) &amp;= 0.01 \\ P(B \mid A) &amp;= 0.95 \\ P(B \mid A^c) &amp;= 0.05 \end{aligned}" data-n="23–25"></div>
+        <p>To apply Bayes' theorem, first compute <span class="tex">P(B)</span>:</p>
+        <div class="eq eq-steps" data-tex="\begin{aligned} P(B) &amp;= P(B \mid A)\,P(A) + P(B \mid A^c)\,P(A^c) \\ &amp;= 0.95\,(0.01) + 0.05\,(0.99) \\ &amp;= 0.059 \end{aligned}" data-n="26–28"></div>
+        <p>Now update:</p>
+        <div class="eq eq-steps" data-tex="\begin{aligned} P(A \mid B) &amp;= \frac{0.95 \times 0.01}{0.059} \\ &amp;\approx 0.161 \end{aligned}" data-n="29–30"></div>
+        <p>Even after a positive test, the chance of disease is about 16.1%, not 95%. The example is famous because it shows how easily people confuse “the chance of a positive test if you have the disease” with “the chance of the disease if your test is positive”.</p>
+        <p class="reactive" id="rx-bayes">If <span class="knob" data-k="prev" data-min="0.1" data-max="30" data-step="0.1" data-fmt="dec1" data-px="4">1.0</span>% of people have it, the test catches <span class="knob" data-k="sens" data-min="50" data-max="99.9" data-step="0.1" data-fmt="dec1" data-px="4">95.0</span>% of them and wrongly flags <span class="knob" data-k="fpr" data-min="0.1" data-max="30" data-step="0.1" data-fmt="dec1" data-px="4">5.0</span>% of healthy people, then a positive result means a <span class="out" data-out="post">16.1%</span> chance of disease. Out of every 1,000 people tested, <span class="out" data-out="pos">59</span> test positive, and <span class="out" data-out="tp">10</span> of them are actually ill.</p>
+        <span class="reactive-hint">Drag any of the three numbers.</span>
+
+        <h3>Portfolio variance and diversification</h3>
+        <p>Markowitz's key insight is clearest with two assets. A portfolio's return <span class="tex">R_p</span> combines asset returns <span class="tex">R_1</span> and <span class="tex">R_2</span> with weights <span class="tex">w_1</span> and <span class="tex">w_2</span>:</p>
+        <div class="eq" data-tex="R_p = w_1 R_1 + w_2 R_2" data-n="31"></div>
+        <p>Its expected return follows from linearity of expectation:</p>
+        <div class="eq" data-tex="E[R_p] = w_1\,E[R_1] + w_2\,E[R_2]" data-n="32"></div>
+        <p>and its variance is</p>
+        <div class="eq" data-tex="\operatorname{Var}(R_p) = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2\,w_1 w_2 \operatorname{Cov}(R_1, R_2)" data-n="33"></div>
+        <p>where <span class="tex">\sigma_1^2 = \operatorname{Var}(R_1)</span> and <span class="tex">\sigma_2^2 = \operatorname{Var}(R_2)</span>.</p>
+        <p><strong>Proof.</strong> Start with</p>
+        <div class="eq" data-tex="R_p - E[R_p] = w_1\big(R_1 - E[R_1]\big) + w_2\big(R_2 - E[R_2]\big)" data-n="34"></div>
+        <p>Square both sides and take expectations:</p>
+        <div class="eq eq-steps breakout" data-tex="\begin{aligned} \operatorname{Var}(R_p) &amp;= E\Big[\big(w_1(R_1 - E[R_1]) + w_2(R_2 - E[R_2])\big)^2\Big] \\ &amp;= w_1^2\,E\big[(R_1 - E[R_1])^2\big] + w_2^2\,E\big[(R_2 - E[R_2])^2\big] \\ &amp;\quad + 2\,w_1 w_2\,E\big[(R_1 - E[R_1])(R_2 - E[R_2])\big] \\ &amp;= w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2\,w_1 w_2 \operatorname{Cov}(R_1, R_2) \end{aligned}" data-n="35–38"></div>
+        <p>The formula shows why diversification is not just owning many assets. What matters is how their returns move together. If covariance is low or negative, portfolio risk can fall without expected return falling as much.</p>
+
+        <figure class="fig breakout" id="fig-port" data-resettable>
+          <header class="fig-head"><div><h3>Where diversification comes from</h3><p>Set two assets' volatility and how closely they move together, then slide the mix. Equation 33 is filled in live.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Prospect theory</h3>
+        <p>Prospect theory is an empirical model, not a theorem of rational choice, but it uses a useful formal structure. A common simplified form is</p>
+        <div class="eq" data-tex="V = \sum_i \pi(p_i)\, v(x_i)" data-n="39"></div>
+        <p>where <span class="tex">v(x_i)</span> is the value of outcome <span class="tex">x_i</span> relative to a reference point, and <span class="tex">\pi(p_i)</span> is a decision weight applied to probability <span class="tex">p_i</span>. The value function is often written in two pieces:</p>
+        <div class="eq" data-tex="v(x) = \begin{cases} x^{\alpha}, &amp; x \ge 0 \\[4pt] -\lambda\,(-x)^{\beta}, &amp; x \lt 0 \end{cases}" data-n="40"></div>
+        <p>Here <span class="tex">\alpha</span> and <span class="tex">\beta</span> usually lie between 0 and 1, so sensitivity diminishes, and <span class="tex">\lambda &gt; 1</span> captures loss aversion. Tversky and Kahneman's 1992 estimates were <span class="tex">\alpha = \beta = 0.88</span> and <span class="tex">\lambda = 2.25</span>.<a class="cite" data-ref="24">24</a> What matters for a general reader is not the exact fit but the shape: gains and losses are treated differently, and probabilities are not felt in proportion.</p>
+
+        <figure class="fig breakout" id="fig-pt" data-resettable>
+          <header class="fig-head"><div><h3>How losses and odds are felt</h3><p>Change loss aversion, curvature and probability distortion. The defaults are Tversky and Kahneman's 1992 estimates.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Weighting function:</b> w(p) = p<sup>γ</sup> / (p<sup>γ</sup> + (1 − p)<sup>γ</sup>)<sup>1/γ</sup>, with γ = 0.61 for gains (Tversky and Kahneman, 1992).</figcaption>
+        </figure>
+
+        <h3>Relations that are not universal laws</h3>
+        <p>Some fields use multiplicative relations such as</p>
+        <div class="eq" data-tex="\text{Risk} \propto H \times E_x \times V" data-n="41"></div>
+        <p>where <span class="tex">H</span> is hazard, <span class="tex">E_x</span> exposure and <span class="tex">V</span> vulnerability. It is good for teaching, because it shows risk rising when hazards grow, more is exposed or vulnerability increases, and it is the logic of the flood figure in section 2. It should be treated as a rule of thumb, not a physical law. In practice each term can have many dimensions and behave non-linearly. Its value is clarity, not exact measurement.</p>
+
+        <h3>What mathematics can and cannot do</h3>
+        <p>These equations show that risk analysis can be rigorous. Rigour is not completeness. Expected loss says nothing about survival or fairness. Variance does not tell upside from downside. Bayes' theorem disciplines updating, but only within the model supplied. Prospect theory describes many real choices but does not tell an institution what to do. Mathematics is strongest when it clarifies a problem that is already well posed, and weakest when symbols are used to hide value judgements, disputed assumptions or poor data.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 6 ============================== -->
+    <section class="sec" id="s6">
+      <header class="sec-head">
+        <p class="sec-label"><b>6</b>Behaviour</p>
+        <h2>Why We Misjudge Risk</h2>
+        <p class="sec-deck">People rarely calculate. They use shortcuts, and the shortcuts have patterns.</p>
+      </header>
+      <div class="col">
+        <h3>Heuristics and bounded judgement</h3>
+        <p>Behavioural research starts from a simple observation: real people do not usually reason about risk by working out expected utilities from stable beliefs. They use heuristics.<a class="cite" data-ref="12">12</a> That is not always a flaw; shortcuts are fast and often sensible. But they produce systematic distortions. <strong>Availability</strong> makes us overestimate risks that are vivid, recent or emotional: a dramatic plane crash or ransomware attack can dominate judgement even when routine risks matter more. <strong>Representativeness</strong> makes us match cases to stereotypes and neglect base rates, as when a patient feels a disease is likely because some symptoms “fit”, even though the condition is rare. <strong>Anchoring</strong> makes early numbers stick: first cost estimates, first safety labels or first infection counts keep shaping judgement after new evidence arrives. Many failures of risk management are failures of interpretation and attention, not of information.</p>
+
+        <h3>Prospect theory in practice</h3>
+        <p>Prospect theory remains one of the most important descriptions of risky choice. People judge outcomes against a reference point, feel losses more than equal gains, and so tend to avoid risk when facing gains and seek it when facing losses.<a class="cite" data-ref="13">13</a> Take a manager choosing between a cautious launch with a modest sure gain and a riskier launch with a higher average. When the firm is comfortably above target, the sure gain looks attractive. When it is below target and must report soon, the same manager may gamble on the risky launch rather than lock in a loss against expectations. The options have barely changed. The reference point has.</p>
+
+        <figure class="fig breakout" id="fig-frame" data-resettable>
+          <header class="fig-head"><div><h3>Same options, different reference point</h3><p>Put the firm above or below its target, then see which launch a prospect-theory manager picks, and why.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+        <p>Prospect theory explains behaviour that expected utility struggles with, including loss aversion, framing effects and the habit of insuring against losses while gambling for gains. It is not a theory of institutions, but it is central to understanding real choices.</p>
+
+        <h3>Perceived risk and calculated risk</h3>
+        <p>Calculated and perceived risk often diverge because people respond not only to probabilities and outcomes but to control, choice, dread, fairness and trust.<a class="cite" data-ref="14">14</a> Flying is the familiar example: rare catastrophes are vivid and public, while driving, often more dangerous per journey, feels safer because we feel in control. This is not simply laypeople being irrational and experts being rational. The public often weighs things technical summaries understate: whether exposure is voluntary, whether harm falls on particular groups, whether the institution telling the story is trusted. A community may oppose a waste facility or a data-hungry system not because it cannot understand numbers but because it doubts the competence, fairness or honesty of those in charge. Perceived risk carries real social information.</p>
+
+        <h3>Risk as feeling</h3>
+        <p>Research on emotion shows that risk is often felt before it is analysed.<a class="cite" data-ref="15,25">15,25</a> Fear, dread, disgust, relief and excitement steer attention and action. That is why stories and images move people more than statistics, and why some chronic risks get too little attention: they lack drama, even when their total burden is huge. The lesson is not to ignore emotion but to respect how people actually process danger. If every security warning looks the same, people stop noticing. If health advice is precise but psychologically opaque, behaviour does not change.</p>
+
+        <h3>Communicating risk</h3>
+        <p>Risk communication fails for recurring reasons. One is confusing relative and absolute risk: “this doubles your risk” sounds alarming, but its meaning depends entirely on the starting point. Another is confusing conditional and posterior probabilities, as in the test example. A third is giving uncertainty without guidance: “unlikely but possible” may be true and still leave people unable to decide. Good communication says which event is meant, separates chance from consequence, uses plain frequencies or concrete comparisons, and connects information to action.<a class="cite" data-ref="22,26">22,26</a> “Three out of ten forecasts like this bring delays of more than twenty minutes, so leave half an hour early” beats a bare probability.</p>
+
+        <figure class="fig breakout" id="fig-rel" data-resettable>
+          <header class="fig-head"><div><h3>“Doubles the risk” of what?</h3><p>Set the starting risk and the multiplier. The headline stays the same; the number of people affected does not.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 7 ============================== -->
+    <section class="sec" id="s7">
+      <header class="sec-head">
+        <p class="sec-label"><b>7</b>Applied</p>
+        <h2>Eight Fields, Eight Meanings</h2>
+        <p class="sec-deck">Education, health, travel, finance, engineering, cybersecurity, business and policy.</p>
+      </header>
+      <div class="col">
+        <p>The same word does different work in each field. Pick one to see how risk is framed there, what gets measured and which frameworks fit best. The full discussion of each follows.</p>
+        <figure class="fig breakout" id="fig-fields">
+          <header class="fig-head"><div><h3>How each field reads risk</h3><p>Pick a field.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Education</h3>
+        <p>Education shows risk working through accumulated conditions rather than one dramatic event. Research on absence and dropping out identifies many child, family, school and peer risk factors, including weak attachment to school, academic difficulty, low parental involvement, behaviour problems and social stress.<a class="cite" data-ref="27">27</a> These are risk factors, not verdicts: they mark patterns linked to a higher chance of harm. Education also shows why vulnerability matters. Two students may face the same timetable or transport problem, but one has family support, tutoring, reliable internet and a flexible school, and the other does not. The same hazard produces unequal risk, which is why educational risk is better understood as an ecology than as a table of odds.</p>
+        <h3>Health</h3>
+        <p>Health combines population statistics, individual judgement, biology and communication. Public health identifies major behavioural and environmental risk factors such as smoking, poor diet, inactivity, air pollution and unsafe water. Clinical medicine adds test results, history, age, other conditions and treatment effects. Health risk can be expressed as incidence, absolute risk, relative risk, attributable risk, survival probabilities and expected harm. It also shows the limits of numbers. Patients do not experience “a 5% complication rate” as an abstraction; they ask what it would mean for their body, family, work and future, and they react to how it is framed. Preparing for illness by exercising, vaccinating, screening, saving or buying insurance is risk management before the event: a relationship between exposure, behaviour, baseline health, financial resilience and the health system itself.</p>
+        <h3>Travel</h3>
+        <p>Travel risk depends on destination, itinerary, the traveller, season, infrastructure and behaviour. A short work trip to a well-equipped city is very different from a remote trek far from medical care, and the same destination can be riskier or safer depending on who goes, what they do and what backups exist. Travel also shows the gap between vivid fear and everyday threat. Travellers worry about plane crashes or political violence while underestimating dehydration, road accidents, lost medication or missed connections. Good travel planning combines statistics, practical preparation and judgement on the spot.</p>
+        <h3>Finance</h3>
+        <p>Finance has one of the richest vocabularies of risk: portfolio theory, credit models, duration, stress tests and tail-risk measures. It also shows that the meaning depends on who is asking. For a trader, volatility may be central. For a pension fund, long-run solvency and tail losses matter more. For a bank supervisor, liquidity and contagion can be decisive. For a household investor, permanent loss and panic selling may matter more than short-term swings. Herding, overconfidence, loss aversion and framing can destabilise even data-rich markets, which is why finance holds some of the most advanced quantitative tools and some of the clearest cases of models misused.</p>
+        <h3>Engineering</h3>
+        <p>Engineering risk centres on system failure, reliability, redundancy and chains of consequence. For bridges, aircraft, nuclear plants and factories, analysts ask which parts can fail, what sequences of events could follow, how likely each is and what it would cost: the scenario-based definition in its natural home. Formal methods matter greatly because some failures are catastrophic and because design changes can reduce risk directly. Redundancy, fault tolerance, safety margins and fail-safe design all reflect the understanding that risk depends on the system's architecture, not only the initiating hazard. Rare, high-consequence events stay hard, because history is thin and models may miss interactions, so engineering pairs calculation with conservatism and judgement.</p>
+        <h3>Cybersecurity</h3>
+        <p>Cybersecurity is both technical and strategic. Attackers adapt, vulnerabilities change with every software update, and exposure shifts when systems are connected, integrated, outsourced or opened to partners. Consequences range from nuisance to catastrophe, and long-run frequencies are less stable than in classic insurance. Take a software release. A coding flaw is a hazard. Deploying it on the open internet creates exposure. Weak monitoring and slow patching increase vulnerability. The real risk depends on the attacker's skill, the value of the target, the controls in place and how fast the team can detect, respond and recover, which is why security frameworks put governance, detection, response and recovery alongside technical scores.<a class="cite" data-ref="20">20</a></p>
+        <h3>Business</h3>
+        <p>Business risk spans strategy, operations, law, finance, reputation and supply chains. A company entering a new market faces uncertain demand, competitors' reactions, regulatory change, hiring limits and effects on its brand. Not all of these have stable probabilities, so business sits close to Knight's deep uncertainty. Businesses still have to decide, and they use scenario planning, sensitivity analysis, portfolio logic, internal controls and statements of risk appetite to structure choices. Risk is not only something to avoid. Firms create value partly by taking chosen risks. The question is which are worth taking, which need reducing and which exceed tolerance.</p>
+        <h3>Public policy</h3>
+        <p>Public policy is where risk analysis and ethics meet most openly. Regulators cannot remove every risk, and should not try. They must decide which risks justify intervention, how strongly to act, how to share the burdens and how to protect fairness, liberty and innovation.<a class="cite" data-ref="28">28</a> Policy also highlights distribution. Average risk can fall while vulnerable groups carry more of what remains. A flood barrier may protect one district and push danger downstream. A digital identity system may improve efficiency while excluding people with weak access. Policy needs a comparative understanding of risk because it has to balance numbers, institutions and justice.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 8 ============================== -->
+    <section class="sec" id="s8">
+      <header class="sec-head">
+        <p class="sec-label"><b>8</b>Practice</p>
+        <h2>Managing Risk in Practice</h2>
+        <p class="sec-deck">Identify, analyse, evaluate, treat, monitor, communicate. Then do it again.</p>
+      </header>
+      <div class="col">
+        <h3>The cycle</h3>
+        <p>Most practical systems follow a sequence of identification, analysis, evaluation, treatment, monitoring and communication.<a class="cite" data-ref="1">1</a> Identification asks what could affect objectives. Analysis asks about likelihood, consequence, causes, controls and uncertainty. Evaluation compares the result with criteria or thresholds. Treatment chooses whether to avoid, reduce, transfer, accept or monitor. Monitoring checks whether assumptions still hold and controls still work. Communication ties it together. The sequence turns vague worry into an organised workflow, and it supports learning: near misses, weak signals and small control failures become information rather than isolated annoyances.</p>
+        <h3>Qualitative and quantitative assessment</h3>
+        <p>Qualitative assessment uses categories, narratives, expert judgement, interviews, workshops, scenarios and heat maps. Quantitative assessment uses probabilities, distributions, expected losses, simulations and stress tests. The choice should follow the problem, not ideology. Where data are rich and pricing matters, numbers are indispensable. Where novelty is high, causes are poorly understood or the aim is ranking rather than pricing, qualitative methods may fit better. Most serious institutions combine them. The mistake is not qualitative reasoning; it is vague qualitative reasoning without clear definitions and accountability. Heat maps are the classic example, and the risk analyst Louis Anthony Cox has shown how they can mislead.<a class="cite" data-ref="29">29</a> Try one.</p>
+
+        <figure class="fig breakout" id="fig-matrix" data-resettable>
+          <header class="fig-head"><div><h3>The risk matrix, and its blind spot</h3><p>Drag each risk to the cell you think fits. Move the appetite line. Then switch on Cox's test.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Appetite, tolerance and thresholds</h3>
+        <p>Risk appetite is the amount and type of risk an organisation is willing to pursue or keep in pursuit of its objectives. Risk tolerance is the acceptable range of variation around those objectives. Decision thresholds turn both into operational triggers. They matter because analysis alone does not tell an institution what to do. A university may tolerate uncertainty in enrolment forecasts but not in exam integrity. A hospital may tolerate scheduling inefficiency but not medication errors. A start-up may accept uncertainty about entering a market but not breaking critical law. Mature governance distinguishes types of risk rather than talking vaguely about “more” or “less”.</p>
+        <h3>Governance, culture and incentives</h3>
+        <p>Risk management fails when governance is weak, incentives are distorted or bad news is suppressed. Boards, managers, regulators, front-line staff, engineers, clinicians and customers see different risks because they hold different information and incentives, and no framework can fix that alone. The culture of escalation matters. If bad news is punished, warnings arrive late or softened. If ownership is vague, critical issues become everyone's problem and nobody's responsibility. Governance and culture are not side topics; in complex organisations they are part of the risk.</p>
+        <h3>Resilience</h3>
+        <p>Finally, risk management cannot be only prediction and prevention. Some harmful events cannot be prevented with certainty, so systems need buffers, redundancy, fallbacks and recovery plans. In cybersecurity that means detection, response, backup and restoration. In disaster management, preparedness, evacuation capacity and recovery planning. In business, cash reserves, varied suppliers and crisis communication. Resilience does not replace analysis. It complements it, by accepting that some uncertainty survives every model.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 9 ============================== -->
+    <section class="sec" id="s9">
+      <header class="sec-head">
+        <p class="sec-label"><b>9</b>Comparison</p>
+        <h2>The Frameworks Side by Side</h2>
+        <p class="sec-deck">Tell the table what you need to do, and it will point to the tools that fit.</p>
+      </header>
+      <div class="col">
+        <figure class="fig breakout" id="fig-table">
+          <header class="fig-head"><div><h3>Which framework fits your problem?</h3><p>Choose the task in front of you. The matching rows light up.</p></div></header>
+          <div class="fig-body">
+            <div class="tablewrap"><table class="news compare">
+              <thead><tr><th>Framework</th><th>Core definition of risk</th><th>Strengths</th><th>Weaknesses</th><th>Best use cases</th><th>Best fit</th></tr></thead>
+              <tbody>
+                <tr data-k="prob"><td>Classical probability</td><td>The probability distribution of specified events or losses.</td><td>Clear, measurable, comparable; strong where events repeat.</td><td>Weak under novelty, ambiguity or structural change.</td><td>Insurance, quality control, reliability studies, some epidemiology.</td><td>Theory and practice, when data are stable.</td></tr>
+                <tr data-k="eu"><td>Expected utility and decision theory</td><td>Choice among uncertain prospects, judged by utility rather than raw payoff.</td><td>Coherent; disciplined trade-offs; explains rational risk aversion.</td><td>Demanding assumptions; limited realism; sensitive to framing and ambiguity.</td><td>Insurance decisions, formal policy analysis, structured investment choices.</td><td>Normative theory and formal decision support.</td></tr>
+                <tr data-k="bayes"><td>Bayesian</td><td>Uncertain belief, updated by evidence.</td><td>Explicit learning; transparent assumptions; strong when data are sparse.</td><td>Depends on priors and model structure; can look more certain than the evidence allows.</td><td>Diagnosis, forecasting, intelligence, fault detection, cyber monitoring.</td><td>Adaptive theory and practice.</td></tr>
+                <tr data-k="behav"><td>Behavioural and psychological</td><td>Perceived, framed and felt uncertainty that shapes judgement and action.</td><td>Explains real behaviour, communication failure, loss aversion, trust effects.</td><td>Less unified as a decision rule for institutions; findings can be fragmented.</td><td>Public communication, clinical decisions, consumer behaviour, safety culture.</td><td>Human behaviour and policy design.</td></tr>
+                <tr data-k="org"><td>Organisational and managerial</td><td>Uncertainty in relation to objectives, strategy and performance.</td><td>Action-oriented; supports ownership, governance, escalation, monitoring.</td><td>Can become vague or bureaucratic, detached from real judgement.</td><td>Enterprise risk management, board oversight, public administration.</td><td>Practice and governance.</td></tr>
+                <tr data-k="domain"><td>Domain-specific institutional</td><td>Risk framed by field-specific causal structures, such as hazard, exposure and vulnerability, or scenario, likelihood and consequence.</td><td>Highly actionable; matched to operational reality.</td><td>Transfers poorly across fields; may fragment wider understanding.</td><td>Engineering safety, disaster risk reduction, health and environmental assessment, cybersecurity.</td><td>Specialised practice.</td></tr>
+              </tbody>
+            </table></div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 10 ============================== -->
+    <section class="sec" id="s10">
+      <header class="sec-head">
+        <p class="sec-label"><b>10</b>Findings</p>
+        <h2>What the Comparison Shows</h2>
+        <p class="sec-deck">Fit-for-purpose pluralism.</p>
+      </header>
+      <div class="col">
+        <p><strong>Risk is plural but not chaotic.</strong> Different fields define risk differently, but that does not make the idea useless. Each stresses a different side of the same problem: uncertain futures affecting things that matter. Probability frameworks stress measurable chance; decision theory, choice; Bayesian approaches, learning; behavioural research, perception and response; organisational frameworks, governance; domain frameworks, causal structure.</p>
+        <p><strong>Risk is not any single number.</strong> Probability, expected loss, variance, value at risk and heat-map scores all describe parts of risk. None is the whole. Confusion begins when the measure is mistaken for the thing measured.</p>
+        <p><strong>The quality of uncertainty matters.</strong> It is not enough to say an event has probability <span class="tex">p</span>. We need to ask where <span class="tex">p</span> came from, how stable the process behind it is, and how much the model itself might be wrong. That is why ambiguity and Knight's deep uncertainty remain central even in the most quantitative fields.</p>
+        <p><strong>Human behaviour is central.</strong> A technically correct estimate can fail if it is not trusted, understood or acted on. Risk management that ignores perception and communication keeps underperforming.</p>
+        <p><strong>Risk is tied to values.</strong> Decisions about acceptable risk cannot be made by mathematics alone. Fairness, responsibility, tolerability, dignity, distribution and legitimacy all matter.</p>
+        <p class="pull">There is no master framework. The best one depends on the purpose.</p>
+        <p>From these findings comes a practical conclusion. To price repeated losses, probability and expected loss may be enough. To choose rationally between uncertain prospects, expected utility is central. To learn from emerging evidence, Bayesian methods are powerful. To explain public reactions or improve communication, behavioural theories are essential. To run an organisation, governance frameworks are needed. The lesson is fit-for-purpose pluralism.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 11 ============================== -->
+    <section class="sec" id="s11">
+      <header class="sec-head">
+        <p class="sec-label"><b>11</b>Limitations</p>
+        <h2>Where Every Approach Falls Short</h2>
+        <p class="sec-deck">Knowing a model's blind spots is part of using it well.</p>
+      </header>
+      <div class="col">
+        <p><strong>False precision.</strong> Numerical models can look exact when their assumptions are fragile, especially for tail risks, new technologies, adversarial settings and systemic crises. A precise-looking number can hide deep uncertainty.</p>
+        <p><strong>Reductionism.</strong> Expected loss flattens the shape of a distribution. Variance treats upside and downside the same. Simple heat maps blur rare catastrophes with frequent small harms. Checklists can list dozens of risks while missing how they interact and cascade.</p>
+        <p><strong>Descriptive weakness.</strong> Formal models often assume steadier preferences and more careful calculation than real people have. Used without behavioural insight, they mispredict how people respond to warnings, treatment options or policy changes.</p>
+        <p><strong>Ethical incompleteness.</strong> Average risk can fall while the remaining burden piles onto those with less voice or fewer resources. Vulnerability and distribution are not optional extras.</p>
+        <p><strong>Domain lock-in.</strong> Field-specific frameworks work well at home but are often stretched too far. A flood model is not a theory of financial risk, and portfolio variance is not a theory of social vulnerability.</p>
+        <p>None of this means current models fail. It means users must understand what each one captures and what it leaves out.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 12 ============================== -->
+    <section class="sec" id="s12">
+      <header class="sec-head">
+        <p class="sec-label"><b>12</b>Conclusion</p>
+        <h2>Risk Is a Relationship</h2>
+        <p class="sec-deck">Between uncertain futures and the things we value.</p>
+      </header>
+      <div class="col">
+        <p>Risk is one of the most universal conditions of human action, because people must decide before the future is certain. Yet no single definition works the same way across finance, medicine, engineering, cybersecurity, disaster governance, education and public policy. Different frameworks light up different parts of the same broad problem.</p>
+        <p>This paper has argued that risk is best understood by comparison. Probability models are strongest where events repeat and can be measured. Expected utility is strongest as a rule for coherent choice. Bayesian methods are strongest when evidence accumulates and prior knowledge matters. Behavioural approaches are strongest for understanding judgement, communication and trust. Organisational frameworks are strongest for governance, accountability and action. Domain frameworks are strongest where a field's causal structure is well understood.</p>
+        <p>So the most useful conclusion is not that one framework wins. Mature risk analysis is layered. Good judgement asks which sides of risk matter most for this decision, which uncertainties can be measured and which cannot, what is at stake, who is exposed, who is vulnerable, what the model assumes and what kind of action is needed.</p>
+        <p class="pull">Risk is not merely a number, a feeling or a checklist. It is the structured relation between uncertain futures and valued outcomes.</p>
+        <p>The stronger the analysis, the more honestly it joins mathematics, human behaviour, institutional design and moral consequence.</p>
+
+        <div class="back" id="references" data-index-extra="Sources and credits">
+          <h3>Sources</h3>
+          <ol class="refs">
+            <li id="ref-1">International Organization for Standardization. (2018). <em>ISO 31000:2018 Risk management: Guidelines.</em> ISO.</li>
+            <li id="ref-2">Knight, F. H. (1921). <em>Risk, Uncertainty and Profit.</em> Houghton Mifflin.</li>
+            <li id="ref-3">United Nations General Assembly. (2016). <em>Report of the open-ended intergovernmental expert working group on indicators and terminology relating to disaster risk reduction</em> (A/71/644). Endorsed 2017. UNDRR.</li>
+            <li id="ref-4">Bernoulli, D. (1954). Exposition of a new theory on the measurement of risk. <em>Econometrica, 22</em>(1), 23–36. (Original work published 1738.)</li>
+            <li id="ref-5">Douglas, M., &amp; Wildavsky, A. (1982). <em>Risk and Culture: An Essay on the Selection of Technical and Environmental Dangers.</em> University of California Press.</li>
+            <li id="ref-6">Beck, U. (1992). <em>Risk Society: Towards a New Modernity.</em> Sage.</li>
+            <li id="ref-7">von Neumann, J., &amp; Morgenstern, O. (1944). <em>Theory of Games and Economic Behavior.</em> Princeton University Press.</li>
+            <li id="ref-8">Savage, L. J. (1954). <em>The Foundations of Statistics.</em> Wiley.</li>
+            <li id="ref-9">Allais, M. (1953). Le comportement de l'homme rationnel devant le risque: Critique des postulats et axiomes de l'école américaine. <em>Econometrica, 21</em>(4), 503–546.</li>
+            <li id="ref-10">Ellsberg, D. (1961). Risk, ambiguity, and the Savage axioms. <em>Quarterly Journal of Economics, 75</em>(4), 643–669.</li>
+            <li id="ref-11">Markowitz, H. (1952). Portfolio selection. <em>Journal of Finance, 7</em>(1), 77–91.</li>
+            <li id="ref-12">Tversky, A., &amp; Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases. <em>Science, 185</em>(4157), 1124–1131.</li>
+            <li id="ref-13">Kahneman, D., &amp; Tversky, A. (1979). Prospect theory: An analysis of decision under risk. <em>Econometrica, 47</em>(2), 263–291.</li>
+            <li id="ref-14">Slovic, P. (1987). Perception of risk. <em>Science, 236</em>(4799), 280–285.</li>
+            <li id="ref-15">Loewenstein, G. F., Weber, E. U., Hsee, C. K., &amp; Welch, N. (2001). Risk as feelings. <em>Psychological Bulletin, 127</em>(2), 267–286.</li>
+            <li id="ref-16">Kaplan, S., &amp; Garrick, B. J. (1981). On the quantitative definition of risk. <em>Risk Analysis, 1</em>(1), 11–27.</li>
+            <li id="ref-17">Committee of Sponsoring Organizations of the Treadway Commission. (2017). <em>Enterprise Risk Management: Integrating with Strategy and Performance.</em> COSO.</li>
+            <li id="ref-18">National Institute of Standards and Technology. (2018). <em>Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy</em> (SP 800-37 Rev. 2).</li>
+            <li id="ref-19">National Institute of Standards and Technology. (2023). <em>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</em> (NIST AI 100-1).</li>
+            <li id="ref-20">National Institute of Standards and Technology. (2024). <em>The NIST Cybersecurity Framework (CSF) 2.0.</em></li>
+            <li id="ref-21">Aven, T. (2016). Risk assessment and risk management: Review of recent advances on their foundation. <em>European Journal of Operational Research, 253</em>(1), 1–13.</li>
+            <li id="ref-22">Gigerenzer, G. (2011). What are natural frequencies? <em>BMJ, 343</em>, d6386.</li>
+            <li id="ref-23">Gigerenzer, G., &amp; Hoffrage, U. (1995). How to improve Bayesian reasoning without instruction: Frequency formats. <em>Psychological Review, 102</em>(4), 684–704.</li>
+            <li id="ref-24">Tversky, A., &amp; Kahneman, D. (1992). Advances in prospect theory: Cumulative representation of uncertainty. <em>Journal of Risk and Uncertainty, 5</em>(4), 297–323.</li>
+            <li id="ref-25">Slovic, P., Finucane, M. L., Peters, E., &amp; MacGregor, D. G. (2004). Risk as analysis and risk as feelings: Some thoughts about affect, reason, risk, and rationality. <em>Risk Analysis, 24</em>(2), 311–322.</li>
+            <li id="ref-26">World Health Organization. (2018). <em>Communicating Risk in Public Health Emergencies: A WHO Guideline for Emergency Risk Communication Policy and Practice.</em></li>
+            <li id="ref-27">Gubbels, J., van der Put, C. E., &amp; Assink, M. (2019). Risk factors for school absenteeism and dropout: A meta-analytic review. <em>Journal of Youth and Adolescence, 48</em>(9), 1637–1667.</li>
+            <li id="ref-28">Organisation for Economic Co-operation and Development. (2010). <em>Risk and Regulatory Policy: Improving the Governance of Risk.</em> OECD.</li>
+            <li id="ref-29">Cox, L. A., Jr. (2008). What's wrong with risk matrices? <em>Risk Analysis, 28</em>(2), 497–512.</li>
+          </ol>
+
+          <h3>Credits</h3>
+          <div class="credits">
+            <div><h4>Research this paper builds on</h4>Frank Knight; Daniel Bernoulli; John von Neumann and Oskar Morgenstern; Leonard Savage; Maurice Allais; Daniel Ellsberg; Harry Markowitz; Amos Tversky and Daniel Kahneman; Paul Slovic and colleagues; George Loewenstein and colleagues; Stanley Kaplan and John Garrick; Mary Douglas and Aaron Wildavsky; Ulrich Beck; Terje Aven; Gerd Gigerenzer and Ulrich Hoffrage; Louis Anthony Cox; Jorine Gubbels and colleagues; the authors of ISO 31000, COSO ERM, the NIST frameworks and the WHO and OECD guidance.</div>
+            <div><h4>Corrections to the first draft</h4>Aven's review is dated 2016, not 2015. The 1979 prospect theory paper is by Kahneman and Tversky, in that order.</div>
+            <div><h4>Type and tools</h4>Set in UnifrakturMaguntia, Noto Serif Display, Source Serif 4, Libre Franklin and IBM Plex Mono, under the SIL Open Font License. Equations typeset with KaTeX. Simulations run in your browser. No trackers, no ads.</div>
+            <div><h4>About the paper</h4>Written in August 2025, prepared for public readability and academic use. It contains no generated images.</div>
+          </div>
+
+          <h3>Cite this paper</h3>
+          <div class="citebox">
+            <pre id="citeApa">Raj, A. (2025, August). Risk factors, uncertainty, and decision-making: A comparative study of how risk is defined, measured, perceived, and managed across different frameworks. The Build Journal Research Supplement, No. 3. https://abhnv.in/p3/</pre>
+            <pre id="citeBib">@article{raj2025risk,
+  author  = {Raj, Abhinav},
+  title   = {Risk Factors, Uncertainty, and Decision-Making: A Comparative Study of How Risk Is Defined, Measured, Perceived, and Managed Across Different Frameworks},
+  journal = {The Build Journal Research Supplement},
+  number  = {3},
+  year    = {2025},
+  month   = aug,
+  url     = {https://abhnv.in/p3/}
+}</pre>
+            <div class="btnrow"><button class="btn" type="button" data-copy="#citeApa">Copy APA</button><button class="btn" type="button" data-copy="#citeBib">Copy BibTeX</button><button class="btn" type="button" data-share>Share</button></div>
+          </div>
+
+          <h3>More from the supplement</h3>
+          <nav class="more-papers" aria-label="Other papers">
+            <a href="/p1/" style="--c:#d9301c"><small>No. 1 &middot; April 2025</small><b>Data for Sale</b><span>How your digital life fuels an unseen empire.</span></a>
+            <a href="/p2/" style="--c:#1f45d6"><small>No. 2 &middot; June 2025</small><b>The Glass Ballot Box</b><span>Verifiable voting that keeps the ballot secret, with a live public ledger.</span></a>
+            <a href="/p4/" style="--c:#c4127c"><small>No. 4 &middot; October 2025</small><b>The Outsourced Reality</b><span>AI, synthetic media and the future of human judgment.</span></a>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <div class="colophon-in">
+      <div><p class="flag-sm">The Build Journal</p><p>Research Supplement No. 3, August 2025. Written by Abhinav Raj, security researcher and product builder.</p><p>&copy; 2025 Abhinav Raj. All rights reserved.</p></div>
+      <div><ul><li><a href="/research/">All research papers</a></li><li><a href="/work#research">Builds and papers</a></li><li><a href="/">abhnv.in</a></li></ul></div>
+      <div><ul><li><a href="/security">Security research</a></li><li><a href="/contact">Write to the author</a></li><li><a href="#references">Sources</a></li></ul></div>
+    </div>
+  </footer>
+
+  <script src="/research/press/katex/katex.min.js" defer></script>
+  <script src="/research/press/press.js?v=2"></script>
+  <script src="/research/press/figkit.js?v=2"></script>
+  <script src="/p3/figs-world.js?v=2"></script>
+  <script src="/p3/figs-money.js?v=2"></script>
+  <script src="/p3/figs-spread.js?v=2"></script>
+  <script src="/p3/figs-mind.js?v=2"></script>
+  <script src="/p3/figs-org.js?v=2"></script>
+</body>
+</html>

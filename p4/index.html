@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Outsourced Reality: AI, Synthetic Media and the Future of Human Judgment · Abhinav Raj</title>
+  <meta name="description" content="A research paper by Abhinav Raj (October 2025) on how AI now both produces and interprets evidence: synthetic media, the liar's dividend, automation bias, provenance and watermarking, and how to design systems that keep human judgment strong.">
+  <meta name="author" content="Abhinav Raj">
+  <meta name="theme-color" content="#2b2925">
+  <link rel="canonical" href="https://abhnv.in/p4/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://abhnv.in/p4/">
+  <meta property="og:title" content="The Outsourced Reality">
+  <meta property="og:description" content="When machines make the evidence and interpret it too. A research paper by Abhinav Raj, October 2025.">
+  <meta property="og:image" content="https://abhnv.in/p4/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://abhnv.in/p4/og.png">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400..900;1,400..700&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400..900;1,62.5..100,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..600&family=UnifrakturMaguntia&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/research/press/katex/katex.min.css">
+  <link rel="stylesheet" href="/research/press/press.css?v=2">
+  <link rel="stylesheet" href="/research/press/press-ui.css?v=2">
+  <link rel="stylesheet" href="/p4/paper.css?v=2">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Outsourced Reality: AI, Synthetic Media, and the Future of Human Judgment","author":{"@type":"Person","name":"Abhinav Raj","url":"https://abhnv.in/"},"datePublished":"2025-10-01","inLanguage":"en","url":"https://abhnv.in/p4/","keywords":"synthetic media, cognitive outsourcing, epistemic dependence, shared reality, evidence, trust, provenance, verification, automation bias, platform governance, digital forensics, human judgment"}
+  </script>
+</head>
+<body class="ed-or">
+  <a class="skip" href="#s1">Skip to the paper</a>
+  <header class="runhead" aria-label="Running head">
+    <a class="runhead-flag" href="/research/">The Build Journal</a>
+    <span class="runhead-sec" aria-live="polite"></span>
+    <nav class="runhead-tools" aria-label="Reading tools"></nav>
+    <i class="progress" aria-hidden="true"></i>
+  </header>
+
+  <div class="desk">
+    <article class="sheet" aria-label="Front page">
+      <div class="sheet-half sheet-top">
+        <div class="nameplate">
+          <div class="ear"><b>This page's fingerprint</b><span class="big hashy num" id="earHash">&ndash;</span>SHA-256 of this second. Change one letter and it changes completely.</div>
+          <div><span class="flag-over">Research Supplement</span><p class="flag">The Build Journal</p></div>
+          <div class="ear ear-r"><b>Show your working</b><span class="big num">47</span>sources, each one a tap away from the sentence it supports.</div>
+        </div>
+        <div class="dateline"><span>No. 4</span><span>October 2025</span><span>By Abhinav Raj &middot; abhnv.in</span></div>
+        <p class="banner-kicker">AI, synthetic media and human judgment</p>
+        <h1 class="banner">The Outsourced Reality</h1>
+        <p class="banner-deck">What happens to shared truth when machines both make the evidence and interpret it for us.</p>
+        <div class="byline-row"><span>By <strong>Abhinav Raj</strong></span><span data-readtime>45 minute read</span><span>14 sections, 15 things to try</span></div>
+        <span class="fold-hint" aria-hidden="true">Scroll to unfold</span>
+      </div>
+      <div class="sheet-fold">
+        <div class="sheet-crease"></div>
+        <div class="sheet-half sheet-bottom">
+          <div class="front-cols">
+            <div class="front-story">
+              <h3>The danger is not only fake things that look real. It is a new layer between us and the world.</h3>
+              <p>Artificial intelligence now takes part in two jobs that modern societies have tried to keep apart: producing evidence and interpreting it. Generative systems make images, voices, videos, documents and summaries that look like ordinary records. At the same time, AI increasingly decides what people see, condenses what they read and suggests what they should conclude.</p>
+              <p>This paper calls the combination <em>outsourced reality</em>. People are coming to rely on systems that shape both the information in front of them and part of the thinking they use to judge it.</p>
+              <p>The central finding is that the two problems feed each other. When realistic fakes become cheap and interpretation becomes automatic, societies risk losing both reliable records and the habits needed to question them. The paper ends with responses built around provenance, verification and systems designed to keep people thinking.</p>
+              <p><a class="jump" href="#s1">Continued in section 1</a></p>
+            </div>
+            <aside class="front-rail">
+              <h4>Inside</h4>
+              <ol class="inside">
+                <li><a href="#s2"><span>2</span>What outsourced reality means</a></li>
+                <li><a href="#s5"><span>5</span>Two chains that can break</a></li>
+                <li><a href="#s6"><span>6</span>The collapse of evidence</a></li>
+                <li><a href="#s7"><span>7</span>The outsourced mind</a></li>
+                <li><a href="#s9"><span>9</span>Eight fields under strain</a></li>
+                <li><a href="#s12"><span>12</span>What to build instead</a></li>
+              </ol>
+              <h4>Keywords</h4>
+              <p class="kw">synthetic media, cognitive outsourcing, epistemic dependence, shared reality, evidence, trust, provenance, verification, automation bias, platform governance, digital forensics, human judgment</p>
+            </aside>
+          </div>
+          <div class="sheet-back" aria-hidden="true"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <main class="paper" id="paper">
+
+    <!-- ============================== 1 ============================== -->
+    <section class="sec" id="s1">
+      <header class="sec-head">
+        <p class="sec-label"><b>1</b>Introduction</p>
+        <h2>A Reality Layer</h2>
+        <p class="sec-deck">The crisis has two sides: the collapse of evidence and the outsourcing of judgment.</p>
+      </header>
+      <div class="col">
+        <p>The problem of AI in public life usually arrives as a dramatic image: a fabricated photo spreading during a crisis, a cloned voice imitating a politician, an essay written by a chatbot, a video of something that never happened. These examples matter, but they can make the crisis look narrower than it is. A society does not lose its grip on reality only because false artefacts circulate. It loses that grip when the institutions, habits and ways of thinking that separate evidence from appearance begin to weaken.</p>
+        <p>This paper calls the result outsourced reality. The phrase does not mean that reality has disappeared, or that truth is now a matter of taste. It names a condition in which two kinds of delegation meet. First, we hand the making of reality-like content to synthetic systems that produce language, images, video, audio and behaviour imitating familiar signs of testimony and record. Second, we hand the work of interpretation to algorithms: search engines rank, feeds recommend, assistants summarise, copilots draft, classifiers flag, platforms moderate and decision tools advise. The same technology can shape what appears before our eyes and how we are invited to understand it.</p>
+        <p>Earlier media changed how information moved. Photography changed visual evidence. Radio and television changed public address. The internet changed distribution and search; social platforms changed attention and amplification. Generative AI adds the cheap, large-scale production of plausible artefacts that are not edited records but synthetic outputs, and modern AI interfaces also offer to read, explain, translate, classify, advise and decide. The user is no longer only looking at mediated content. The user is asking a mediator to make sense of it. Follow one clip through both halves of the problem.</p>
+      </div>
+
+      <div class="scrolly" id="story-chains">
+        <div class="scrolly-graphic"><div class="chains" aria-label="An audio clip moving along the evidence chain and the judgment chain"></div></div>
+        <div class="scrolly-steps">
+          <div class="step"><div><span class="t">Creation</span><p>Two days before a vote, someone generates thirty seconds of a candidate's voice saying something they never said. It takes minutes.</p></div></div>
+          <div class="step"><div><span class="t">Capture and storage</span><p>The file is re-recorded through a phone speaker. Its metadata is stripped. There is no original to compare against.</p></div></div>
+          <div class="step"><div><span class="t">Distribution</span><p>Platforms reward speed and emotion. The clip is shared thousands of times before any newsroom has listened to it twice.</p></div></div>
+          <div class="step"><div><span class="t">Interpretation and verification</span><p>Listeners judge by how real it sounds. Verification needs originals, experts and time, none of which arrive before the vote.</p></div></div>
+          <div class="step"><div><span class="t">Exposure and attention</span><p>Now the second chain. A voter meets the clip in a feed chosen for them, between two other emotional posts. Attention is brief.</p></div></div>
+          <div class="step"><div><span class="t">Reliance and deference</span><p>The voter asks an assistant whether it is real. The fluent answer is uncertain but confident in tone, and the voter accepts it without checking.</p></div></div>
+          <div class="step"><div><span class="t">Dependency</span><p>Next time, the voter does not even ask. Both chains have failed at once: the record was false, and the habit of checking has faded.</p></div></div>
+        </div>
+      </div>
+
+      <div class="col">
+        <p>The familiar word misinformation captures only part of this. It usually means false or misleading information, studied through belief, sharing, polarisation and correction.<a class="cite" data-ref="1,2">1,2</a> That framing assumes the main object is a claim that can be judged true or false. Synthetic media is harder because the artefact itself acts as apparent evidence: a fabricated video does not just say something happened, it seems to show it. Research on deepfakes therefore stresses deception, uncertainty, reputational harm, political manipulation and what the legal scholars Robert Chesney and Danielle Citron call the <dfn data-def="The advantage a wrongdoer gains by dismissing authentic evidence as fake, made possible because the public knows convincing fakes exist.">liar's dividend</dfn>: the ability of wrongdoers to dismiss real evidence as fake.<a class="cite" data-ref="3,4">3,4</a></p>
+        <p>Even that does not capture the second half. Depending on outside aids for thinking is not new: writing, diagrams, calculators, maps, calendars, search engines and institutions all spread cognition beyond one mind. Philosophers have long shown that knowledge depends on testimony, experts, archives and institutions,<a class="cite" data-ref="5,6">5,6</a> and psychologists that people routinely offload memory and problem-solving to external aids.<a class="cite" data-ref="7">7</a> The question is not whether we depend on such systems. We do. It is what happens when that dependence concentrates in systems that are opaque, persuasive and adaptive, and built into commercial infrastructure that shapes both attention and interpretation.</p>
+        <p>In ordinary dependence, a person relies on another person, institution, instrument or record while understanding roughly why that reliance is justified. In outsourced reality the dependence is more fragile: users often cannot see where content came from, cannot see how it was selected and ranked, cannot easily judge whether a generated explanation is reliable, and may lose the habit of checking. Judgment is unlikely to vanish in one dramatic moment. It thins through repeated delegation while evidence becomes less stable through repeated synthesis.</p>
+        <p>The argument draws together fields that are usually kept apart. Synthetic-media research sees the production problem. Human-computer interaction sees the reliance problem. Platform studies see the attention problem. Evidence law sees the authentication problem. Education sees the learning problem. Philosophy sees the dependence problem. This paper argues that the future of shared reality depends on treating them as one.</p>
+        <p>It makes four claims. Evidence and judgment are now linked problems: better detection is not enough if our ability to interpret withers. AI-generated realism changes the evidence environment by making fakes cheap, scalable and ordinary. AI-mediated interpretation changes the thinking environment by normalising deference to systems whose workings are invisible. And the response must protect human agency in judgment, not only signals of truth. Provenance standards, watermarks, forensic tools and legal rules matter, but they are not enough without institutions and education that keep the habit of verification alive.</p>
+        <p>The stakes run across society. In journalism, synthetic media can outrun verification while public cynicism undermines real reporting. In courts, digital evidence must be authenticated under rules not written for cheap synthetic realism. In schools, AI can support learning or replace the struggle through which students build judgment. In politics, synthetic consensus and targeted persuasion can erode common ground. At work, knowledge tools can raise productivity while leaving staff dependent on summaries they cannot check. In cybersecurity, cloned voices, fake documents and synthetic identities turn trust itself into an attack surface. In every case the evidence becomes less reliable at the same moment the person judging it becomes more dependent.</p>
+        <p>So the question is not whether to accept or reject AI. That is too crude. The question is which kinds of mediation keep human judgment strong and which quietly replace it. A mature response separates assistance from substitution, trust from deference, verification from suspicion, and literacy from mere exposure to tools. The goal is not a return to an unmediated reality that never existed. It is to build infrastructure that makes mediation accountable, evidence traceable and judgment stronger.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 2 ============================== -->
+    <section class="sec" id="s2">
+      <header class="sec-head">
+        <p class="sec-label"><b>2</b>Foundations</p>
+        <h2>What Outsourced Reality Means</h2>
+        <p class="sec-deck">A double delegation: of making what we see, and of deciding what it means.</p>
+      </header>
+      <div class="col">
+        <p>Outsourced reality is the condition in which technical systems increasingly provide both the representations through which people meet the world and the interpretation through which those representations are judged. The idea is narrower than a general complaint about digital life and broader than a worry about deepfakes. Click the four corners below to see where the double delegation sits.</p>
+
+        <figure class="fig breakout" id="fig-quad">
+          <header class="fig-head"><div><h3>Who makes it, and who reads it?</h3><p>Drag the dot around the square, or tap a corner.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <p>The first delegation is about representation. A camera, document, recording or witness statement has never been a perfect mirror. Evidence has always needed context, custody, interpretation and trust. What synthetic media changes is the cost and scale of fabrication. Generative adversarial networks, diffusion models, transformer language models, voice synthesis and multimodal systems can produce artefacts that resemble familiar forms of evidence.<a class="cite" data-ref="8,9,10,11">8–11</a> The problem is not just that a fake may fool someone. It is that the background assumption that certain artefacts are expensive to fake is weakening. When plausible audio, video, images and documents can be made on demand, looking real no longer signals being real.</p>
+        <p>The second delegation is about interpretation. People increasingly ask a system to summarise information, explain what it means, rank options, draft a reply, evaluate a claim, write an argument or recommend a decision. That is not harmful in itself. Outside aids can extend what we can do. The danger comes when tools meant to support judgment start to replace it, especially when users lack the skill, motive or patience to check. Research on automation has long warned that misplaced trust leads to misuse and over-reliance,<a class="cite" data-ref="12,13">12,13</a> and generative AI sharpens the problem because its answers arrive in fluent language, with a social tone and an air of confidence.</p>
+        <p>So outsourced reality is not one technology. It is a relationship between people, systems and institutions, produced by habits, platform incentives, economic pressure, educational norms, legal standards and institutional choices. A society can build AI that strengthens judgment: tools that show uncertainty, cite sources, invite comparison, ask for checking and keep users in charge. It can also build systems that hide uncertainty, blur sources, flatten disagreement and train people to accept the first answer that arrives.</p>
+
+        <h3>Synthetic media and mediated perception</h3>
+        <p><dfn data-def="Audio, images, video, text or interactive content generated or substantially altered by computers, especially AI.">Synthetic media</dfn> is media generated or substantially manipulated by computers, especially AI, rather than captured from events. It includes AI-written text, photorealistic images, cloned voices, synthetic video, avatars and simulated conversations. Deepfakes are the subset that imitates real people, objects or events in a misleading way; the European Union's AI Act defines a deep fake as AI-generated or manipulated image, audio or video that resembles existing persons, objects, places or events and would falsely appear authentic.<a class="cite" data-ref="14">14</a> Synthetic media also includes harmless and creative uses such as film effects, accessibility tools, translation, training simulations and art.</p>
+        <p>The trouble starts when synthetic media takes on the job of evidence. In many settings a photo is a record. A voice recording can serve as testimony or proof of consent, a threat, an instruction or an identity. A document can be a contract, order, citation, transcript or credential. When AI produces artefacts in these formats, it enters the routes by which societies recognise evidence. Not every synthetic artefact deceives, but the line between representation and record becomes harder to hold.</p>
+        <p>Mediated perception is older than AI. Much of public reality has always reached us through institutions, media, witnesses, maps, statistics and archives. Marshall McLuhan argued that media shape the scale and form of human association, not just what is transmitted.<a class="cite" data-ref="15">15</a> Platforms added algorithmic selection: search, feeds, trending lists and recommendations decide what becomes visible.<a class="cite" data-ref="16,17">16,17</a> Generative AI adds synthetic output on top. Reality is now mediated not only by representation but by optimisation. Platforms optimise for engagement, relevance, retention, safety or profit; assistants for helpfulness, fluency, task completion or user satisfaction. Those goals can align with truth, but they are not truth. A system can be useful and incomplete, persuasive and wrong, safe in one sense and narrowing in another.</p>
+
+        <h3>Offloading, outsourcing and dependence</h3>
+        <p><dfn data-def="Using external actions or tools, such as lists, reminders, maps or search, to reduce mental effort.">Cognitive offloading</dfn> is using outside actions or objects to reduce mental effort: lists, reminders, calculators, search, maps, asking others. Evan Risko and Sam Gilbert define it as using physical action to change what information processing a task requires.<a class="cite" data-ref="7">7</a> It is normal and often sensible. This paper uses the stronger term <dfn data-def="Handing reasoning, interpretation, summarising, evaluation or decisions to an external system, rather than just storing information outside the mind.">cognitive outsourcing</dfn> for cases where the system does interpretive work that would otherwise need human reasoning. A calculator offloads arithmetic; an assistant that summarises a legal filing, weighs arguments, ranks sources or recommends a policy outsources part of judgment. That can help when the user stays engaged and checks. It becomes risky when the tool becomes an authority by default.</p>
+        <p><dfn data-def="Relying on other people, institutions, instruments or systems for knowledge and justified belief.">Epistemic dependence</dfn> is the broader condition of relying on others for knowledge. The philosopher John Hardwig argued that rationality sometimes requires trusting experts, and that knowledge can live across communities rather than inside individuals.<a class="cite" data-ref="5">5</a> Science, law, medicine, journalism and government all depend on this. The worry is dependence without accountability. When we rely on a doctor, journalist, court or teacher, there are norms for credentials, methods, liability, correction and challenge. When we rely on an AI explanation, the system may have unknown training data, hidden ranking, thin sourcing and no accountability for the belief we end up with.</p>
+        <p>The rhetoric of AI usually treats dependence as convenience, and the benefits are real. But dependence also changes abilities. Betsy Sparrow, Jenny Liu and Daniel Wegner found that expecting online access changes what people remember: they recall where information can be found rather than the information itself.<a class="cite" data-ref="18">18</a> That is not automatically bad. If people end up remembering neither facts nor reliable ways to check them, though, offloading becomes thin. The question is not whether we use AI. It is whether using it builds stronger judgment or a learned habit of deference.</p>
+
+        <h3>Shared reality, evidence and trust</h3>
+        <p><dfn data-def="A common ground of evidence on which facts can be presented, challenged, corrected and recognised despite disagreement.">Shared reality</dfn> does not require everyone to believe the same things. Democracies are full of disagreement. It means something more basic: a public space where evidence can be presented, challenged, corrected and recognised across differences. Hannah Arendt warned that factual truth is vulnerable not only to denial but to being turned into mere opinion; when facts become one more partisan object, public reasoning loses its floor.<a class="cite" data-ref="19">19</a> Several ideas that AI tends to blur need keeping apart. Turn the cards.</p>
+
+        <figure class="fig breakout" id="fig-pairs">
+          <header class="fig-head"><div><h3>Four pairs AI tends to blur</h3><p>Sort each case into one word or the other. The card turns over to show where the line falls.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <p>These distinctions matter because AI blurs them. A generated answer can look like information and be treated as evidence. A fluent explanation invites trust while its sources stay unclear. A ranked result looks like authority, though ranking reflects many signals besides truth. A watermark can show that an artefact came from a certain system without showing that it is fair or complete. A provenance record can authenticate a chain of edits without removing the need to interpret context. Shared reality depends on keeping these concepts separate enough for institutions to act precisely.</p>
+
+        <h3>A glossary</h3>
+        <div class="tablewrap"><table class="news glossary">
+          <thead><tr><th>Term</th><th>Plain but precise meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Synthetic media</td><td>Audio, image, video, text or interactive content generated or substantially manipulated by computers, especially AI.</td></tr>
+            <tr><td>Cognitive outsourcing</td><td>Delegating reasoning, interpretation, summarising, evaluation, drafting or decision support to an external system, rather than merely storing information externally.</td></tr>
+            <tr><td>Cognitive offloading</td><td>Using external actions, objects or tools to reduce mental effort, such as reminders, search, maps, calculators and notes.</td></tr>
+            <tr><td>Epistemic dependence</td><td>Relying on other people, institutions, instruments or systems for knowledge, evidence or justified belief.</td></tr>
+            <tr><td>Shared reality</td><td>A common evidentiary ground on which facts can be presented, contested, corrected and recognised despite disagreement.</td></tr>
+            <tr><td>Evidence</td><td>Information or an artefact that supports, weakens or tests a claim when connected to source, context, integrity, relevance and interpretation.</td></tr>
+            <tr><td>Trust</td><td>A relation in which one party becomes vulnerable to another's competence, honesty, process or institutional role.</td></tr>
+            <tr><td>Judgment</td><td>The human capacity to weigh reasons, assess credibility, compare alternatives, read context and decide how much confidence is warranted.</td></tr>
+            <tr><td>Human agency</td><td>The ability to act, choose, question, refuse, revise and take responsibility within social and technical systems.</td></tr>
+            <tr><td>Verification</td><td>A disciplined process of checking claims, sources, artefacts, provenance, methods and consistency before relying on them.</td></tr>
+            <tr><td>Provenance</td><td>Information about the origin, custody, creation, modification and distribution history of a digital artefact.</td></tr>
+            <tr><td>Algorithmic mediation</td><td>The shaping of attention, access, interpretation, ranking, recommendation or explanation by computational systems.</td></tr>
+            <tr><td>Epistemic authority</td><td>A person, institution, source or system treated as entitled to guide belief because of expertise, reliability, method or position.</td></tr>
+            <tr><td>Synthetic evidence</td><td>Synthetic media or AI-generated artefacts used, mistaken or presented as evidence about real people, events, claims or records.</td></tr>
+            <tr><td>Platform power</td><td>Digital platforms' capacity to shape visibility, attention, norms, monetisation, moderation and public knowledge.</td></tr>
+            <tr><td>Information environment</td><td>The whole setting in which information is produced, distributed, ranked, interpreted, trusted, corrected and remembered.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ============================== 3 ============================== -->
+    <section class="sec" id="s3">
+      <header class="sec-head">
+        <p class="sec-label"><b>3</b>The literature</p>
+        <h2>What Each Field Sees</h2>
+        <p class="sec-deck">Strong research, kept in separate rooms.</p>
+      </header>
+      <div class="col">
+        <h3>Synthetic media and deepfakes</h3>
+        <p>The research begins with a technical fact: machine learning can generate increasingly plausible content in every medium. Generative adversarial networks trained a generator against a discriminator.<a class="cite" data-ref="8">8</a> Diffusion models learned to reverse a noise process and now power many image systems.<a class="cite" data-ref="9">9</a> Transformers underpin large language models and many multimodal systems,<a class="cite" data-ref="10">10</a> and GPT-3 showed that scale could produce fluent, few-shot text, raising concerns about generated news and deception.<a class="cite" data-ref="11">11</a></p>
+        <p>Deepfake scholarship moved the focus from possibility to harm. Chesney and Citron linked deepfakes to privacy, democracy, national security, trust in evidence and the liar's dividend.<a class="cite" data-ref="3">3</a> Their point was not only that fakes deceive but that they attack the conditions of knowing: they can injure people, manipulate institutions and let real evidence be denied. Cristian Vaccari and Andrew Chadwick found that political deepfakes may breed uncertainty and lower trust in news even when they do not straightforwardly fool viewers.<a class="cite" data-ref="4">4</a> The harm includes generalised doubt. Surveys of creation and detection show that detection is an arms race,<a class="cite" data-ref="20,21">20,21</a> so the literature does not support a simple fix in which better detectors win for good. The problem is social and technical at once.</p>
+
+        <h3>Provenance, watermarking and forensics</h3>
+        <p>Provenance shifts the question from spotting every fake to preserving trustworthy histories of content. The Coalition for Content Provenance and Authenticity (C2PA) specifies content credentials: signed statements about where content came from and how it was changed, with version 2.2 released in 2025.<a class="cite" data-ref="22">22</a> Rather than asking whether an artefact looks suspicious, provenance asks whether a verifiable chain of origin and edits can be shown.</p>
+        <p>Watermarking is related but narrower. John Kirchenbauer and colleagues showed how a language model can hide a statistical signal in its word choices that people cannot see but software can detect.<a class="cite" data-ref="23">23</a> Google DeepMind's SynthID extends the idea to images, audio, video and text.<a class="cite" data-ref="24">24</a> But watermarks depend on cooperative providers, miss outputs from other models, can be weakened by paraphrase or transformation, and create false confidence if treated as a complete answer. Vinu Sankar Sadasivan and colleagues argue that detecting AI text can be unreliable under practical attacks such as paraphrasing; their work is a preprint, not final consensus, but it illustrates the arms race.<a class="cite" data-ref="25">25</a></p>
+        <p>Digital forensics has the most mature vocabulary. The Scientific Working Group on Digital Evidence separates the integrity of a file from the truth of the scene it shows: a hash can prove that a copy matches an original file, but cannot prove the scene was not staged or synthetic.<a class="cite" data-ref="26">26</a> Try it.</p>
+
+        <figure class="fig breakout" id="fig-hash">
+          <header class="fig-head"><div><h3>A fingerprint is not a fact</h3><p>Type a claim. Its SHA-256 fingerprint updates as you type. Change one character and watch.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> computed in your browser with the Web Crypto API. Nothing is sent anywhere.</figcaption>
+        </figure>
+
+        <h3>Misinformation, trust and platforms</h3>
+        <p>False content cannot be understood as a supply problem alone. Soroush Vosoughi, Deb Roy and Sinan Aral studied about 126,000 rumour cascades on Twitter from 2006 to 2017 and found that false news spread farther, faster, deeper and more broadly than true news: falsehoods were 70% more likely to be retweeted, and the truth took about six times as long to reach 1,500 people.<a class="cite" data-ref="27">27</a> Gordon Pennycook and David Rand link susceptibility to false news with lapses in careful reasoning, missing knowledge and shortcuts such as familiarity, not only partisanship.<a class="cite" data-ref="2">2</a> Stephan Lewandowsky and colleagues show that misinformation keeps influencing reasoning after it is corrected, especially when the correction offers no coherent alternative.<a class="cite" data-ref="1">1</a> Claire Wardle and Hossein Derakhshan's framework of “information disorder” helped separate falsehoods spread by mistake from those spread to harm.<a class="cite" data-ref="28">28</a></p>
+        <p>Platforms are not neutral pipes. They rank, recommend, remove, monetise and contextualise. Tarleton Gillespie argues that algorithms take part in deciding what counts as relevant and legitimate.<a class="cite" data-ref="16">16</a> Eytan Bakshy and colleagues found that both ranking and people's own choices shape exposure to diverse news on Facebook.<a class="cite" data-ref="29">29</a> Zeynep Tufekci warns of harms that emerge from computational agency inside social systems,<a class="cite" data-ref="30">30</a> and Shoshana Zuboff frames platform power as the prediction and shaping of behaviour.<a class="cite" data-ref="31">31</a> A false video matters when platforms amplify it, communities interpret it, influencers frame it and institutions respond. Race a fabrication against its correction.</p>
+
+        <figure class="fig breakout" id="fig-race">
+          <header class="fig-head"><div><h3>The fake spreads, the check catches up</h3><p>Start the race. Then add a pause before sharing, or speed up the fact-checkers, and run it again.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> an illustrative network model. The finding it echoes, that false news travels faster and farther than corrections, is from Vosoughi, Roy and Aral (2018).</figcaption>
+        </figure>
+
+        <h3>Offloading, automation bias and reliance on AI</h3>
+        <p>Research on offloading starts from balance: outside aids are part of human thinking, and remembering where to find something rather than the thing itself can be efficient while those paths stay reliable.<a class="cite" data-ref="7,18">7,18</a> Automation research is more direct. Raja Parasuraman and Victor Riley distinguished use, misuse, disuse and abuse of automation; misuse includes over-reliance that leads to missed failures and biased decisions.<a class="cite" data-ref="12">12</a> John Lee and Katrina See argued that trust must be calibrated to what the system can actually do, since both too little and too much trust do harm.<a class="cite" data-ref="13">13</a> Parasuraman, Thomas Sheridan and Christopher Wickens showed that automation can apply to gathering information, analysing it, choosing a decision and acting on it,<a class="cite" data-ref="32">32</a> and AI assistants often do all four in one conversation. Linda Skitka, Kathleen Mosier and Mark Burdick showed that automated aids sway decisions even when users are supposed to stay responsible for checking.<a class="cite" data-ref="33">33</a> With generative AI, fluency, speed and a friendly tone may strengthen that bias, especially under time pressure.</p>
+
+        <h3>Testimony, experts and institutions</h3>
+        <p>Social epistemology supplies the philosophical core. Alvin Goldman stresses that knowledge is produced in social systems,<a class="cite" data-ref="6">6</a> Hardwig that laypeople often rely rationally on experts,<a class="cite" data-ref="5">5</a> and Miranda Fricker that power shapes whose testimony is heard or dismissed.<a class="cite" data-ref="34">34</a> The goal is not for everyone to verify everything, which is impossible, but to make dependence accountable. AI changes the structure of dependence. Experts can be questioned, institutions audited, records archived and evidence examined in court. AI systems may be proprietary, opaque, frequently updated, trained on unknown data and wrapped in interfaces that hide uncertainty. Users may not know whether an answer came from retrieval, model memory, probabilistic completion or a tool, and citations can be real, wrong, irrelevant or invented. Research on hallucination shows that fluent output can include unsupported content,<a class="cite" data-ref="35">35</a> and critics have long warned that fluency is not understanding.<a class="cite" data-ref="36">36</a> Arendt's concern adds the public dimension: synthetic media and algorithmic mediation can make facts seem permanently negotiable. That is why the liar's dividend matters. It shifts the burden from proving something false to proving something real, under general doubt.</p>
+
+        <h3>Education, law, journalism and democracy</h3>
+        <p>On education, Enkelejda Kasneci and colleagues see large language models supporting personalisation and learning while raising problems of competence, ethics and assessment,<a class="cite" data-ref="37">37</a> and UNESCO calls for a human-centred approach.<a class="cite" data-ref="38">38</a> The real question is not cheating but whether tools build or bypass the abilities school is meant to develop. In law, US Federal Rule of Evidence 901 requires evidence that an item is what its proponent claims, and Rule 902 lists self-authenticating evidence;<a class="cite" data-ref="39">39</a> the landmark <em>Lorraine v. Markel</em> decision insisted that digital material must meet evidentiary foundations rather than being admitted on format alone.<a class="cite" data-ref="40">40</a> Journalism faces a speed problem and a suspicion problem. Democracy depends on institutions that can make and contest factual claims in public; Jürgen Habermas's account of the public sphere stresses that legitimacy rests on the conditions of communication, not just on voting.<a class="cite" data-ref="41">41</a> When shared evidence fails, disagreement becomes less like argument and more like living in separate realities.</p>
+
+        <h3>The gap between the fields</h3>
+        <p>Synthetic media and cognitive outsourcing are usually studied separately. Deepfake research asks whether people can spot fabricated media; human-computer interaction asks when people over-rely on systems; platform studies ask how algorithms shape attention; education asks how AI changes learning; law asks how evidence is authenticated. Each is strong, but AI now affects both the object side and the subject side of public knowledge. Study only the first and the answer looks like better detection; study only the second and it looks like better training. Together they amount to a crisis of epistemic infrastructure: a society must preserve reliable records and cultivate reliable judgment at the same time.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 4 ============================== -->
+    <section class="sec" id="s4">
+      <header class="sec-head">
+        <p class="sec-label"><b>4</b>Frameworks</p>
+        <h2>Six Lenses, One Problem</h2>
+        <p class="sec-deck">Each discipline lights up part of the picture, and each has a blind spot.</p>
+      </header>
+      <div class="col">
+        <h3>Epistemology and social epistemology</h3>
+        <p>Classical epistemology asks what knowledge is and how belief is justified. With AI the key question is not only whether a generated statement is true but whether a person is justified in believing it, relying on it or using it as evidence. A true statement generated without reliable grounding is true by accident. A plausible summary may leave out the decisive context. A citation may be real and still not support the claim. Social epistemology adds that knowledge depends on testimony, expertise, institutions and instruments, so total self-reliance is neither possible nor desirable. The issue is warranted reliance. Its limit is that it mostly assumes human experts and institutions. AI systems are not experts in the ordinary sense; they do not testify as responsible agents. Treating them as experts is a category error, and treating them as mere tools understates their influence.</p>
+        <h3>Media theory</h3>
+        <p>Media theory shows that the form of communication shapes its effects. A chatbot answer is not just text but a way of interacting; a feed is not a list but a regime of attention; a deepfake is not a false claim but a sensory artefact borrowing the authority of recorded media.<a class="cite" data-ref="15">15</a> Modern publics learned to treat photos, audio and video as privileged access to events, even knowing they could be edited. Synthetic media attacks that training, and the old signal, “it looks or sounds real”, loses its weight. The limit is breadth: without technical and institutional detail, media theory risks diagnosing a mood rather than a structure.</p>
+        <h3>Behavioural and cognitive psychology</h3>
+        <p>Judgment is bounded, heuristic and sensitive to context.<a class="cite" data-ref="42,43">42,43</a> Familiarity, fluency, emotional salience and identity cues shape what people believe and share, and generative AI adds another cue: coherent language that feels like understanding. Offloading research adds that the risk is not offloading as such but poorly calibrated offloading. Someone who uses a calculator while understanding the problem stays in control; someone who asks an assistant to evaluate a complex claim without understanding the sources may lose the ability to judge the answer. The limit is that psychology can overfocus on individuals. People often rely on AI because institutions demand speed, platforms reward immediacy, workplaces reward output and the information world is too big to navigate alone.</p>
+        <h3>Human-AI interaction and automation</h3>
+        <p>This field contributes reliance, trust calibration, explainability and levels of automation.<a class="cite" data-ref="13,32">13,32</a> The aim is neither maximum nor minimum trust but calibrated trust: rely on a system where it is competent, question it where stakes or uncertainty demand. Automating data collection differs from automating analysis, choice or action, yet assistants blur those levels in one interface, so users may not know when the system is retrieving, reasoning, pattern-matching or simply producing plausible text. The limit: framing everything as interface design misses the incentives around it. A beautiful interface cannot fix incentives that reward speed over checking.</p>
+        <h3>Platform governance and political economy</h3>
+        <p>Platforms decide what is removed, ranked, recommended, monetised, labelled or slowed down, and political economy asks which business models those decisions serve.<a class="cite" data-ref="30,31">30,31</a> Synthetic media can be profitable as engagement; assistants as subscriptions, lock-in or data capture; recommendations by holding attention. These incentives can work against slow verification and institutional trust. The limit is a tendency to understate real benefits and user agency: not all mediation is manipulation.</p>
+        <h3>Risk, trust and institutional governance</h3>
+        <p>Risk governance treats the problem as institutional design under uncertainty. The US NIST AI Risk Management Framework organises AI risk around governing, mapping, measuring and managing,<a class="cite" data-ref="44">44</a> and its Generative AI Profile lists risks specific to generative systems.<a class="cite" data-ref="45">45</a> The EU AI Act requires machine-readable marking of certain synthetic outputs and disclosure of deepfakes in specified contexts.<a class="cite" data-ref="14">14</a> No single actor can solve outsourced reality: model providers, platforms, newsrooms, schools, courts, regulators, employers, standards bodies and users each hold a piece. Provenance fails without adoption; literacy without trusted verification; court rules without forensic capacity; labels without public understanding; school reform if grading still rewards outsourced work. The limit is proceduralism, frameworks that document risk without changing behaviour. This paper treats governance as the design of epistemic infrastructure: the lasting arrangements that make reliable evidence and independent judgment possible.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 5 ============================== -->
+    <section class="sec" id="s5">
+      <header class="sec-head">
+        <p class="sec-label"><b>5</b>Models</p>
+        <h2>Two Chains That Can Break</h2>
+        <p class="sec-deck">The evidence chain, the judgment chain, and what happens when both fail.</p>
+      </header>
+      <div class="col">
+        <h3>The evidence chain</h3>
+        <p>The first model runs from creation through capture, storage, distribution and interpretation to verification. Every link has always had weaknesses: a scene can be staged, a witness can lie, a document can be forged, custody can break, a platform can strip metadata, a viewer can misread context. AI changes the cost, speed and scale of failure at several links at once. Synthetic media can produce an artefact with no event behind it; AI editing can alter a record soon after it is made; metadata can be stripped or faked; platforms can spread the artefact before anyone checks; viewers may rely on surface realism or partisan cues; and institutions may lack originals, provenance data, forensic tools or time. That is why detection alone is not enough. A detector works late in the chain, usually on an artefact already cut off from its context. The strongest response is chain-wide, not tool-specific.</p>
+        <h3>The judgment chain</h3>
+        <p>The second model runs from exposure through attention, interpretation and reliance to deference and dependency. Platforms decide whether exposure happens at all. Attention decides whether content is noticed. Interpretation gives it meaning. Reliance means using it in belief or action; deference means accepting the system's interpretation over your own; dependency means the deference has become a habit and the alternatives have weakened. A user who asks for a summary, checks it against the original and reads further is being assisted. One who never reads the original and repeats the summary as knowledge has moved towards deference. The system does not need to lie to govern judgment. It may simply frame the field of attention.</p>
+        <h3>Types of failure</h3>
+        <p>The problem contains distinct failures. <em>Fabrication</em> is an artefact or claim made with no basis in the world. <em>Manipulation</em> alters a real artefact to mislead. <em>Miscontextualisation</em> presents a genuine artefact with a false time, place, source or meaning. <em>Hallucination</em> is a generative system producing unsupported content. <em>Amplification failure</em> is platforms raising the visibility of unreliable material. <em>Verification failure</em> is users or institutions not testing claims adequately. <em>Deference failure</em> is accepting machine output without warranted scrutiny. <em>Cynicism failure</em> is no longer believing that checking can separate true from false. Think of each as a hole in one slice of a society's defences.</p>
+
+        <figure class="fig breakout" id="fig-fail">
+          <header class="fig-head"><div><h3>Eight defences, and the holes between them</h3><p>Each slice stops some false claims. Switch on a failure to punch a hole in its slice, then watch how many claims get all the way through.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <p>A fabricated clip can be amplified by platforms, read through partisan identity, cited by an assistant connected to noisy sources, and then denied or defended through cynicism. A real recording can be dismissed as synthetic by someone seeking the liar's dividend. A single false artefact often matters less than the network of interpretive and institutional failures around it.</p>
+
+        <h3>A spectrum of outsourcing</h3>
+        <p>Cognitive outsourcing runs along a spectrum, and governance should differ by level. A spelling tool raises fewer risks than a system that weighs legal evidence or medical records. A student using AI to quiz herself is different from one submitting AI work as proof of understanding; a journalist transcribing interviews with AI is different from a newsroom publishing AI summaries without review. What matters is the function performed and whether human responsibility remains real.</p>
+
+        <figure class="fig breakout" id="fig-spectrum">
+          <header class="fig-head"><div><h3>From notebook to decision-maker</h3><p>Slide along the spectrum. Watch how much judgment moves to the machine, and what governance it needs.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Levels:</b> after Parasuraman, Sheridan and Wickens (2000), who separate automation of information gathering, analysis, decision and action.<a class="cite" data-ref="32">32</a></figcaption>
+        </figure>
+
+        <h3>The combined failure model</h3>
+        <p>The most serious risks come when both chains fail together. Synthetic evidence weakens the object side of knowledge; poorly calibrated outsourcing weakens the subject side; platform mediation links them through exposure and attention. Put simply, epistemic risk rises when artefacts become more plausible, provenance less traceable, mediation more opaque, the stakes of reliance higher and the user's capacity to verify lower. This is not a mathematical law. It is a diagnostic model. A low-stakes AI image labelled as fiction carries little risk. An unlabelled synthetic audio clip released before an election, amplified by recommendations, read through partisan channels and accepted without checking carries a great deal. A legal document summarised by AI is safe if lawyers check it and dangerous if courts or clients rely on it unread.</p>
+
+        <figure class="fig breakout" id="fig-dial">
+          <header class="fig-head"><div><h3>The epistemic risk dial</h3><p>Pick one of the paper's cases, or set the five factors yourself.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> a diagnostic aid built from the paper's five factors, not a measurement. The dial uses their geometric mean, so a single strong safeguard pulls risk down.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 6 ============================== -->
+    <section class="sec" id="s6">
+      <header class="sec-head">
+        <p class="sec-label"><b>6</b>Evidence</p>
+        <h2>The Collapse of Evidence</h2>
+        <p class="sec-deck">When faking is cheap, proving the real gets expensive.</p>
+      </header>
+      <div class="col">
+        <h3>Images, video, audio and text</h3>
+        <p>Evidence collapses when the signs that normally support trust stop carrying their weight. In daily life we rely on quick authenticity signals because nobody can run forensics on everything: a photo shows a scene, a voice belongs to a person, a letterhead reflects an institution. Those assumptions are not irrational, but synthetic media lowers the cost of imitating them. Images drew attention first, but audio may matter as much. We use voices to recognise family, authorise actions, read emotion and assign responsibility, so voice cloning turns identity into an attack surface.</p>
+        <aside class="note"><span class="note-k">The robocall</span><span class="note-n">$6m</span>The fine the FCC proposed in May 2024 against the consultant behind AI-voiced robocalls imitating President Biden before New Hampshire's January primary, its first case involving generative AI.<a class="cite" data-ref="46">46</a></aside>
+        <p>In January 2024, two days before New Hampshire's presidential primary, thousands of voters received robocalls in an AI-generated voice imitating President Joe Biden that urged them not to vote. In February the US Federal Communications Commission ruled that AI-generated voices in robocalls count as “artificial” under existing telephone law, and in May it proposed a $6 million fine against the consultant responsible.<a class="cite" data-ref="46">46</a> The case matters less as a novelty than as proof that synthetic evidence can intervene at a precise moment of public decision. Text is subtler, because written impersonation is old, but language models make scale and fluency cheap: fake comments, synthetic reviews, fabricated documents, persuasive messages, false citations, plausible explanations. The problem is the industrialisation of plausible language detached from accountable authorship.</p>
+
+        <h3>From realism to traceability</h3>
+        <p>Authenticity signals are cultural habits as much as technical features. A signed letter, an official seal, a masthead, a photo, a broadcast clip or a court record is trusted because it belongs to a social infrastructure. Synthetic media allows imitation without that backing. That does not make every signal useless. It means trust has to move from surface appearance to process. Build the case for a video and see where its weight really comes from.</p>
+
+        <figure class="fig breakout" id="fig-trace">
+          <header class="fig-head"><div><h3>What makes a video count as evidence?</h3><p>Switch on the signals one at a time. Notice which ones move the needle.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> illustrative weights reflecting the paper's argument and SWGDE guidance: integrity and context outweigh appearance.</figcaption>
+        </figure>
+
+        <p>That shift is hard, because traceability is slower and less satisfying than perception. People are moved by what they see and hear; verification asks them to wait, while platforms reward speed. The collapse of evidence is partly a tempo problem: fabrication moves at the speed of generation and sharing, verification at the speed of institutions, expertise and care.</p>
+        <p class="reactive" id="rx-tempo">If a convincing fake takes <span class="knob" data-k="make" data-min="1" data-max="120" data-step="1" data-px="4" data-post=" minutes">5 minutes</span> to make and a newsroom needs <span class="knob" data-k="check" data-min="1" data-max="72" data-step="1" data-px="5" data-post=" hours">6 hours</span> to verify it, the fake gets a head start of <span class="out" data-out="lead">5h 55m</span>. If its audience doubles every <span class="knob" data-k="dbl" data-min="10" data-max="180" data-step="5" data-px="4" data-post=" minutes">45 minutes</span>, it could reach about <span class="out" data-out="crowd">23,000</span> people before the first check is published.</p>
+        <span class="reactive-hint">Drag the numbers. The model starts from 100 early viewers and is an illustration, not a measurement.</span>
+
+        <h3>The limits of provenance and forensics</h3>
+        <p>Provenance is necessary but not magic. Content credentials can record origin and edits, but they depend on adoption by cameras, editing tools, platforms, publishers and users, and they prove that a credential is intact, not every fact the content implies. A credentialed photo can still be staged; an authentic video can still be cropped to mislead. Forensics has similar limits: SWGDE notes that some manipulations of single images may not be detectable with current tools.<a class="cite" data-ref="26">26</a> The future will not be a contest between perfect fakers and perfect detectors but a field of probabilistic evidence, partial metadata, corroboration, protocols and adaptation. Finding no manipulation does not prove authenticity; metadata does not prove truth; a hash preserves integrity, not reality; a witness can vouch for capture, not meaning. Evidence will need layered standards: origin, custody, integrity, consistency, corroboration, expert review and openly stated uncertainty.</p>
+
+        <h3>The liar's dividend</h3>
+        <p>This may be the most politically significant failure. Once people know convincing fakes are possible, anyone with a reason to deny real evidence can claim it was faked. The dividend is paid not by any particular fake but by the general plausibility of faking. A real recording, photo, leak or testimony can be dismissed as synthetic, edited or planted, and the burden shifts to whoever is trying to prove reality. It is most dangerous where communities already distrust each other's institutions, and even rare, high-quality fakes can spread doubt widely if people believe fakes are common. The target is not always belief in a lie. Sometimes it is confidence that anything can be known.<a class="cite" data-ref="3,4">3,4</a></p>
+
+        <figure class="fig breakout" id="fig-dividend">
+          <header class="fig-head"><div><h3>Every fake makes real evidence easier to deny</h3><p>Raise how common people believe fakes are, and watch what happens to authentic recordings.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> an illustrative model of the mechanism described by Chesney and Citron (2019), not survey data.</figcaption>
+        </figure>
+
+        <h3>Proving the real</h3>
+        <p>When the fake becomes cheap, the real becomes expensive to prove. That is the political economy of evidence in the age of AI. A synthetic artefact can be made in seconds; disproving it may need technical expertise, originals, platform cooperation, source tracing and public explanation. A newsroom may spend hours on an image that took seconds to make. A court may need an expert to authenticate a recording. A victim may have to prove a humiliating video is fake, and an official that an incriminating one is real. The burden falls on whoever has fewer resources or less time. Powerful actors can buy forensic experts, reputation management and lawyers; ordinary people often cannot. Marginalised speakers may face both fabricated attacks and the dismissal of their real testimony, a form of what Fricker calls epistemic injustice: being wronged in one's capacity as a knower.<a class="cite" data-ref="34">34</a></p>
+      </div>
+    </section>
+
+    <!-- ============================== 7 ============================== -->
+    <section class="sec" id="s7">
+      <header class="sec-head">
+        <p class="sec-label"><b>7</b>Judgment</p>
+        <h2>The Outsourced Mind</h2>
+        <p class="sec-deck">Not a metaphor for stupidity. A description of delegated thinking.</p>
+      </header>
+      <div class="col">
+        <h3>Interpreter, summariser, recommender, drafter, decider</h3>
+        <p>AI systems now do tasks close to judgment: summarising documents, translating tone, classifying sentiment, recommending actions, drafting legal language, explaining medical information, screening candidates, scoring risk, triaging messages and generating arguments. Each use may be justified locally. Together they change the ecology of thinking. Every summary selects, compresses, frames and leaves things out. When a person writes one, readers may know the author and their accountability; when an AI writes it, users may not know how sources were chosen or which qualifications were dropped. If they rely on the summary instead of the original, the system becomes an interpretive authority. Recommendation systems do the same for exposure: YouTube's architecture, for instance, uses large models to pick candidates and rank them from a vast library,<a class="cite" data-ref="17">17</a> and when such systems choose news, lessons and work material they shape what reality people meet.</p>
+
+        <h3>Automation bias and learned dependence</h3>
+        <p>Automation bias is giving undue weight to automated output, especially under workload, time pressure or perceived expertise. It is often a rational adaptation to systems that are usually right, which is exactly why people stop watching for the exceptions.<a class="cite" data-ref="12,33">12,33</a> Generative AI makes it feel natural. A search engine returns competing links; an assistant returns an answer, in polished language, with less friction. That is a triumph of usability and a danger for judgment, because friction sometimes protects us by forcing comparison and delay. See how you fare.</p>
+
+        <figure class="fig breakout" id="fig-defer">
+          <header class="fig-head"><div><h3>The deference test</h3><p>An assistant answers eight quick questions, always confidently. For each, accept the answer or check it. Checking takes a few seconds.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> some errors are deliberate and resemble mistakes language models have been widely reported to make. Calibrated trust means relying when the system is reliable and checking when it is not (Lee and See, 2004).</figcaption>
+        </figure>
+
+        <p>Dependence is learned through repetition. A student who asks AI to explain every text may lose patience for difficult reading. A professional who lets AI draft every message may lose a feel for audience and tone. A manager who relies on meeting summaries may stop reading the documents behind them, and a citizen on personalised news digests may lose touch with primary reporting. None of this is inevitable. It is a matter of design and culture, and it shows how convenience can become a change in capacity.</p>
+
+        <h3>Memory, attention and evaluation</h3>
+        <p>Memory is not just storage; remembered facts, examples and arguments are what we think with. With search, people shifted towards remembering where things are.<a class="cite" data-ref="18">18</a> With assistants, the shift may extend to asking the system what things mean. Attention changes too: algorithms already compete for it, and assistants can process the world before attention arrives, so users read what the assistant selects rather than what the archive holds. Evaluation is the most important capacity: checking whether a source is credible, an argument follows, an example fits, a conclusion is warranted, and what uncertainty remains. AI can support it by offering counter-arguments and comparisons, or replace it by handing over a verdict. Which happens depends on interface, incentives, training and norms.</p>
+
+        <h3>Convenience and autonomy</h3>
+        <p>Convenience is not trivial. Saving time, reducing drudgery, widening access, supporting disability and making expertise navigable have real moral weight, and autonomy is not served by forcing people to do everything unaided. But autonomy is not served either by systems that make people passive or unable to contest output. The useful distinction is between empowering convenience, which removes unnecessary burden while keeping understanding and control, and substitutive convenience, which removes the very task through which understanding would have grown. A calculator can support maths once concepts are learned; used too early it prevents learning. An AI tutor that asks questions builds understanding; an AI ghostwriter bypasses the student's growth as a thinker. Someone who clicks “approve” without understanding is not exercising agency; someone who can inspect sources, see uncertainty, compare options, revise the output and stay accountable is much closer to real control.</p>
+
+        <h3>From verification to deference</h3>
+        <p>The deepest shift happens when people stop verifying and start deferring. Verification asks how I know this, what supports it, what would count against it, who is responsible and what remains uncertain. Deference is sometimes rational, especially towards experts, but it becomes dangerous when its object is opaque, unaccountable or optimised for something other than truth. AI invites deference by packaging complexity as an answer and relieving us of uncertainty. Public reasoning depends on learning to live with uncertainty without surrendering judgment. A good AI system should not merely answer. It should train better questioning, showing when evidence is weak, sources conflict or human expertise is needed. The future of human judgment may depend less on how smart AI becomes in the abstract than on whether it makes its users more intellectually responsible.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 8 ============================== -->
+    <section class="sec" id="s8">
+      <header class="sec-head">
+        <p class="sec-label"><b>8</b>Shared reality</p>
+        <h2>When Nobody Knows What Is Real</h2>
+        <p class="sec-deck">Disagreement survives. Losing a common record of evidence does not.</p>
+      </header>
+      <div class="col">
+        <h3>Fragmented realities</h3>
+        <p>Shared reality breaks not when everyone disagrees but when disagreement loses a common point of reference. Democracies can survive fierce disputes about values and priorities; they struggle when citizens cannot agree that a record is authentic, a source accountable, a procedure legitimate or a correction important. Synthetic media multiplies plausible artefacts, algorithms personalise exposure, and private assistants personalise interpretation. The result can be private reality bubbles, more than ideological echo chambers: environments in which different users meet different summaries, recommendations, explanations and evidence about the same event. One person asks an assistant about a court ruling and gets a concise institutional summary; another gets a partisan framing; a third sees a synthetic video first; a fourth distrusts all institutional sources. The event is one event, but its mediated versions multiply.</p>
+        <h3>Trust, calibrated</h3>
+        <p>More trust is not always better. Blind trust is dangerous, total distrust paralysing. Synthetic media and opaque mediation can damage both: people may trust fakes because they look real, distrust real artefacts because fakes exist, trust AI summaries because they are fluent and distrust institutions because corrections come late or look partisan. Institutions must earn trust through visible processes. Journalism must show its verification, courts explain their standards, schools clarify acceptable AI use, platforms make labels and provenance meaningful, and governments resist using AI transparency as cover for censorship or surveillance.</p>
+        <h3>Synthetic consensus</h3>
+        <p>Synthetic consensus is when generated or amplified signals create the impression that many people believe, support or witnessed something: fake comments, bot-assisted campaigns, generated reviews, synthetic testimonials, astroturfed opinion, manipulated trends. The harm is false social evidence. Humans use others' reactions as evidence of what matters and what is normal, so if people think a claim is widely accepted they may find it credible, and if a view seems dominant they may stay quiet. Synthetic media can fabricate events. Synthetic consensus can fabricate publics.</p>
+
+        <figure class="fig breakout" id="fig-crowd">
+          <header class="fig-head"><div><h3>How big is the crowd, really?</h3><p>A post has 200 replies. Turn up the share written by machines and compare what readers see with what people actually think.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> an illustrative model; real campaigns mix automated and human accounts in harder-to-measure ways.</figcaption>
+        </figure>
+
+        <h3>Democratic common ground</h3>
+        <p>Democracy needs more than accurate information. It needs practices of public contest: shared records to point to, claims to challenge, reasons to demand and authorities to hold to account.<a class="cite" data-ref="41,19">41,19</a> Outsourced reality threatens this by privatising both evidence and interpretation. The answer is not a single official reality, which would be authoritarian and brittle, but stronger shared methods: provenance, open records, independent journalism, transparent correction, adversarial legal procedure, public education, and institutions that can say not only what they know but how they know it.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 9 ============================== -->
+    <section class="sec" id="s9">
+      <header class="sec-head">
+        <p class="sec-label"><b>9</b>Applied</p>
+        <h2>Eight Fields Under Strain</h2>
+        <p class="sec-deck">The domains differ. The double failure repeats.</p>
+      </header>
+      <div class="col">
+        <p><strong>Education</strong> is where outsourced judgment is most visible, because learning requires effortful thinking. Generative AI can be a tutor, translator, brainstorming partner, accessibility aid and feedback system,<a class="cite" data-ref="37,38">37,38</a> but if it drafts the essay, solves the problem, summarises the book and writes the reflection, a student can produce acceptable work without developing understanding. Education risks confusing output with formation. A better response separates forbidden substitution from allowed support: Socratic questions, practice problems, feedback on clarity and argument comparison, alongside lessons on AI's limits, source checking and honest disclosure.</p>
+        <p><strong>Journalism</strong> faces double pressure: synthetic evidence increases the verification burden while AI tools enter the newsroom. Fabricated images or audio can spread before reporters verify a breaking event, corrections rarely travel as far as the original, and audiences may assume inconvenient evidence is fake. Newsrooms will need to show their working, with provenance records, source notes, reverse-image checks, geolocation, metadata analysis and stated uncertainty. Authority will come from showing how claims were checked, not only from being first.</p>
+        <p><strong>Courts</strong> are built on evidence tested by opposing parties. Synthetic media does not invalidate the rules, but it raises the cost of applying them.<a class="cite" data-ref="39,40">39,40</a> Fake evidence may be introduced, and real evidence attacked as fake. Courts need protocols for preserving originals, documenting custody, using hash values, examining metadata, reading provenance credentials and qualifying experts, and judges and lawyers need enough literacy to know what a forensic opinion can and cannot show.</p>
+        <p><strong>Elections</strong> are vulnerable because timing matters: a synthetic recording released just before a vote can do harm before verification finishes, as the New Hampshire robocall showed.<a class="cite" data-ref="46">46</a> The bigger risk is a polluted environment in which everyone must spend attention separating signal from fabrication. Disclosure rules and rapid takedowns can help, but overbroad rules can threaten satire, dissent and legitimate editing. Voters need trusted channels for official information, especially near election day.</p>
+        <p><strong>Platforms</strong> are the circulatory system of outsourced reality: they host, recommend, label, monetise and sometimes remove synthetic content, and increasingly provide the AI tools that generate or summarise it. Governance is more than removal: labels, provenance display, friction before sharing, limits on virality, source context, archive access, researcher access and appeals all matter, and creative synthetic media should be treated differently from synthetic evidence presented as real.</p>
+        <p><strong>Workplaces</strong> are adopting AI for writing, coding, meeting summaries, document analysis, support and decisions. Knowledge can become fragile if staff rely on summaries they never check, managers use scores they do not understand and organisations lose tacit expertise. The specific risk is responsibility laundering: a decision shaped by AI that nobody feels accountable for. Organisations need rules on when AI may be used, when human review is mandatory, what records are kept and who owns the final call. AI should not become a way to remove responsibility while keeping authority.</p>
+        <p><strong>Cybersecurity</strong> shows the convergence most clearly. Attackers use generated emails, cloned voices, fake documents, synthetic identities and automated social engineering; defenders use AI for detection, triage, log analysis and response. Both sides automate cognition, and trust itself becomes an attack surface. Incident response depends on evidence, and AI summaries of incidents can omit anomalies or invent causes, so high-stakes conclusions need reproducible evidence, human review and adversarial testing.</p>
+        <p><strong>Emotional and intimate AI</strong>, from companions and therapy bots to “griefbots” of the dead, mediates self-understanding, emotion and memory, not just facts. Many users know the system is artificial; the concern is dependency and authority in vulnerable moments. Disclosure, safety design, crisis protocols, limits on persuasive personalisation and paths back to human care matter more the more intimate the system becomes. Explore each field's version of the double failure.</p>
+
+        <figure class="fig breakout" id="fig-desk">
+          <header class="fig-head"><div><h3>The comparison desk</h3><p>Pick a field. Then fix the evidence side, the judgment side, or both, and see what changes.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 10 ============================== -->
+    <section class="sec" id="s10">
+      <header class="sec-head">
+        <p class="sec-label"><b>10</b>Comparison</p>
+        <h2>The Pattern Across Fields</h2>
+        <p class="sec-deck">Governance fails when it fixes only one side.</p>
+      </header>
+      <div class="col">
+        <div class="tablewrap breakout"><table class="news">
+          <thead><tr><th>Field</th><th>Evidence failure</th><th>Judgment failure</th><th>Likely harms</th><th>Governance needed</th></tr></thead>
+          <tbody>
+            <tr><td>Education</td><td>AI-generated assignments, fabricated citations, synthetic demonstrations of competence.</td><td>Students outsource reading, writing, problem-solving and reflection before skills develop.</td><td>Credentials lose value; learning becomes output; unequal access grows.</td><td>Assessment redesign, AI-use disclosure, process evidence, oral defence, AI literacy, tutoring that requires student reasoning.</td></tr>
+            <tr><td>Journalism</td><td>Synthetic images, audio, video, documents and fake eyewitness material in news flows.</td><td>Audiences and newsrooms react before verification; cynicism weakens trust in real reporting.</td><td>False crisis narratives, reputational injury, public confusion, late corrections.</td><td>Visible verification, provenance display, newsroom AI policies, correction systems, source transparency.</td></tr>
+            <tr><td>Courts and law</td><td>Fake recordings or documents; real evidence dismissed as AI; broken custody.</td><td>Judges, juries and lawyers over-trust realism or over-react with general scepticism.</td><td>Wrongful decisions, costlier litigation, unequal ability to prove authenticity.</td><td>Evidence preservation, forensic capacity, expert standards, provenance records, updated authentication protocols.</td></tr>
+            <tr><td>Politics and elections</td><td>Deepfake speeches, cloned calls, synthetic endorsements, fake local events.</td><td>Voters defer to emotional media or dismiss real evidence as fake.</td><td>Voter suppression, late manipulation, institutional distrust, the liar's dividend.</td><td>Rapid verification channels, disclosure rules, platform escalation, campaign norms, election-authority communication.</td></tr>
+            <tr><td>Platforms</td><td>Amplified synthetic content, stripped metadata, fake social signals.</td><td>Users confuse popularity with credibility and personalisation with relevance.</td><td>Synthetic consensus, captured attention, polarisation, exploited uncertainty.</td><td>Provenance support, friction for high-risk sharing, transparent labels, researcher access, accountability audits.</td></tr>
+            <tr><td>Workplace knowledge</td><td>AI summaries or reports become records without source traceability.</td><td>Staff and managers rely on outputs nobody reads, audits or owns.</td><td>Responsibility laundering, lost expertise, flawed decisions, compliance exposure.</td><td>Use policies, review thresholds, audit trails, source-linked summaries, human accountability.</td></tr>
+            <tr><td>Cybersecurity</td><td>Synthetic identities, phishing, fake voice instructions, manipulated incident evidence.</td><td>Analysts over-trust AI triage or fail to verify generated explanations.</td><td>Fraud, breach escalation, false attribution, slower response.</td><td>Multi-factor authentication, incident evidence protocols, human review, adversarial testing, provenance for critical communications.</td></tr>
+            <tr><td>Intimate AI</td><td>Simulated people, synthetic memories, emotionally persuasive dialogue.</td><td>Users treat adaptive systems as authorities on self, relationships or grief.</td><td>Dependency, manipulation, isolation, blurred consent and memory.</td><td>Strong disclosure, safety design, limits on personalisation, human care pathways, data protection.</td></tr>
+          </tbody>
+        </table></div>
+        <p>The fields differ, but the structure repeats. Synthetic evidence weakens what can be trusted as a record; outsourcing weakens the capacity to evaluate it; governance fails when it addresses one side only. A school that bans AI but keeps the same assessments will struggle. A newsroom that adopts provenance but hides its verification will not rebuild trust. A court that demands authentication without forensic resources shifts burdens unfairly. A platform that labels some AI content but keeps optimising for virality still rewards manipulation. The strongest responses join technical, institutional and educational measures.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 11 ============================== -->
+    <section class="sec" id="s11">
+      <header class="sec-head">
+        <p class="sec-label"><b>11</b>Findings</p>
+        <h2>Five Findings</h2>
+        <p class="sec-deck">The danger is structural, not artefact by artefact.</p>
+      </header>
+      <div class="col">
+        <p><strong>Synthetic evidence and cognitive outsourcing are one crisis, not two.</strong> They converge because AI shapes both what people meet and how they interpret it. A fake video is dangerous because it circulates through algorithms and enters judgment under limited attention. An AI summary is risky not only because it may hallucinate but because it may replace engagement with primary evidence.</p>
+        <p><strong>Realism is no longer enough to signal authenticity.</strong> Visual and audio realism once carried evidential weight. That weight is weakened. Evidence must rest on provenance, custody, corroboration and procedure, and institutions and platforms must make trustworthy chains visible and usable, without asking ordinary people to become forensic experts.</p>
+        <p><strong>Dependence is unavoidable but must be governed.</strong> Total independent verification is impossible; we have always relied on experts, instruments, documents and institutions. AI systems should earn reliance through transparency, sourcing, honest uncertainty, auditability and institutional responsibility, not merely through being useful, fluent or popular.</p>
+        <p><strong>The deepest danger is epistemic passivity.</strong> One false artefact can be corrected. A society is in deeper trouble when people stop asking how claims are known, stop separating evidence from assertion, or assume every record is either manipulable or decided by their preferred authority. Cynicism can be as damaging as gullibility. Both abandon judgment.</p>
+        <p><strong>Governance must preserve judgment, not only identify AI content.</strong> A label saying “AI-generated” does not say whether content is deceptive, creative, satirical, evidential or harmless. A credential does not interpret context, and a detector score does not replace legal or journalistic judgment. The goal is infrastructure that makes verification easier, uncertainty visible and responsibility assignable.</p>
+        <p class="pull">Cynicism can be as damaging as gullibility. Both abandon judgment.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 12 ============================== -->
+    <section class="sec" id="s12">
+      <header class="sec-head">
+        <p class="sec-label"><b>12</b>Response</p>
+        <h2>What to Build Instead</h2>
+        <p class="sec-deck">Provenance, honest watermarks, verification, literacy, reform and design that keeps people thinking.</p>
+      </header>
+      <div class="col">
+        <h3>Provenance and authentication</h3>
+        <p>Provenance strengthens the evidence chain where content is created and edited. Content credentials can show where media came from and how it was changed,<a class="cite" data-ref="22">22</a> and journalism, public institutions, courts and election administrators should make them routine for high-stakes publication and evidence. Cameras, editing software, archives, content systems and platforms should preserve provenance data rather than strip it. But a credential is not a truth certificate. It shows aspects of origin and transformation; it cannot prove a scene was not staged or a caption fair. It should be presented as one layer of evidential support, and people should learn to read it that way.</p>
+        <h3>Watermarking, and its limits</h3>
+        <p>Watermarks embedded at the point of generation by major providers can help identify AI output,<a class="cite" data-ref="23,24">23,24</a> and the EU AI Act pushes providers towards machine-readable marking.<a class="cite" data-ref="14">14</a> The limits need stating plainly: outputs from open, modified or adversarial systems may carry no watermark; paraphrase, cropping, re-recording or laundering can weaken it; it can identify generation without revealing intent; and its absence can be misread as proof of authenticity. Build one and break it.</p>
+
+        <figure class="fig breakout" id="fig-mark">
+          <header class="fig-head"><div><h3>Hide a watermark, then try to wash it out</h3><p>Generate a sentence from a toy model that secretly prefers “green” words. The detector counts them. Then paraphrase and watch the score fall.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Method:</b> after Kirchenbauer et al. (2023). The previous word seeds a hash that splits the vocabulary into green and red halves (γ = 0.5); the generator boosts green words; the detector computes a z-score and flags text above 4.</figcaption>
+        </figure>
+        <div class="eq" data-tex="z = \frac{|s|_G - \gamma T}{\sqrt{T\,\gamma\,(1 - \gamma)}}" data-n="1"></div>
+        <p>Here <span class="tex">T</span> is the number of words checked, <span class="tex">|s|_G</span> how many of them are green, and <span class="tex">\gamma</span> the share of the vocabulary that is green. Ordinary text lands near zero; strongly watermarked text scores far above.</p>
+
+        <h3>Verification infrastructure</h3>
+        <p>Journalism, courts, schools and public agencies need verification infrastructure rather than ad hoc panic. Newsrooms need protocols for high-risk media: source checks, geolocation, metadata review, provenance checks, expert consultation and public explanation of uncertainty. Courts need procedures for preserving originals, using hash values, qualifying digital-evidence experts and explaining limits to juries. Schools need assessments that include drafts, oral explanation, process logs and in-class work. Agencies should create trusted channels for urgent verification during elections, disasters and health emergencies, and build their credibility before the crisis, because trust cannot be built at the moment it is needed.</p>
+        <h3>Media literacy, and its limits</h3>
+        <p>People should learn lateral reading, source checking, reverse-image search, provenance awareness and the difference between evidence and assertion. Sam Wineburg and Sarah McGrew found that skilled fact-checkers leave a page to evaluate its source rather than reading deeper within it.<a class="cite" data-ref="47">47</a> But literacy cannot carry the whole load. It is unfair and unrealistic to expect every citizen to verify every artefact at speed. The right analogy is public health: personal hygiene matters, but so do clean water, inspections, standards and trusted institutions. Epistemic hygiene works the same way.</p>
+        <h3>Educational reform</h3>
+        <p>Education should treat AI as both a tool and a subject: how generative systems produce output, why hallucinations happen, what provenance means, how to verify sources and when help becomes substitution. Assignments can ask for process evidence, reflection on AI use, source comparison, oral defence and local context. Teachers should not be pushed into unreliable AI-detection regimes as the main response. The aim is a cognitive apprenticeship in which students use AI to generate questions and feedback but are also asked to find where it is wrong, incomplete, biased or overconfident. The best AI education will teach judgment under mediation, not just prompting.</p>
+        <h3>Platform governance</h3>
+        <p>Platforms should treat provenance and verification as core infrastructure: preserving credentials, showing content history clearly, adding friction to sharing high-risk unverified media, escalating suspected impersonation during elections and emergencies, and giving independent researchers privacy-protecting access. Governance should be risk-sensitive. A fantasy image in an art community does not need the treatment due to a synthetic video of an official during a crisis. Over-labelling creates fatigue; under-labelling creates harm.</p>
+        <h3>Design that preserves judgment</h3>
+        <p>AI systems should be designed to keep human judgment strong: answers linked to sources, signals of confidence, explanations of uncertainty, checked citations, contrasting views, audit trails and prompts to verify when the stakes are high. They should not present uncertain output with unearned fluency, and they should separate retrieved evidence from generated interpretation and make the originals easy to inspect. A useful principle is friction at the right point: in high-stakes settings, slow the user down, show conflicting evidence, ask for confirmation or route to a human expert. Switch on the safeguards and compare.</p>
+
+        <figure class="fig breakout" id="fig-design">
+          <header class="fig-head"><div><h3>The same answer, designed two ways</h3><p>Turn on the design choices one at a time and see how the answer changes what you are able to judge.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <h3>Evidence protocols for institutions</h3>
+        <p>Courts, newsrooms, universities, agencies and employers should write explicit protocols for AI-era artefacts. What counts as an original? How is provenance preserved? When is expert review required? How much confidence is enough to publish, discipline, prosecute or warn the public? How is uncertainty communicated, and who is accountable when AI helped decide? Such protocols are slow to build but essential. Institutions that set clear standards early will resist both gullibility and cynicism better, and be better able to explain themselves in public, which is what trust requires.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 13 ============================== -->
+    <section class="sec" id="s13">
+      <header class="sec-head">
+        <p class="sec-label"><b>13</b>Limitations</p>
+        <h2>Limits and Open Questions</h2>
+        <p class="sec-deck">A structural argument, made with care.</p>
+      </header>
+      <div class="col">
+        <p>Structural arguments carry risks. The first is empirical uncertainty: AI systems, behaviour, platform policy and law are changing fast, and while research on offloading, automation bias and misinformation offers strong analogies, the long-term effects of AI assistants on memory, judgment and learning need longitudinal study. The second is variation between systems. Some are grounded in reliable retrieval, cite sources and show uncertainty; others are overconfident and optimised for engagement. The critique applies most to systems that combine high fluency, low transparency, high stakes and weak verification. The third is variation between people and institutions: skilled users can strengthen judgment with AI while vulnerable users face more manipulation, and harms will fall unevenly. The fourth is that provenance and authentication bring their own risks. Recording content history can threaten privacy; mandatory labelling can affect anonymity, satire or dissent; verification power can become censorship power. The paper argues for context-sensitive accountability, not maximal traceability everywhere.</p>
+        <p>Open questions remain. How should assistants be evaluated for judgment-preserving design? Which uses of AI improve learning rather than replace it? How can provenance work across borders and platforms without becoming surveillance? How should courts instruct juries about synthetic media without breeding undue scepticism of real evidence? What would a measure of epistemic health on a platform look like? How can institutions communicate uncertainty without losing trust? These need interdisciplinary research, not just technical optimisation.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 14 ============================== -->
+    <section class="sec" id="s14">
+      <header class="sec-head">
+        <p class="sec-label"><b>14</b>Conclusion</p>
+        <h2>Better Knowers, or Dependent Spectators</h2>
+        <p class="sec-deck">The choice is not whether reality will be mediated. It is how.</p>
+      </header>
+      <div class="col">
+        <p>The coming crisis is not simply that machines can make fake things. It is that they are becoming a reality layer: systems through which people increasingly see, hear, summarise, rank, explain and judge the world. That layer can be helpful, creative and democratising. It can also weaken the conditions under which evidence and judgment stay reliable.</p>
+        <p>This paper has argued that synthetic evidence and outsourced judgment must be understood together. Synthetic media weakens the evidential value of surface realism. Outsourcing weakens verification habits when systems become default interpreters. Algorithmic mediation links the two by shaping attention and context. The result is not only misinformation but a structural shift in epistemic dependence.</p>
+        <p>A serious response avoids both panic and complacency. Panic treats every synthetic artefact as a threat and risks suppressing creativity, accessibility and expression. Complacency treats AI as just another tool and ignores how tools reshape habits, institutions and authority. The better path is institutional and educational maturity: build provenance without pretending it proves everything, use watermarks without treating them as complete, teach AI literacy without putting the whole burden on individuals, design systems that encourage questioning rather than passive deference, and strengthen courts, journalism, schools, platforms and agencies so they can explain how they know what they claim.</p>
+        <p>People have always lived through mediation. The task is not to recover an unmediated world but to make mediation accountable, and to protect the human capacities that make truth socially usable: attention, memory, verification, humility, courage and judgment.</p>
+        <p class="pull">The choice is not whether reality will be mediated. It is whether mediation makes us better knowers, or more dependent spectators of a world interpreted for us.</p>
+
+        <div class="back" id="references" data-index-extra="Sources and credits">
+          <h3>Sources</h3>
+          <ol class="refs">
+            <li id="ref-1">Lewandowsky, S., Ecker, U. K. H., Seifert, C. M., Schwarz, N., &amp; Cook, J. (2012). Misinformation and its correction: Continued influence and successful debiasing. <em>Psychological Science in the Public Interest, 13</em>(3), 106–131.</li>
+            <li id="ref-2">Pennycook, G., &amp; Rand, D. G. (2021). The psychology of fake news. <em>Trends in Cognitive Sciences, 25</em>(5), 388–402. <a href="https://doi.org/10.1016/j.tics.2021.02.007" rel="noopener">doi.org/10.1016/j.tics.2021.02.007</a></li>
+            <li id="ref-3">Chesney, R., &amp; Citron, D. K. (2019). Deep fakes: A looming challenge for privacy, democracy, and national security. <em>California Law Review, 107</em>, 1753–1819. <a href="https://doi.org/10.15779/Z38RV0D15J" rel="noopener">doi.org/10.15779/Z38RV0D15J</a></li>
+            <li id="ref-4">Vaccari, C., &amp; Chadwick, A. (2020). Deepfakes and disinformation: Exploring the impact of synthetic political video on deception, uncertainty, and trust in news. <em>Social Media + Society, 6</em>(1). <a href="https://doi.org/10.1177/2056305120903408" rel="noopener">doi.org/10.1177/2056305120903408</a></li>
+            <li id="ref-5">Hardwig, J. (1985). Epistemic dependence. <em>The Journal of Philosophy, 82</em>(7), 335–349. <a href="https://doi.org/10.2307/2026523" rel="noopener">doi.org/10.2307/2026523</a></li>
+            <li id="ref-6">Goldman, A. I. (1999). <em>Knowledge in a Social World.</em> Oxford University Press.</li>
+            <li id="ref-7">Risko, E. F., &amp; Gilbert, S. J. (2016). Cognitive offloading. <em>Trends in Cognitive Sciences, 20</em>(9), 676–688. <a href="https://doi.org/10.1016/j.tics.2016.07.002" rel="noopener">doi.org/10.1016/j.tics.2016.07.002</a></li>
+            <li id="ref-8">Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., &amp; Bengio, Y. (2014). Generative adversarial nets. <em>Advances in Neural Information Processing Systems, 27.</em></li>
+            <li id="ref-9">Ho, J., Jain, A., &amp; Abbeel, P. (2020). Denoising diffusion probabilistic models. <em>Advances in Neural Information Processing Systems, 33</em>, 6840–6851.</li>
+            <li id="ref-10">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <em>Advances in Neural Information Processing Systems, 30.</em></li>
+            <li id="ref-11">Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., et al. (2020). Language models are few-shot learners. <em>Advances in Neural Information Processing Systems, 33</em>, 1877–1901.</li>
+            <li id="ref-12">Parasuraman, R., &amp; Riley, V. (1997). Humans and automation: Use, misuse, disuse, abuse. <em>Human Factors, 39</em>(2), 230–253. <a href="https://doi.org/10.1518/001872097778543886" rel="noopener">doi.org/10.1518/001872097778543886</a></li>
+            <li id="ref-13">Lee, J. D., &amp; See, K. A. (2004). Trust in automation: Designing for appropriate reliance. <em>Human Factors, 46</em>(1), 50–80. <a href="https://doi.org/10.1518/hfes.46.1.50.30392" rel="noopener">doi.org/10.1518/hfes.46.1.50.30392</a></li>
+            <li id="ref-14">European Parliament and Council. (2024). <em>Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act).</em> Official Journal of the European Union.</li>
+            <li id="ref-15">McLuhan, M. (1964). <em>Understanding Media: The Extensions of Man.</em> McGraw-Hill.</li>
+            <li id="ref-16">Gillespie, T. (2014). The relevance of algorithms. In T. Gillespie, P. J. Boczkowski, &amp; K. A. Foot (Eds.), <em>Media Technologies: Essays on Communication, Materiality, and Society</em> (pp. 167–194). MIT Press.</li>
+            <li id="ref-17">Covington, P., Adams, J., &amp; Sargin, E. (2016). Deep neural networks for YouTube recommendations. <em>Proceedings of the 10th ACM Conference on Recommender Systems</em>, 191–198.</li>
+            <li id="ref-18">Sparrow, B., Liu, J., &amp; Wegner, D. M. (2011). Google effects on memory: Cognitive consequences of having information at our fingertips. <em>Science, 333</em>(6043), 776–778. <a href="https://doi.org/10.1126/science.1207745" rel="noopener">doi.org/10.1126/science.1207745</a></li>
+            <li id="ref-19">Arendt, H. (1967, February 25). Truth and politics. <em>The New Yorker.</em></li>
+            <li id="ref-20">Mirsky, Y., &amp; Lee, W. (2021). The creation and detection of deepfakes: A survey. <em>ACM Computing Surveys, 54</em>(1), 1–41. <a href="https://doi.org/10.1145/3425780" rel="noopener">doi.org/10.1145/3425780</a></li>
+            <li id="ref-21">Verdoliva, L. (2020). Media forensics and deepfakes: An overview. <em>IEEE Journal of Selected Topics in Signal Processing, 14</em>(5), 910–932.</li>
+            <li id="ref-22">Coalition for Content Provenance and Authenticity. (2025). <em>C2PA Technical Specification, version 2.2.</em> <a href="https://c2pa.org/specifications/" rel="noopener">c2pa.org</a></li>
+            <li id="ref-23">Kirchenbauer, J., Geiping, J., Wen, Y., Katz, J., Miers, I., &amp; Goldstein, T. (2023). A watermark for large language models. <em>Proceedings of the 40th International Conference on Machine Learning, PMLR 202</em>, 17061–17084.</li>
+            <li id="ref-24">Google DeepMind. (2024). <em>Watermarking AI-generated text and video with SynthID.</em></li>
+            <li id="ref-25">Sadasivan, V. S., Kumar, A., Balasubramanian, S., Wang, W., &amp; Feizi, S. (2023). <em>Can AI-generated text be reliably detected?</em> arXiv:2303.11156.</li>
+            <li id="ref-26">Scientific Working Group on Digital Evidence. (2024). <em>Best Practices for Image Authentication</em> (18-I-001-2.0). SWGDE.</li>
+            <li id="ref-27">Vosoughi, S., Roy, D., &amp; Aral, S. (2018). The spread of true and false news online. <em>Science, 359</em>(6380), 1146–1151. <a href="https://doi.org/10.1126/science.aap9559" rel="noopener">doi.org/10.1126/science.aap9559</a></li>
+            <li id="ref-28">Wardle, C., &amp; Derakhshan, H. (2017). <em>Information Disorder: Toward an Interdisciplinary Framework for Research and Policy Making.</em> Council of Europe.</li>
+            <li id="ref-29">Bakshy, E., Messing, S., &amp; Adamic, L. A. (2015). Exposure to ideologically diverse news and opinion on Facebook. <em>Science, 348</em>(6239), 1130–1132. <a href="https://doi.org/10.1126/science.aaa1160" rel="noopener">doi.org/10.1126/science.aaa1160</a></li>
+            <li id="ref-30">Tufekci, Z. (2015). Algorithmic harms beyond Facebook and Google: Emergent challenges of computational agency. <em>Colorado Technology Law Journal, 13</em>, 203–218.</li>
+            <li id="ref-31">Zuboff, S. (2019). <em>The Age of Surveillance Capitalism: The Fight for a Human Future at the New Frontier of Power.</em> PublicAffairs.</li>
+            <li id="ref-32">Parasuraman, R., Sheridan, T. B., &amp; Wickens, C. D. (2000). A model for types and levels of human interaction with automation. <em>IEEE Transactions on Systems, Man, and Cybernetics, Part A, 30</em>(3), 286–297.</li>
+            <li id="ref-33">Skitka, L. J., Mosier, K. L., &amp; Burdick, M. (1999). Does automation bias decision-making? <em>International Journal of Human-Computer Studies, 51</em>(5), 991–1006.</li>
+            <li id="ref-34">Fricker, M. (2007). <em>Epistemic Injustice: Power and the Ethics of Knowing.</em> Oxford University Press.</li>
+            <li id="ref-35">Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y. J., Madotto, A., &amp; Fung, P. (2023). Survey of hallucination in natural language generation. <em>ACM Computing Surveys, 55</em>(12). <a href="https://doi.org/10.1145/3571730" rel="noopener">doi.org/10.1145/3571730</a></li>
+            <li id="ref-36">Bender, E. M., Gebru, T., McMillan-Major, A., &amp; Shmitchell, S. (2021). On the dangers of stochastic parrots: Can language models be too big? <em>Proceedings of FAccT 2021</em>, 610–623. <a href="https://doi.org/10.1145/3442188.3445922" rel="noopener">doi.org/10.1145/3442188.3445922</a></li>
+            <li id="ref-37">Kasneci, E., Sessler, K., Küchemann, S., Bannert, M., Dementieva, D., Fischer, F., et al. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. <em>Learning and Individual Differences, 103</em>, 102274. <a href="https://doi.org/10.1016/j.lindif.2023.102274" rel="noopener">doi.org/10.1016/j.lindif.2023.102274</a></li>
+            <li id="ref-38">UNESCO. (2023). <em>Guidance for Generative AI in Education and Research.</em></li>
+            <li id="ref-39">Federal Rules of Evidence. (2023). Rules 901 and 902: Authenticating or identifying evidence; evidence that is self-authenticating.</li>
+            <li id="ref-40"><em>Lorraine v. Markel American Insurance Co.</em>, 241 F.R.D. 534 (D. Md. 2007).</li>
+            <li id="ref-41">Habermas, J. (1989). <em>The Structural Transformation of the Public Sphere.</em> MIT Press. (Original work published 1962.)</li>
+            <li id="ref-42">Tversky, A., &amp; Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases. <em>Science, 185</em>(4157), 1124–1131.</li>
+            <li id="ref-43">Kahneman, D. (2011). <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux.</li>
+            <li id="ref-44">National Institute of Standards and Technology. (2023). <em>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</em> (NIST AI 100-1). <a href="https://doi.org/10.6028/NIST.AI.100-1" rel="noopener">doi.org/10.6028/NIST.AI.100-1</a></li>
+            <li id="ref-45">National Institute of Standards and Technology. (2024). <em>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</em> (NIST AI 600-1). <a href="https://doi.org/10.6028/NIST.AI.600-1" rel="noopener">doi.org/10.6028/NIST.AI.600-1</a></li>
+            <li id="ref-46">Federal Communications Commission. (2024, February 8). <em>FCC makes AI-generated voices in robocalls illegal</em> [Declaratory ruling]; (2024, May 23). Notice of apparent liability proposing a $6 million fine for illegal robocalls using AI voice-cloning technology.</li>
+            <li id="ref-47">Wineburg, S., &amp; McGrew, S. (2019). Lateral reading and the nature of expertise: Reading less and learning more when evaluating digital information. <em>Teachers College Record, 121</em>(11), 1–40.</li>
+          </ol>
+
+          <h3>Credits</h3>
+          <div class="credits">
+            <div><h4>Research this paper builds on</h4>Robert Chesney and Danielle Citron; Cristian Vaccari and Andrew Chadwick; John Hardwig; Alvin Goldman; Miranda Fricker; Evan Risko and Sam Gilbert; Betsy Sparrow, Jenny Liu and Daniel Wegner; Raja Parasuraman, Victor Riley, Thomas Sheridan and Christopher Wickens; John Lee and Katrina See; Linda Skitka, Kathleen Mosier and Mark Burdick; Soroush Vosoughi, Deb Roy and Sinan Aral; Gordon Pennycook and David Rand; Stephan Lewandowsky and colleagues; John Kirchenbauer and colleagues; the C2PA and SWGDE; Hannah Arendt; Jürgen Habermas; Marshall McLuhan; Sam Wineburg and Sarah McGrew; and the many others listed above.</div>
+            <div><h4>Borrowed words</h4>The “liar's dividend” is Chesney and Citron's phrase; “information disorder” is Wardle and Derakhshan's; “epistemic injustice” is Fricker's.</div>
+            <div><h4>Type and tools</h4>Set in UnifrakturMaguntia, Noto Serif Display, Source Serif 4, Libre Franklin and IBM Plex Mono, under the SIL Open Font License. Equations typeset with KaTeX. Hashes computed with your browser's Web Crypto. No trackers, no ads.</div>
+            <div><h4>About the paper</h4>Written in October 2025, prepared for public readability and academic use. It contains no generated images.</div>
+          </div>
+
+          <h3>Cite this paper</h3>
+          <div class="citebox">
+            <pre id="citeApa">Raj, A. (2025, October). The outsourced reality: AI, synthetic media, and the future of human judgment. The Build Journal Research Supplement, No. 4. https://abhnv.in/p4/</pre>
+            <pre id="citeBib">@article{raj2025outsourced,
+  author  = {Raj, Abhinav},
+  title   = {The Outsourced Reality: AI, Synthetic Media, and the Future of Human Judgment},
+  journal = {The Build Journal Research Supplement},
+  number  = {4},
+  year    = {2025},
+  month   = oct,
+  url     = {https://abhnv.in/p4/}
+}</pre>
+            <div class="btnrow"><button class="btn" type="button" data-copy="#citeApa">Copy APA</button><button class="btn" type="button" data-copy="#citeBib">Copy BibTeX</button><button class="btn" type="button" data-share>Share</button></div>
+          </div>
+
+          <h3>More from the supplement</h3>
+          <nav class="more-papers" aria-label="Other papers">
+            <a href="/p1/" style="--c:#d9301c"><small>No. 1 &middot; April 2025</small><b>Data for Sale</b><span>How your digital life fuels an unseen empire.</span></a>
+            <a href="/p2/" style="--c:#1f45d6"><small>No. 2 &middot; June 2025</small><b>The Glass Ballot Box</b><span>Verifiable voting that keeps the ballot secret, with a live public ledger.</span></a>
+            <a href="/p3/" style="--c:#e06c00"><small>No. 3 &middot; August 2025</small><b>Risk, Uncertainty and Decision-Making</b><span>How risk is defined, measured, felt and managed across fields.</span></a>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <div class="colophon-in">
+      <div><p class="flag-sm">The Build Journal</p><p>Research Supplement No. 4, October 2025. Written by Abhinav Raj, security researcher and product builder.</p><p>&copy; 2025 Abhinav Raj. All rights reserved.</p></div>
+      <div><ul><li><a href="/research/">All research papers</a></li><li><a href="/work#research">Builds and papers</a></li><li><a href="/">abhnv.in</a></li></ul></div>
+      <div><ul><li><a href="/security">Security research</a></li><li><a href="/contact">Write to the author</a></li><li><a href="#references">Sources</a></li></ul></div>
+    </div>
+  </footer>
+
+  <script src="/research/press/katex/katex.min.js" defer></script>
+  <script src="/research/press/press.js?v=2"></script>
+  <script src="/research/press/figkit.js?v=2"></script>
+  <script src="/p4/figs-chain.js?v=2"></script>
+  <script src="/p4/figs-evidence.js?v=2"></script>
+  <script src="/p4/figs-mind.js?v=2"></script>
+  <script src="/p4/figs-govern.js?v=2"></script>
+</body>
+</html>

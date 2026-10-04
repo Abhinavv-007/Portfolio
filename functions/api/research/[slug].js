@@ -13,7 +13,7 @@ export function onRequestGet({ params }) {
   const slug = String(params?.slug || "").trim().toLowerCase();
   if (!slug) {
     return fail(400, "Missing research slug.",
-      "Use /api/research/<slug>, e.g. /api/research/the-glass-ballot.");
+      "Use /api/research/<slug>, e.g. /api/research/glass-ballot-box.");
   }
 
   const paper = findResearch(slug);

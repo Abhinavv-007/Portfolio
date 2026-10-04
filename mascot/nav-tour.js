@@ -116,10 +116,10 @@
     rig.facing = -1;
     N.place(N.vw() + 70, N.vh() * 0.3);
     rig.do("fly");
-    await T.show("#workPageTitle", "The builds desk! Five products and three research papers.", { face: "excited", side: 1 });
+    await T.show("#workPageTitle", "The builds desk! Five products and four research papers.", { face: "excited", side: 1 });
     const card = $(".work-page-grid .work-detail-card");
     if (card) await T.show(card.querySelector(".pr-poster, img") || card, "Every poster here is drawn live, right in your browser. Watch them move!", { face: "happy", offset: 90 });
-    await T.show("#research .research-card", "And the research: voting you can verify, data that's for sale, even the energy cost of attention.", { face: "curious", offset: 80 });
+    await T.show("#research .research-card", "And the research: data that's for sale, voting you can verify, how we judge risk, and what AI does to the truth.", { face: "curious", offset: 80 });
     await T.onward();
   };
 

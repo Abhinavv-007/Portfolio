@@ -1,7 +1,7 @@
 # Cloudflare Pages response headers.
-# The main site gets a strict policy. The research papers (/research/*) are
-# pre-built React bundles that load from public CDNs, so they keep the same
-# hardening headers with a wider Content-Security-Policy.
+# The main site gets a strict policy, and so do the research papers (/p1 to /p4),
+# which load only their own files plus Google Fonts. The Glass Ballot Box (/p2)
+# also talks to its Cloudflare Worker, and its older prototype loads from CDNs.
 
 /*
   X-Content-Type-Options: nosniff
@@ -29,7 +29,14 @@
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=3600
 
-/research/*
+/research/press/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/p2/*
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://glass-ballot-box.abhnv.workers.dev; media-src 'self'; object-src 'none'; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests
+
+/p2/prototype/*
   ! Content-Security-Policy
   ! Cross-Origin-Opener-Policy
   ! Cross-Origin-Resource-Policy

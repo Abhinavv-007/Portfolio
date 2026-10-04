@@ -26,7 +26,7 @@
     { method: "GET", path: "/api/socials", tag: "Socials", group: "Me", desc: "Public profile links." },
     { method: "GET", path: "/api/projects", tag: "Products", group: "Work", desc: "The five products. ?tag=Cloudflare to filter." },
     { method: "GET", path: "/api/projects/clex-ai", tag: "Product", group: "Work", desc: "One product by slug: clex, clex-ai, driped, trgt, modih-mail." },
-    { method: "GET", path: "/api/research", tag: "Papers", group: "Work", desc: "The three research papers." },
+    { method: "GET", path: "/api/research", tag: "Papers", group: "Work", desc: "The four research papers, at abhnv.in/p1 to /p4." },
     { method: "GET", path: "/api/research/glass-ballot-box", tag: "Paper", group: "Work", desc: "One paper by slug." },
     { method: "GET", path: "/api/certifications?tag=Security", tag: "Credentials", group: "Work", desc: "Credentials. ?tag=, ?issuer= and ?groupBy=issuer are supported." },
     { method: "GET", path: "/api/certifications/1", tag: "Credential", group: "Work", desc: "One credential by 1-based id or title slug." },
@@ -43,7 +43,7 @@
   const GROUP_BLURB = {
     Index: "Start here. The root response lists everything else.",
     Me: "Who I am and what I do: profile, security research, skills, focus.",
-    Work: "The five products, the three papers and every credential.",
+    Work: "The five products, the four papers and every credential.",
     Meta: "Cross-cutting indexes: links, tags, search, assets, health.",
     Write: "The only route that accepts input. Everything else is read-only."
   };
