@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Glass Ballot Box: Verifiable Voting Without Giving Up the Secret Ballot · Abhinav Raj</title>
+  <meta name="description" content="A research paper by Abhinav Raj (June 2025) on how elections can move from trust to evidence: end-to-end verifiable voting, receipts that cannot be sold, risk-limiting audits, where blockchain helps and where it does not, with a live public ledger you can vote on.">
+  <meta name="author" content="Abhinav Raj">
+  <meta name="theme-color" content="#2b2925">
+  <link rel="canonical" href="https://abhnv.in/p2/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://abhnv.in/p2/">
+  <meta property="og:title" content="The Glass Ballot Box">
+  <meta property="og:description" content="Transparency where it matters, privacy where it counts. A research paper by Abhinav Raj, June 2025, with a live public ledger.">
+  <meta property="og:image" content="https://abhnv.in/p2/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://abhnv.in/p2/og.png">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400..900;1,400..700&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,400..900;1,62.5..100,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..600&family=UnifrakturMaguntia&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/research/press/katex/katex.min.css">
+  <link rel="stylesheet" href="/research/press/press.css?v=2">
+  <link rel="stylesheet" href="/research/press/press-ui.css?v=2">
+  <link rel="stylesheet" href="/p2/paper.css?v=2">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Glass Ballot Box: Verifiable Voting Without Giving Up the Secret Ballot","author":{"@type":"Person","name":"Abhinav Raj","url":"https://abhnv.in/"},"datePublished":"2025-06-01","inLanguage":"en","url":"https://abhnv.in/p2/","keywords":"end-to-end verifiable voting, election security, risk-limiting audit, blockchain, secret ballot, cryptography"}
+  </script>
+</head>
+<body class="ed-ballot">
+  <a class="skip" href="#s1">Skip to the paper</a>
+  <header class="runhead" aria-label="Running head">
+    <a class="runhead-flag" href="/research/">The Build Journal</a>
+    <span class="runhead-sec" aria-live="polite"></span>
+    <nav class="runhead-tools" aria-label="Reading tools"></nav>
+    <i class="progress" aria-hidden="true"></i>
+  </header>
+
+  <div class="desk">
+    <article class="sheet" aria-label="Front page">
+      <div class="sheet-half sheet-top">
+        <div class="nameplate">
+          <div class="ear"><b>On the public ledger</b><span class="big num" id="earCount">&ndash;</span>reader ballots, each sealed by a hash. Not one of them can be read.</div>
+          <div><span class="flag-over">Research Supplement</span><p class="flag">The Build Journal</p></div>
+          <div class="ear ear-r"><b>Price</b><span class="big">One vote</span>Cast it in section 6 and check it yourself.</div>
+        </div>
+        <div class="dateline"><span>No. 2</span><span>June 2025</span><span>By Abhinav Raj &middot; abhnv.in</span></div>
+        <p class="banner-kicker">Elections, cryptography and public trust</p>
+        <h1 class="banner">The Glass Ballot Box</h1>
+        <p class="banner-deck">Transparency where it matters, privacy where it counts: how an election can prove it counted right without revealing a single vote.</p>
+        <div class="byline-row"><span>By <strong>Abhinav Raj</strong></span><span data-readtime>35 minute read</span><span>10 sections, a live ledger, 14 things to try</span></div>
+        <span class="fold-hint" aria-hidden="true">Scroll to unfold</span>
+      </div>
+      <div class="sheet-fold">
+        <div class="sheet-crease"></div>
+        <div class="sheet-half sheet-bottom">
+          <div class="front-cols">
+            <div class="front-story">
+              <h3>An election is not just a count. It is a claim that needs evidence.</h3>
+              <p>Every election asks millions of people to accept something enormous: that their individual choices were turned, correctly, into one result. Most voters see only two moments, the vote they cast and the winner announced. Everything between is a sealed box of machines, software, memory cards, storage rooms and people.</p>
+              <p>When that box is trusted, it works. When trust breaks, facts alone rarely repair it, because the public is no longer asking who won. It is asking how anyone can know the system did not lie.</p>
+              <p>This paper looks at a different design, sometimes called a glass ballot box. The votes stay secret. The proof that they were counted correctly becomes public, so anyone can check it. One of the figures is a live public ledger you can vote on.</p>
+              <p><a class="jump" href="#s1">Continued in section 1</a></p>
+            </div>
+            <aside class="front-rail">
+              <h4>Inside</h4>
+              <ol class="inside">
+                <li><a href="#s1"><span>1</span>The trust problem</a></li>
+                <li><a href="#s4"><span>4</span>The three proofs</a></li>
+                <li><a href="#s5"><span>5</span>Receipts you cannot sell</a></li>
+                <li><a href="#s6"><span>6</span>The public record, live</a></li>
+                <li><a href="#s7"><span>7</span>Where blockchain fits</a></li>
+                <li><a href="#s8"><span>8</span>Paper and audits</a></li>
+              </ol>
+              <h4>The standard it argues for</h4>
+              <p class="front-quote">You don't have to believe the system. You can verify it.</p>
+            </aside>
+          </div>
+          <div class="sheet-back" aria-hidden="true"></div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <main class="paper" id="paper">
+
+    <!-- ============================== 1 ============================== -->
+    <section class="sec" id="s1">
+      <header class="sec-head">
+        <p class="sec-label"><b>1</b>The trust problem</p>
+        <h2>If Democracy Runs on Trust, What Happens When Trust Runs Out?</h2>
+        <p class="sec-deck">An election is not just counting. It is evidence.</p>
+      </header>
+      <div class="col">
+        <p>Every election asks the public to accept that millions of private choices became one correct outcome. Most of us never see the path in between. We see the input, our own vote, and the output, the result. The rest is a chain of procedures, machines, software, storage and people that voters have no way to inspect.</p>
+        <p>That is normally fine. People trust the officials, the observers and the rules. But once doubt spreads, more facts do not fully fix it, because the public is no longer only asking who won. It is asking how anyone can be sure the system did not get it wrong, or lie. Follow one ballot and you can see where that doubt gets in.</p>
+      </div>
+
+      <div class="scrolly" id="story-ballot">
+        <div class="scrolly-graphic"><div class="journey" aria-label="Diagram of one ballot's journey through an election"></div></div>
+        <div class="scrolly-steps">
+          <div class="step"><div><span class="t">The booth</span><p>You make your choice. This is the only step you can see with your own eyes, and the only one you can personally vouch for.</p></div></div>
+          <div class="step"><div><span class="t">The machine</span><p>A machine or a scanner records your vote. You trust that it captured what you meant. You cannot look inside.</p></div></div>
+          <div class="step"><div><span class="t">Storage and transport</span><p>Records are written to memory cards or boxed as paper and moved. Each handover is a point where you depend on people and procedures you will never meet.</p></div></div>
+          <div class="step"><div><span class="t">The tally</span><p>Software adds everything up. Unless it is audited, the public sees only the totals it prints.</p></div></div>
+          <div class="step"><div><span class="t">The result</span><p>A winner is announced. In a black-box election, the evidence the public holds at this point is close to nothing: trust is doing all the work.</p></div></div>
+          <div class="step"><div><span class="t">The glass version</span><p>Now run the same journey with evidence attached. Your ballot leaves the booth sealed, with a receipt code. The sealed ballot is published. Anyone can check that the published ballots add up to the result. Watch the evidence meter fill.</p></div></div>
+        </div>
+      </div>
+
+      <div class="col">
+        <p>That is the core of the crisis. An election is not just a count. It is a public claim, and claims need evidence. The rest of this paper asks how much evidence an election can produce without ever revealing how any one person voted.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 2 ============================== -->
+    <section class="sec" id="s2">
+      <header class="sec-head">
+        <p class="sec-label"><b>2</b>Black boxes</p>
+        <h2>Black Box Elections</h2>
+        <p class="sec-deck">“Trust me” is not a security model.</p>
+      </header>
+      <div class="col">
+        <p>In most voting systems today, a voter cannot independently confirm three things: that their vote was recorded the way they meant it, that it was included in the count, and that the count matches the recorded votes.</p>
+        <p>Even when officials do everything right, there is a visibility gap. Nobody can personally follow their ballot, so the system leans on institutional trust, reputation and reassurance after the fact. Computer security stopped working that way a long time ago. Good security assumes that things will fail, and builds systems where failures can be detected and proved.</p>
+        <aside class="note"><span class="note-k">The principle</span>In 2006 Ronald Rivest and John Wack proposed that a voting system should be <strong>software independent</strong>: an undetected change or error in its software should not be able to cause an undetectable change in the outcome.<a class="cite" data-ref="1">1</a></aside>
+        <p>The cryptographer Ronald Rivest and his colleague John Wack put the idea in one sentence: a voting system should be software independent, meaning that no undetected bug or tampering in its software can produce an undetected change in the result.<a class="cite" data-ref="1">1</a> The statistician Philip Stark and the computer scientist David Wagner went further and called for <dfn data-def="Elections designed so that the result comes with convincing public evidence that it is correct, rather than an assurance that the equipment worked.">evidence-based elections</dfn>: an election should produce convincing evidence that it found the real winners, or say that it cannot.<a class="cite" data-ref="2">2</a></p>
+        <p>The question becomes whether elections can move from trust to verification. Try weighing it yourself.</p>
+        <p class="reactive" id="rx-dispute">Suppose a losing side disputes a result decided by <span class="knob" data-k="margin" data-min="0.2" data-max="20" data-step="0.2" data-fmt="dec1" data-px="5">2.0</span> percentage points. With a black box, the only answer officials can give is <span class="out" data-out="black">“please trust us”</span>. With paper records and an audit, they could check about <span class="out" data-out="n">15,000</span> randomly chosen ballots and give the dispute a statistical answer.</p>
+        <span class="reactive-hint">Drag the margin. The audit size comes from the BRAVO method in section 8, at a 5% risk limit.</span>
+      </div>
+    </section>
+
+    <!-- ============================== 3 ============================== -->
+    <section class="sec" id="s3">
+      <header class="sec-head">
+        <p class="sec-label"><b>3</b>The idea</p>
+        <h2>The Glass Ballot Box</h2>
+        <p class="sec-deck">The path is visible. The voter stays anonymous.</p>
+      </header>
+      <div class="col">
+        <p>A glass ballot box does not mean transparent votes. That would destroy the secret ballot, which democracies fought hard for. It means transparent proof. The goal is easy to state and hard to build: let voters and the public check that an election was counted correctly, without letting anyone learn how a particular person voted.</p>
+        <p>Systems built this way are called <dfn data-def="Voting systems in which voters can check their own ballot was recorded correctly and anyone can check the published ballots were tallied correctly, while ballots stay secret.">end-to-end verifiable</dfn>. The election produces evidence that the tally is right, and each voter can check that their own ballot is in it.<a class="cite" data-ref="3">3</a> Cast a ballot below and look at what the public is shown.</p>
+
+        <figure class="fig breakout" id="fig-glass" data-resettable>
+          <header class="fig-head"><div><h3>Proofs are public. Choices stay private.</h3><p>Pick an option and seal it. Then switch between what you know and what the public can see.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>How it works:</b> your choice is combined with a long random number and run through SHA-256, a one-way function. The public sees only the result, a commitment that cannot be reversed. Real systems use encryption so ballots can later be counted without being opened, as section 7 shows.</figcaption>
+        </figure>
+
+        <p>The idea has been studied for more than four decades, since David Chaum's 1981 work on untraceable communication, which introduced the <dfn data-def="A chain of servers that each shuffle and re-encrypt a batch of messages, so nobody can link an output to the input it came from.">mix network</dfn>.<a class="cite" data-ref="4">4</a> It is no longer only theory. In November 2009 voters in Takoma Park, Maryland, elected their mayor and city council with Scantegrity II, the first time an end-to-end verifiable system with ballot privacy was used in a binding government election; 1,728 people voted.<a class="cite" data-ref="5">5</a></p>
+      </div>
+    </section>
+
+    <!-- ============================== 4 ============================== -->
+    <section class="sec" id="s4">
+      <header class="sec-head">
+        <p class="sec-label"><b>4</b>The checks</p>
+        <h2>The Three Proofs</h2>
+        <p class="sec-deck">What “verifiable” actually means.</p>
+      </header>
+      <div class="col">
+        <p>Verifiable voting usually comes down to three checks. <strong>Cast as intended:</strong> the voter can confirm the system captured what they meant. <strong>Recorded as cast:</strong> the voter can confirm their ballot made it into the public record. <strong>Tallied as recorded:</strong> anyone can confirm the published ballots were counted correctly.</p>
+        <p>The last one is the real shift. Verification stops being private. It becomes public, and the result becomes something that can be checked independently by anyone, including people who distrust the officials. Run all three.</p>
+
+        <figure class="fig breakout" id="fig-proofs" data-resettable>
+          <header class="fig-head"><div><h3>Run the audit</h3><p>Each check answers a different doubt. Run them in any order.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <p>The first check is the trickiest, because a voter cannot see inside the machine. The cryptographer Josh Benaloh proposed an elegant answer in 2006.<a class="cite" data-ref="6">6</a> After the machine seals your ballot, it asks whether you want to cast it or challenge it. If you challenge, the machine must open that sealed ballot and prove what it contained; that ballot is then spoiled, and you vote again. A machine cannot know in advance which ballots will be challenged, so if it cheats it risks being caught every time.</p>
+
+        <figure class="fig breakout" id="fig-benaloh" data-resettable>
+          <header class="fig-head"><div><h3>Catch the cheating machine</h3><p>This machine quietly changes some votes. You decide which ballots to challenge. Then see how quickly random challenges corner a cheat.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> the machine here alters each ballot with the probability you set. The curve assumes each voter challenges independently.</figcaption>
+        </figure>
+
+        <div class="eq" data-tex="P(\text{cheat undetected}) = (1 - c)^{\,n}" data-n="1"></div>
+        <p class="reactive" id="rx-benaloh">If just <span class="knob" data-k="c" data-min="1" data-max="50" data-step="1" data-fmt="pct" data-px="6">10%</span> of voters challenge, a machine that alters <span class="knob" data-k="n" data-min="1" data-max="500" data-step="1" data-px="3">50</span> ballots gets away with it <span class="out" data-out="p">0.52%</span> of the time. Here <span class="tex">c</span> is the share of voters who challenge and <span class="tex">n</span> is the number of altered ballots.</p>
+        <span class="reactive-hint">Drag either number.</span>
+      </div>
+    </section>
+
+    <!-- ============================== 5 ============================== -->
+    <section class="sec" id="s5">
+      <header class="sec-head">
+        <p class="sec-label"><b>5</b>The paradox</p>
+        <h2>Receipts Without Vote-Selling</h2>
+        <p class="sec-deck">A receipt is useful, until it becomes a weapon.</p>
+      </header>
+      <div class="col">
+        <p>The obvious idea is to give every voter a receipt so they can prove their vote was counted. It has a dangerous side effect. If the receipt shows who you voted for, then vote-buying becomes enforceable, coercion becomes easier and the secret ballot collapses. A boss, a gang or a family member can demand to see it.</p>
+        <p>So the receipt has to be designed with care. It should let you check that your ballot was included without letting you prove to anyone else how you voted. That is the paradox a glass ballot box sets out to solve: you can check the system, but you cannot sell your vote. Play the buyer.</p>
+
+        <figure class="fig breakout" id="fig-receipt" data-resettable>
+          <header class="fig-head"><div><h3>Try to buy a vote</h3><p>You are offering money for votes. Ask the voter for proof, under each kind of receipt.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> the property that blocks this is called receipt-freeness. Stronger designs also aim for coercion resistance, protecting voters even from someone standing beside them.</figcaption>
+        </figure>
+
+        <p>Real systems use several tricks to keep receipts private: codes printed in invisible ink that only reveal a random confirmation code, as in Scantegrity, or tracking codes linked to an encrypted ballot that a voter cannot decrypt alone, as in Microsoft's ElectionGuard.<a class="cite" data-ref="5,7">5,7</a> In every case the receipt proves inclusion, not content.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 6 ============================== -->
+    <section class="sec" id="s6">
+      <header class="sec-head">
+        <p class="sec-label"><b>6</b>The record</p>
+        <h2>The Public Record</h2>
+        <p class="sec-deck">Where verification lives.</p>
+      </header>
+      <div class="col">
+        <p>Verifiable designs publish a public record of sealed ballots and the mathematical proofs that go with them. Anyone can audit the tally from that record without learning how individuals voted. This is the glass part: you can see that the ballots exist, you can see they were processed correctly, and you can see that the result follows from the record. Elections move from “please trust us” to “here is the evidence”.</p>
+        <p>The record below is real. It runs on a small server built for this paper. Cast a ballot on the phone: your browser seals it, the server adds it to a hash chain, and you can then check, on your own device, that every ballot on the ledger is linked correctly and that yours is among them.</p>
+
+        <figure class="fig breakout" id="fig-ledger">
+          <header class="fig-head"><div><h3>The reader ledger, live</h3><p>Choose what an election you could trust should protect first. Your choice never leaves your device; only a sealed commitment does.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>How it works:</b> commitment = SHA-256(election, choice, a random 128-bit nonce). Each ledger entry's hash = SHA-256(previous hash, election, position, commitment, time), starting from “GENESIS”. This demonstration proves inclusion and integrity. It is not coercion-resistant: anyone you showed your saved nonce to could check your choice, which a real election must prevent.</figcaption>
+        </figure>
+
+        <p>The ledger is a <dfn data-def="A list where each entry includes a fingerprint (hash) of the entry before it, so changing any old entry breaks every link after it.">hash chain</dfn>, an idea that goes back to Stuart Haber and Scott Stornetta's 1991 method for time-stamping documents so nobody could backdate them.<a class="cite" data-ref="8">8</a> Each entry carries the fingerprint of the one before it. Change any past entry and every fingerprint after it stops matching. Try it.</p>
+
+        <figure class="fig breakout" id="fig-chain" data-resettable>
+          <header class="fig-head"><div><h3>Rewrite history, if you can</h3><p>Edit any block. The fingerprints are recomputed with real SHA-256 as you type.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 7 ============================== -->
+    <section class="sec" id="s7">
+      <header class="sec-head">
+        <p class="sec-label"><b>7</b>The ledger question</p>
+        <h2>Where Blockchain Fits, and Where It Doesn't</h2>
+        <p class="sec-deck">Immutability is not the same as correctness.</p>
+      </header>
+      <div class="col">
+        <p>Blockchain keeps coming up in election debates because it is tamper-evident: once something is written, history is hard to rewrite. But elections need far more than a tamper-evident log. They need secure vote capture, secrecy, resistance to coercion, correct counting and auditability.</p>
+        <p>If a compromised device records the wrong vote, a blockchain will preserve that wrong record perfectly, forever. That is not a hypothetical. When researchers at MIT examined Voatz, a blockchain-based voting app used by some overseas voters in West Virginia's 2018 election, they found weaknesses in the phone app and servers that could have let attackers alter or expose votes before anything reached the chain.<a class="cite" data-ref="9">9</a> The clean way to put it: a ledger can be one way to host the public record, but verifiability is the actual security idea. Test the layers.</p>
+
+        <figure class="fig breakout" id="fig-layers" data-resettable>
+          <header class="fig-head"><div><h3>Which layer saves the election?</h3><p>Switch the layers on and off, then cast a test vote for A.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <p>If ballots are sealed, how can anyone count them? One answer is <dfn data-def="Encryption with the property that combining encrypted values produces an encryption of their sum, so totals can be computed without decrypting any single value.">homomorphic encryption</dfn>, used in systems such as Helios and ElectionGuard.<a class="cite" data-ref="7,10">7,10</a> With exponential ElGamal encryption, multiplying sealed ballots together produces a sealed total. Only the total is ever decrypted.<a class="cite" data-ref="11">11</a></p>
+        <div class="eq breakout" data-tex="\mathrm{Enc}(m) = (g^{r},\; g^{m} h^{r}) \qquad \prod_i \mathrm{Enc}(m_i) = \Big(g^{\sum r_i},\; g^{\sum m_i}\, h^{\sum r_i}\Big) = \mathrm{Enc}\Big(\sum_i m_i\Big)" data-n="2"></div>
+
+        <figure class="fig breakout" id="fig-homo" data-resettable>
+          <header class="fig-head"><div><h3>Count votes without opening them</h3><p>Six voters answer yes or no. Seal the ballots, multiply the ciphertexts, and decrypt only the total. The numbers are real, just small.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Note:</b> a toy key with a 23-bit prime so the arithmetic is readable. Real elections use 2,048-bit or larger groups, add proofs that each ballot holds a 0 or a 1, and split the decryption key among several trustees.</figcaption>
+        </figure>
+
+        <p>The other classic answer is the mix network. Sealed ballots pass through a series of servers. Each one shuffles the batch and re-randomises every ballot so it looks completely different, then proves it did so honestly. After a few rounds nobody, including the servers, can link a ballot to the voter who cast it, but the ballots can be opened and counted.<a class="cite" data-ref="4">4</a> Try to keep your eye on yours.</p>
+
+        <figure class="fig breakout" id="fig-mix" data-resettable>
+          <header class="fig-head"><div><h3>Follow your ballot</h3><p>Your ballot is highlighted. Send the batch through three mix servers and try to track it.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 8 ============================== -->
+    <section class="sec" id="s8">
+      <header class="sec-head">
+        <p class="sec-label"><b>8</b>The backbone</p>
+        <h2>Paper and Risk-Limiting Audits</h2>
+        <p class="sec-deck">Cryptographic evidence is powerful. Paper evidence is grounding.</p>
+      </header>
+      <div class="col">
+        <p>Much election security rests on a practical foundation: paper ballots a human can read, or a paper record the voter has checked, plus audits that can catch a wrong outcome. A <dfn data-def="A post-election audit that checks a random sample of paper ballots and keeps going until there is strong statistical evidence the reported winner really won, or until a full hand count corrects it.">risk-limiting audit</dfn> manually checks a random sample of paper ballots. It is designed so that if the reported winner is wrong, the audit is very likely to say so. If the evidence is weak, the sample grows, up to a full hand count.<a class="cite" data-ref="12">12</a></p>
+        <aside class="note"><span class="note-k">First statewide</span><span class="note-n">2017</span>Colorado became the first US state to run risk-limiting audits across the state, after its November 2017 election.<a class="cite" data-ref="13">13</a></aside>
+        <p>The point is not paper against cryptography. The point is evidence that cannot be faked at scale. One widely used method, BRAVO, was published by Mark Lindeman, Philip Stark and Vincent Yates in 2012.<a class="cite" data-ref="14">14</a> It draws ballots one at a time and keeps a running score:</p>
+        <div class="eq" data-tex="T_k = \prod_{i=1}^{k} \begin{cases} \dfrac{s}{1/2} & \text{if ballot } i \text{ is for the reported winner} \\[6pt] \dfrac{1-s}{1/2} & \text{if ballot } i \text{ is for the reported loser} \end{cases} \qquad \text{stop when } T_k \ge \dfrac{1}{\alpha}" data-n="3"></div>
+        <p>Here <span class="tex">s</span> is the winner's reported share of the two-way vote and <span class="tex">\alpha</span> is the risk limit, the largest chance the audit is allowed to confirm a wrong outcome. The authors found that across 255 US state presidential contests from 1992 to 2008, the median expected sample was just 307 ballots per state.<a class="cite" data-ref="14">14</a> Run one.</p>
+
+        <figure class="fig breakout" id="fig-rla" data-resettable>
+          <header class="fig-head"><div><h3>Audit an election</h3><p>Set the margin and the risk limit, then draw ballots. Or make the reported result wrong and see if the audit notices.</p></div></header>
+          <div class="fig-body"></div>
+          <figcaption class="fig-source"><b>Method:</b> BRAVO ballot-polling audit for a two-candidate contest (Lindeman, Stark and Yates, 2012). Ballots are simulated from the true shares you set.</figcaption>
+        </figure>
+
+        <p class="reactive" id="rx-asn">With a reported margin of <span class="knob" data-k="m" data-min="0.5" data-max="30" data-step="0.5" data-fmt="dec1" data-px="5">10.0</span> points and a risk limit of <span class="knob" data-k="a" data-min="1" data-max="20" data-step="1" data-fmt="pct" data-px="8">5%</span>, a BRAVO audit expects to check about <span class="out" data-out="asn">598</span> ballots if the result is right. Halve the margin and the work roughly quadruples.</p>
+        <span class="reactive-hint">Wald's approximation for the expected sample size: ln(1/α) divided by [s ln 2s + (1 − s) ln 2(1 − s)].</span>
+
+        <p>India runs the world's largest elections on electronic voting machines, first tried in 1982 and used in every constituency since 2004, with paper audit trails (VVPATs) added from 2013. In April 2024 its Supreme Court rejected petitions to count every VVPAT slip, keeping the check of five randomly chosen machines per assembly segment, while ordering symbol-loading units to be sealed and allowing losing candidates to request checks of the machines' burnt memory.<a class="cite" data-ref="15">15</a> The debate is exactly the one this paper describes: how much evidence is enough, and who gets to see it.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 9 ============================== -->
+    <section class="sec" id="s9">
+      <header class="sec-head">
+        <p class="sec-label"><b>9</b>Today</p>
+        <h2>What Exists Today</h2>
+        <p class="sec-deck">Not just theory: an engineering direction.</p>
+      </header>
+      <div class="col">
+        <p>Verifiable election designs have been studied for decades, and modern toolkits now make parts of them practical: publishing evidence, supporting voter checks, improving audits and strengthening transparency without giving up secrecy. Helios, released in 2008, made open-audit voting available on the web for low-coercion settings such as university and society elections.<a class="cite" data-ref="10">10</a> In November 2022 voters in Preston, Idaho, could choose to vote with ElectionGuard in a general election, a pilot run with Microsoft, Hart InterCivic, MITRE and Enhanced Voting.<a class="cite" data-ref="7">7</a></p>
+        <p>Online voting is a separate and harder question. Estonia has offered internet voting since 2005, and in its 2023 parliamentary election more than half of all votes, 51%, were cast online.<a class="cite" data-ref="16">16</a> Many security researchers remain wary of internet voting for high-stakes elections; a 2018 report from the US National Academies recommended paper ballots and risk-limiting audits and advised against internet voting until much stronger guarantees exist.<a class="cite" data-ref="17">17</a></p>
+        <p>None of this means the world has solved voting. It means there is a credible path from opaque systems to evidence-producing ones, and from disputes settled by trust to disputes settled by verification. Walk through how we got here.</p>
+
+        <figure class="fig breakout" id="fig-timeline">
+          <header class="fig-head"><div><h3>From the secret ballot to public proof</h3><p>Drag along the timeline, or press play.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== 10 ============================== -->
+    <section class="sec" id="s10">
+      <header class="sec-head">
+        <p class="sec-label"><b>10</b>The way forward</p>
+        <h2>Democracy Upgrades From Trust to Evidence</h2>
+        <p class="sec-deck">The goal is not flashier elections. It is elections that are harder to dispute dishonestly.</p>
+      </header>
+      <div class="col">
+        <p>A healthy future looks something like this: paper records as an anchor of truth, audits that scale confidence with evidence, and cryptographic verification that lets anyone check the tally without exposing a single vote. Each layer covers the others' blind spots. Paper survives software failures. Audits turn paper into statistical confidence. Cryptographic proofs let every voter and every observer check the arithmetic.</p>
+        <p>The real test is what happens on the night a result is challenged. Pick a system and face the dispute.</p>
+
+        <figure class="fig breakout" id="fig-dispute" data-resettable>
+          <header class="fig-head"><div><h3>The night the result is challenged</h3><p>Choose a system, then answer each claim the losing side makes.</p></div></header>
+          <div class="fig-body"></div>
+        </figure>
+
+        <p>The result is a new standard for public trust, and it fits on one line.</p>
+        <p class="pull">You don't have to believe the system. You can verify it.</p>
+      </div>
+    </section>
+
+    <!-- ============================== Prototype ============================== -->
+    <section class="sec" id="s11" data-title="Working prototype">
+      <header class="sec-head">
+        <p class="sec-label"><b>11</b>Try it</p>
+        <h2>The Working Prototype</h2>
+        <p class="sec-deck">A full election simulator built alongside the paper.</p>
+      </header>
+      <div class="col">
+        <p>Alongside this paper I built a working prototype of the ideas in it: candidates, commitment-based ballots, an append-only hash chain stored in a real database, receipt look-up, chain verification, an election snapshot when polls close, and exportable audit proofs. It runs on Cloudflare Workers with a D1 database. You can open it, cast ballots, close the election and audit it yourself.</p>
+        <a class="proto" href="/p2/prototype/">
+          <span class="proto-k">Open the prototype</span>
+          <b>Glass Ballot Box: election simulator</b>
+          <span>Cast, seal, verify and audit an election end to end.</span>
+          <span class="proto-go" aria-hidden="true">&rarr;</span>
+        </a>
+
+        <div class="back" id="references" data-index-extra="Sources and credits">
+          <h3>Sources</h3>
+          <ol class="refs">
+            <li id="ref-1">Rivest, R. L., &amp; Wack, J. P. (2006). <em>On the notion of “software independence” in voting systems.</em> NIST TGDC; later published as Rivest, R. L. (2008). On the notion of software independence in voting systems. <em>Philosophical Transactions of the Royal Society A, 366</em>(1881), 3759–3767.</li>
+            <li id="ref-2">Stark, P. B., &amp; Wagner, D. A. (2012). Evidence-based elections. <em>IEEE Security &amp; Privacy, 10</em>(5), 33–41.</li>
+            <li id="ref-3">Benaloh, J., Rivest, R., Ryan, P. Y. A., Stark, P., Teague, V., &amp; Vora, P. (2015). <em>End-to-end verifiability.</em> arXiv:1504.03778.</li>
+            <li id="ref-4">Chaum, D. (1981). Untraceable electronic mail, return addresses, and digital pseudonyms. <em>Communications of the ACM, 24</em>(2), 84–90.</li>
+            <li id="ref-5">Carback, R., Chaum, D., Clark, J., Conway, J., Essex, A., Herrnson, P. S., Mayberry, T., Popoveniuc, S., Rivest, R. L., Shen, E., Sherman, A. T., &amp; Vora, P. L. (2010). Scantegrity II municipal election at Takoma Park: The first E2E binding governmental election with ballot privacy. <em>Proceedings of the 19th USENIX Security Symposium.</em></li>
+            <li id="ref-6">Benaloh, J. (2006). Simple verifiable elections. <em>Proceedings of the USENIX/ACCURATE Electronic Voting Technology Workshop (EVT '06).</em></li>
+            <li id="ref-7">ElectionGuard. (2022). <em>Preston, Idaho, 2022: first use of ElectionGuard in a general election.</em> <a href="https://www.electionguard.vote/elections/Preston_Idaho_2022" rel="noopener">electionguard.vote</a></li>
+            <li id="ref-8">Haber, S., &amp; Stornetta, W. S. (1991). How to time-stamp a digital document. <em>Journal of Cryptology, 3</em>(2), 99–111.</li>
+            <li id="ref-9">Specter, M. A., Koppel, J., &amp; Weitzner, D. (2020). The ballot is busted before the blockchain: A security analysis of Voatz, the first internet voting application used in U.S. federal elections. <em>Proceedings of the 29th USENIX Security Symposium.</em></li>
+            <li id="ref-10">Adida, B. (2008). Helios: Web-based open-audit voting. <em>Proceedings of the 17th USENIX Security Symposium.</em></li>
+            <li id="ref-11">ElGamal, T. (1985). A public key cryptosystem and a signature scheme based on discrete logarithms. <em>IEEE Transactions on Information Theory, 31</em>(4), 469–472; Cramer, R., Gennaro, R., &amp; Schoenmakers, B. (1997). A secure and optimally efficient multi-authority election scheme. <em>EUROCRYPT '97.</em></li>
+            <li id="ref-12">Lindeman, M., &amp; Stark, P. B. (2012). A gentle introduction to risk-limiting audits. <em>IEEE Security &amp; Privacy, 10</em>(5), 42–49.</li>
+            <li id="ref-13">Colorado Secretary of State. (2017, November 22). <em>Colorado completes first risk-limiting audit ever</em> [Press release].</li>
+            <li id="ref-14">Lindeman, M., Stark, P. B., &amp; Yates, V. S. (2012). BRAVO: Ballot-polling risk-limiting audits to verify outcomes. <em>Proceedings of the Electronic Voting Technology Workshop / Workshop on Trustworthy Elections (EVT/WOTE '12).</em></li>
+            <li id="ref-15">Supreme Court of India. (2024, April 26). <em>Association for Democratic Reforms v. Election Commission of India</em>, Writ Petition (Civil) No. 434 of 2023; Election Commission of India, <em>EVM and VVPAT manual and FAQs.</em></li>
+            <li id="ref-16">ERR News. (2023, March 5). Estonia sets new e-voting record at Riigikogu 2023 elections. <a href="https://news.err.ee/1608904730/estonia-sets-new-e-voting-record-at-riigikogu-2023-elections" rel="noopener">news.err.ee</a></li>
+            <li id="ref-17">National Academies of Sciences, Engineering, and Medicine. (2018). <em>Securing the Vote: Protecting American Democracy.</em> The National Academies Press. <a href="https://doi.org/10.17226/25120" rel="noopener">doi.org/10.17226/25120</a></li>
+          </ol>
+
+          <h3>Credits</h3>
+          <div class="credits">
+            <div><h4>Research this paper builds on</h4>Josh Benaloh; Ronald Rivest and John Wack; Philip Stark and David Wagner; Mark Lindeman and Vincent Yates; David Chaum; Ben Adida; Taher ElGamal; Ronald Cramer, Rosario Gennaro and Berry Schoenmakers; Stuart Haber and W. Scott Stornetta; Michael Specter, James Koppel and Daniel Weitzner; the Scantegrity team; the ElectionGuard team; the National Academies committee on the future of voting.</div>
+            <div><h4>The prototype</h4>Built by the author on Cloudflare Workers, the Hono framework and a D1 database. The live ledger in section 6 talks to the same server.</div>
+            <div><h4>Type and tools</h4>Set in UnifrakturMaguntia, Noto Serif Display, Source Serif 4, Libre Franklin and IBM Plex Mono, under the SIL Open Font License. Mathematics by KaTeX. Hashing uses your browser's built-in Web Crypto. No trackers, no ads.</div>
+            <div><h4>About the paper</h4>Written in June 2025. It contains no generated images.</div>
+          </div>
+
+          <h3>Cite this paper</h3>
+          <div class="citebox">
+            <pre id="citeApa">Raj, A. (2025, June). The glass ballot box: Verifiable voting without giving up the secret ballot. The Build Journal Research Supplement, No. 2. https://abhnv.in/p2/</pre>
+            <pre id="citeBib">@article{raj2025glassballot,
+  author  = {Raj, Abhinav},
+  title   = {The Glass Ballot Box: Verifiable Voting Without Giving Up the Secret Ballot},
+  journal = {The Build Journal Research Supplement},
+  number  = {2},
+  year    = {2025},
+  month   = jun,
+  url     = {https://abhnv.in/p2/}
+}</pre>
+            <div class="btnrow"><button class="btn" type="button" data-copy="#citeApa">Copy APA</button><button class="btn" type="button" data-copy="#citeBib">Copy BibTeX</button><button class="btn" type="button" data-share>Share</button></div>
+          </div>
+
+          <h3>More from the supplement</h3>
+          <nav class="more-papers" aria-label="Other papers">
+            <a href="/p1/" style="--c:#d9301c"><small>No. 1 &middot; April 2025</small><b>Data for Sale</b><span>How your digital life fuels an unseen empire.</span></a>
+            <a href="/p3/" style="--c:#e06c00"><small>No. 3 &middot; August 2025</small><b>Risk, Uncertainty and Decision-Making</b><span>How risk is defined, measured, felt and managed across fields.</span></a>
+            <a href="/p4/" style="--c:#c4127c"><small>No. 4 &middot; October 2025</small><b>The Outsourced Reality</b><span>AI, synthetic media and the future of human judgment.</span></a>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <div class="colophon-in">
+      <div><p class="flag-sm">The Build Journal</p><p>Research Supplement No. 2, June 2025. Written by Abhinav Raj, security researcher and product builder.</p><p>&copy; 2025 Abhinav Raj. All rights reserved.</p></div>
+      <div><ul><li><a href="/research/">All research papers</a></li><li><a href="/p2/prototype/">The prototype</a></li><li><a href="/">abhnv.in</a></li></ul></div>
+      <div><ul><li><a href="/security">Security research</a></li><li><a href="/contact">Write to the author</a></li><li><a href="#references">Sources</a></li></ul></div>
+    </div>
+  </footer>
+
+  <script src="/research/press/katex/katex.min.js" defer></script>
+  <script src="/research/press/press.js?v=2"></script>
+  <script src="/research/press/figkit.js?v=2"></script>
+  <script src="/p2/figs-journey.js?v=2"></script>
+  <script src="/p2/figs-proof.js?v=2"></script>
+  <script src="/p2/figs-ledger.js?v=2"></script>
+  <script src="/p2/figs-crypto.js?v=2"></script>
+  <script src="/p2/figs-audit.js?v=2"></script>
+</body>
+</html>

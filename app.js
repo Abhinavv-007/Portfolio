@@ -131,24 +131,34 @@
     return card;
   }
 
+  // Each paper is filed as a small front page of the Research Supplement,
+  // printed in that paper's own ink. No screenshots: the type is the poster.
   function createResearchCard(item, index) {
     const card = document.createElement("article");
     card.className = "work-detail-card research-card reveal";
     card.style.setProperty("--delay", `${index * 60}ms`);
+    const short = String(item.url || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
+    const proto = item.slug === "glass-ballot-box" ? `<a href="/p2/prototype/">Try the prototype</a>` : "";
     card.innerHTML = `
       <div class="work-detail-main">
-        <a class="detail-poster" href="${esc(item.url)}" aria-label="Read ${esc(item.title)}">
-          <img src="${esc(withBase(item.detailedImage))}" alt="${esc(item.title)} poster" loading="lazy">
+        <a class="detail-poster paper-front" href="${esc(item.url)}" style="--spot:${esc(item.spot || "#a33128")}" aria-label="Read ${esc(item.title)}">
+          <span class="pf-flag">The Build Journal</span>
+          <span class="pf-line"><span>No. ${esc(item.number || index + 1)}</span><span>${esc(item.date || "")}</span><span>${esc(short)}</span></span>
+          <span class="pf-kicker">${esc(item.label)}</span>
+          <span class="pf-title">${esc(item.title)}</span>
+          <span class="pf-deck">${esc(item.deck || "")}</span>
+          <span class="pf-cols" aria-hidden="true"><i></i><i></i><i></i></span>
         </a>
         <div class="detail-copy">
-          <div class="detail-label">${esc(item.label)}</div>
+          <div class="detail-label">${esc(item.date || "")} &middot; ${esc(item.type || "Research paper")}</div>
           <h2>${esc(item.title)}</h2>
           <p>${esc(item.description)}</p>
           <div class="tag-row" aria-label="Tags">
             ${(item.tags || []).map((tag, ti) => `<span style="--i:${ti}">${esc(tag)}</span>`).join("")}
           </div>
           <div class="detail-actions">
-            <a href="${esc(item.url)}">Read the paper</a>
+            <a href="${esc(item.url)}">Read at ${esc(short)}</a>
+            ${proto}
           </div>
         </div>
       </div>

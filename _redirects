@@ -6,6 +6,23 @@
 /certifications         /credentials               301
 /certifications.html    /credentials               301
 /security.txt           /.well-known/security.txt  301
-/research/paper2        /research/paper2/          301
-/research/paper3        /research/paper3/          301
-/research/paper         /research/paper/           301
+
+# Research papers live at short addresses: /p1 to /p4.
+/p1                     /p1/                       301
+/p2                     /p2/                       301
+/p3                     /p3/                       301
+/p4                     /p4/                       301
+/research               /research/                 301
+
+# Old paper addresses, kept working for links already shared.
+/research/paper         /p1/                       301
+/research/paper/*       /p1/                       301
+/research/paper3        /p2/                       301
+/research/paper3/prototype/*  /p2/prototype/:splat  301
+/research/paper3/*      /p2/                       301
+/research/risk          /p3/                       301
+/research/risk/*        /p3/                       301
+/research/outsourced-reality    /p4/               301
+/research/outsourced-reality/*  /p4/               301
+/research/paper2        /research/                 301
+/research/paper2/*      /research/                 301

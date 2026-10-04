@@ -18,7 +18,8 @@ Live: https://abhnv.in
 | `/api` | `api.html` + `functions/api/*` | Read-only JSON API and its documentation |
 | `/contact` | `contact.html` | Contact form (Resend, via `functions/api/contact.js`) |
 | `/terminal` | `terminal.html` | Command desk. The same engine opens on every page with `/` or Ctrl/Cmd+K |
-| `/research/paper*/` | `research/` | Pre-built research papers (React bundles) |
+| `/p1/` to `/p4/` | `p1/` to `p4/` | The four interactive research papers (Data for Sale, The Glass Ballot Box, Risk, The Outsourced Reality). `/p2/prototype/` is the ballot prototype |
+| `/research/` | `research/index.html` | Research Supplement front page; `research/press/` holds the shared engine (`press.css`, `press-ui.css`, `press.js`, `figkit.js`, vendored KaTeX) |
 | `/.well-known/security.txt` | `.well-known/security.txt` | Security contact (RFC 9116) |
 
 Everything user-facing reads from **one file: `data.js`**. It is a UMD module,
@@ -61,7 +62,8 @@ The contact form needs `RESEND_API_KEY` (and optionally `CONTACT_TO_EMAIL`,
 - Posters: `posters.js` (the illustrated posters, printed in through a halftone screen, then kept alive with a slow push, a light sweep and a pointer lamp)
 - Guide: `mascot/` (Miko, a tiny caped adventurer who offers a tour on arrival: `assets/miko/` holds the transparent high-fidelity expression/action sprites, `nav-body.js` mounts them on the motion skeleton, `nav-rig.js` maps expressions and poses, `nav-stage.js` moves Miko and handles speech, `nav-tour.js` holds the per-page tour scripts, `nav-brain.js` decides what Miko does, `nav.css` styles the interface)
 - Page desks: `pages.js` + `pages.css` (security rosettes and checklist, credential tags, the API route map, contact)
-- Styles: `styles.css` (new work is appended under "Pass 57")
+- Research papers: each `pN/` folder has `index.html` (the text), `paper.css` and `figs-*.js` (its figures), built on `research/press/`. Old `/research/paper*` URLs redirect in `_redirects`
+- Styles: `styles.css` (new work is appended under "Pass 58")
 - Security contact: `.well-known/security.txt` (the `Expires` line must be refreshed before September 2027)
 
 ## Products

@@ -12,7 +12,10 @@
   <url><loc>https://abhnv.in/work/driped/</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://abhnv.in/work/trgt/</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://abhnv.in/work/modih-mail/</loc><lastmod>2026-09-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abhnv.in/research/paper/</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://abhnv.in/research/paper2/</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://abhnv.in/research/paper3/</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://abhnv.in/research/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://abhnv.in/p1/</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abhnv.in/p2/</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abhnv.in/p2/prototype/</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://abhnv.in/p3/</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abhnv.in/p4/</loc><changefreq>yearly</changefreq><priority>0.8</priority></url>
 </urlset>
