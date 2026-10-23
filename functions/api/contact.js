@@ -25,6 +25,32 @@ const json = (body, status = 200) => new Response(JSON.stringify(body), {
 });
 
 const clean = (value, maxLength) => String(value || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, maxLength);
+// Name and email end up in the subject and headers, so they must be one line.
+const cleanLine = (value, maxLength) => clean(String(value || "").replace(/[\r\n\u2028\u2029]+/g, " "), maxLength);
+
+const ALLOWED_ORIGINS = new Set(["https://abhnv.in", "https://www.abhnv.in"]);
+const RATE_LIMIT = 5;
+const RATE_WINDOW_SECONDS = 15 * 60;
+
+/**
+ * A light per-address throttle so the form cannot be used to pump mail through
+ * the relay. It lives in the edge cache, which needs no binding; the count is
+ * per data centre, which is enough to stop a single script hammering it.
+ */
+async function overRateLimit(request) {
+  const ip = request.headers.get("cf-connecting-ip");
+  if (!ip || typeof caches === "undefined" || !caches.default) return false;
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(ip));
+  const id = Array.from(new Uint8Array(digest).slice(0, 12), (b) => b.toString(16).padStart(2, "0")).join("");
+  const key = new Request(`https://abhnv.in/__ratelimit/contact/${id}`);
+  const hit = await caches.default.match(key);
+  const count = hit ? Number(await hit.text()) || 0 : 0;
+  if (count >= RATE_LIMIT) return true;
+  await caches.default.put(key, new Response(String(count + 1), {
+    headers: { "cache-control": `public, max-age=${RATE_WINDOW_SECONDS}` }
+  }));
+  return false;
+}
 const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 
 function escapeHtml(value) {
@@ -58,6 +84,13 @@ export function onRequestOptions() {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
+  // Browsers always send Origin on a POST. A form on another site has no
+  // business submitting here; tools without an Origin (curl) are still served.
+  const origin = request.headers.get("origin");
+  if (origin && !ALLOWED_ORIGINS.has(origin) && origin !== new URL(request.url).origin) {
+    return json({ ok: false, error: "Send the form from abhnv.in." }, 403);
+  }
+
   const contentType = (request.headers.get("content-type") || "").toLowerCase();
   if (!contentType.includes("application/json")) {
     return json({ ok: false, error: "Send the form as JSON." }, 415);
@@ -82,8 +115,8 @@ export async function onRequestPost(context) {
     return json({ ok: true });
   }
 
-  const name = clean(payload.name, 120);
-  const email = clean(payload.email, 160);
+  const name = cleanLine(payload.name, 120);
+  const email = cleanLine(payload.email, 160);
   const message = clean(payload.message, 4000);
   const topicKey = clean(payload.topic, 40);
   const topic = TOPICS[topicKey] || TOPICS.other;
@@ -96,6 +129,14 @@ export async function onRequestPost(context) {
   }
   if (message.length < 10) {
     return json({ ok: false, error: "Add a little more detail so I can reply usefully." }, 400);
+  }
+
+  try {
+    if (await overRateLimit(request)) {
+      return json({ ok: false, error: "Too many messages from this network. Try again in a little while, or email abhnv@abhnv.in." }, 429);
+    }
+  } catch (error) {
+    console.error("contact: rate limit check failed", error);
   }
 
   if (!env.RESEND_API_KEY) {

@@ -383,6 +383,11 @@
                 const data = await res.json();
 
                 if (data.ok) {
+                    // Only this browser can close or reset the election: the
+                    // server returns its manage token once and keeps a hash.
+                    if (data.manage_token) {
+                        try { localStorage.setItem(`glass_ballot_manage_${data.election_id}`, data.manage_token); } catch (_) {}
+                    }
                     const fullUrl = buildElectionUrl(data.election_id);
                     document.getElementById('new-election-url').textContent = fullUrl;
                     document.getElementById('goto-new-election').href = fullUrl;
