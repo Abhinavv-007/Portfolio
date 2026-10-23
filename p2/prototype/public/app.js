@@ -898,6 +898,13 @@ async function runAudit() {
     }
 }
 
+// The token the server handed this browser when it created the election, if
+// it did. Without it the server refuses to close or reset anything but the
+// public demo election.
+function manageToken() {
+    try { return localStorage.getItem(`glass_ballot_manage_${state.electionId}`) || undefined; } catch (_) { return undefined; }
+}
+
 // ── CLOSE ELECTION ─────────────────────────────────────────────────────────────
 function closeElection() {
     showConfirm('Close this election?', 'The chain will be sealed with a snapshot hash. This cannot be undone.', async () => {
@@ -907,7 +914,7 @@ function closeElection() {
             const res = await apiCall('/api/close', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ election_id: state.electionId }),
+                body: JSON.stringify({ election_id: state.electionId, manage_token: manageToken() }),
             });
             const data = await res.json();
             if (data.ok) {
@@ -939,7 +946,7 @@ function resetElection() {
             const res = await apiCall('/api/reset', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ election_id: state.electionId }),
+                body: JSON.stringify({ election_id: state.electionId, manage_token: manageToken() }),
             });
             const data = await res.json();
             if (data.ok) {

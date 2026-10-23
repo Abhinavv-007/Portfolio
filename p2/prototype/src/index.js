@@ -37,6 +37,7 @@ async function ensureSchema(db) {
         // These silently fail if the column already exists — that's intentional.
         try { await db.exec(`ALTER TABLE elections ADD COLUMN description TEXT`); } catch (_) {}
         try { await db.exec(`ALTER TABLE elections ADD COLUMN created_by_ip TEXT`); } catch (_) {}
+        try { await db.exec(`ALTER TABLE elections ADD COLUMN manage_hash TEXT`); } catch (_) {}
         schemaReady = true;
     } catch (e) {
         console.error('Schema migration error:', e);
@@ -91,8 +92,48 @@ async function logAudit(db, election_id, action, ip) {
     } catch (_) {}
 }
 
+// CF-Connecting-IP is set by Cloudflare's edge on every request. X-Forwarded-For
+// is not — a caller can put anything there — so it is never used: with it, a
+// script could rotate fake addresses and walk straight past the rate limits.
 function getClientIP(c) {
-    return c.req.header('CF-Connecting-IP') || c.req.header('X-Forwarded-For') || null;
+    return c.req.header('CF-Connecting-IP') || null;
+}
+
+// The public sandbox election on the landing page. Anyone may close or reset
+// it; that is what the "Reset simulation" button is for.
+const DEMO_ELECTION_ID = 'e0000000-0000-0000-0000-000000000001';
+
+function randomToken() {
+    const bytes = new Uint8Array(24);
+    crypto.getRandomValues(bytes);
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+function constantTimeEqual(a, b) {
+    if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
+    let diff = 0;
+    for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    return diff === 0;
+}
+
+/**
+ * Closing and resetting used to need nothing but the election id, and every
+ * id is listed at GET /api/elections — so any visitor could seal anyone's
+ * election, or wipe every ballot in it. Now the creator receives a manage
+ * token once, at creation, and must present it.
+ *
+ * Returns null when the caller may proceed, or an error response.
+ */
+async function requireManager(c, election, token, { destructive }) {
+    if (election.id === DEMO_ELECTION_ID) return null;
+    if (election.manage_hash) {
+        if (typeof token === 'string' && token && constantTimeEqual(await sha256(token), election.manage_hash)) return null;
+        return c.json({ ok: false, error: 'Only the election creator can do this (manage_token required).' }, 403);
+    }
+    // Elections created before tokens existed have no creator to check
+    // against. Closing them stays possible; wiping their ballots does not.
+    if (destructive) return c.json({ ok: false, error: 'This election predates manage tokens and cannot be reset.' }, 403);
+    return null;
 }
 
 // ── GET /api/stats ─────────────────────────────────────────────────────────────
@@ -149,7 +190,10 @@ app.get('/api/elections/:id', async (c) => {
         const ballot_count = (
             await db.prepare('SELECT COUNT(*) as c FROM ballots WHERE election_id = ?').bind(id).first()
         ).c;
-        return c.json({ ok: true, election, candidates, ballot_count });
+        // The creator's address hash and the manage-token hash stay server-side:
+        // an unsalted SHA-256 of an IPv4 address is reversible by brute force.
+        const { manage_hash: _m, created_by_ip: _ip, ...publicElection } = election;
+        return c.json({ ok: true, election: publicElection, candidates, ballot_count });
     } catch (e) {
         return c.json({ ok: false, error: e.message }, 500);
     }
@@ -167,15 +211,23 @@ app.post('/api/elections', async (c) => {
         const body = await c.req.json();
         const { title, description, candidates: cands, mode } = body;
 
-        if (!title || typeof title !== 'string' || title.trim().length < 3) {
-            return c.json({ ok: false, error: 'title must be at least 3 characters' }, 400);
+        if (!title || typeof title !== 'string' || title.trim().length < 3 || title.length > 140) {
+            return c.json({ ok: false, error: 'title must be 3-140 characters' }, 400);
         }
-        if (!cands || !Array.isArray(cands) || cands.length < 2) {
-            return c.json({ ok: false, error: 'at least 2 candidates required' }, 400);
+        if (description != null && (typeof description !== 'string' || description.length > 2000)) {
+            return c.json({ ok: false, error: 'description must be text, at most 2000 characters' }, 400);
+        }
+        if (!cands || !Array.isArray(cands) || cands.length < 2 || cands.length > 20) {
+            return c.json({ ok: false, error: 'between 2 and 20 candidates required' }, 400);
         }
         for (const cand of cands) {
-            if (!cand.name || typeof cand.name !== 'string') {
-                return c.json({ ok: false, error: 'each candidate must have a name' }, 400);
+            if (!cand || !cand.name || typeof cand.name !== 'string' || cand.name.length > 120) {
+                return c.json({ ok: false, error: 'each candidate needs a name of at most 120 characters' }, 400);
+            }
+            for (const field of ['party', 'platform']) {
+                if (cand[field] != null && (typeof cand[field] !== 'string' || cand[field].length > 500)) {
+                    return c.json({ ok: false, error: `candidate ${field} must be text, at most 500 characters` }, 400);
+                }
             }
         }
 
@@ -184,12 +236,13 @@ app.post('/api/elections', async (c) => {
         const ip_hash = ip ? await sha256(ip) : null;
         const created_at = new Date().toISOString();
         const electionMode = (mode === 'demo' || mode === 'safe') ? mode : 'safe';
+        const manage_token = randomToken();
 
         const stmts = [
             db.prepare(`
-                INSERT INTO elections (id, title, status, mode, chain_head, created_at, description, created_by_ip)
-                VALUES (?, ?, 'open', ?, 'GENESIS', ?, ?, ?)
-            `).bind(id, title.trim(), electionMode, created_at, description?.trim() || null, ip_hash),
+                INSERT INTO elections (id, title, status, mode, chain_head, created_at, description, created_by_ip, manage_hash)
+                VALUES (?, ?, 'open', ?, 'GENESIS', ?, ?, ?, ?)
+            `).bind(id, title.trim(), electionMode, created_at, description?.trim() || null, ip_hash, await sha256(manage_token)),
         ];
 
         for (const cand of cands) {
@@ -210,6 +263,8 @@ app.post('/api/elections', async (c) => {
             title: title.trim(),
             mode: electionMode,
             created_at,
+            // Shown once. Needed to close or reset this election.
+            manage_token,
         }, 201);
     } catch (e) {
         return c.json({ ok: false, error: e.message }, 500);
@@ -266,6 +321,9 @@ app.post('/api/cast', async (c) => {
         if (!election_id || !commit || !receipt_hash) {
             return c.json({ ok: false, error: 'Missing required fields: election_id, commit, receipt_hash' }, 400);
         }
+        const tooLong = [election_id, commit, receipt_hash, choice, nonce, voter_age_group, voter_state, voter_gender, voter_party]
+            .some((v) => v != null && (typeof v !== 'string' || v.length > 256));
+        if (tooLong) return c.json({ ok: false, error: 'Fields must be text of at most 256 characters' }, 400);
 
         const db = c.env.DB;
         await ensureSchema(db);
@@ -430,8 +488,11 @@ app.post('/api/close', async (c) => {
         if (!election_id) return c.json({ ok: false, error: 'Missing election_id' }, 400);
 
         const db = c.env.DB;
+        await ensureSchema(db);
         const election = await db.prepare('SELECT * FROM elections WHERE id = ?').bind(election_id).first();
         if (!election) return c.json({ ok: false, error: 'Election not found' }, 404);
+        const denied = await requireManager(c, election, body.manage_token, { destructive: false });
+        if (denied) return denied;
         if (election.status === 'closed') return c.json({ ok: false, error: 'Already closed' }, 400);
 
         const count = (
@@ -537,6 +598,12 @@ app.post('/api/reset', async (c) => {
         if (!election_id) return c.json({ ok: false, error: 'Missing election_id' }, 400);
 
         const db = c.env.DB;
+        await ensureSchema(db);
+        const election = await db.prepare('SELECT * FROM elections WHERE id = ?').bind(election_id).first();
+        if (!election) return c.json({ ok: false, error: 'Election not found' }, 404);
+        const denied = await requireManager(c, election, body.manage_token, { destructive: true });
+        if (denied) return denied;
+
         await db.batch([
             db.prepare('DELETE FROM reveals WHERE election_id = ?').bind(election_id),
             db.prepare('DELETE FROM ballots WHERE election_id = ?').bind(election_id),
